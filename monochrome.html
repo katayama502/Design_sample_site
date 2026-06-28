@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR Editorial — Monochrome Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --gray: #8C8C8C;
+  --surface: #F4F4F4;
+  --extra: #1A1A1A;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: clamp(3rem, 10vw, 8rem); }
+h2 { font-size: clamp(2rem, 5vw, 4rem); }
+h3 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; }
+
+.rule { height: 4px; background: #000; margin: 2rem 0; }
+.rule--thin { height: 1px; background: #000; margin: 0; }
+
+.invert {
+  background: #000;
+  color: #fff;
+  padding: 4rem 2rem;
+}
+
+.invert img { filter: grayscale(1); }
+
+img {
+  filter: grayscale(1) contrast(1.05);
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  background: var(--surface);
+  border: 2px solid #000;
+  padding: 1.75rem;
+}
+
+.btn {
+  background: #000;
+  color: #fff;
+  border: 2px solid #000;
+  padding: 0.8rem 1.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.btn--inv {
+  background: #fff;
+  color: #000;
+  border: 2px solid #fff;
+}
+
+.btn--inv:hover {
+  background: #000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.kicker {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gray);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+blockquote {
+  border-left: 6px solid #000;
+  padding-left: 1.25rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+/* ─── NAV BADGE ─────────────────────────────────── */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.5rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #000;
+}
+
+.nav-badge {
+  font-size: 0.65rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #fff;
+  background: #000;
+  padding: 0.28rem 0.65rem;
+}
+
+.nav-back {
+  font-size: 0.72rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.2s;
+}
+
+.nav-back:hover { opacity: 0.45; }
+
+.nav-back svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ─── HERO ───────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-top: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 3rem 4rem 5vw;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-text .kicker { margin-bottom: 1.5rem; }
+
+.hero-headline {
+  margin-bottom: 1.5rem;
+}
+
+.hero-headline .line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-headline .line span {
+  display: block;
+}
+
+.hero-sub {
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--extra);
+  max-width: 38ch;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hero-scroll {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 3rem;
+}
+
+.hero-scroll::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--gray);
+}
+
+.hero-visual {
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  padding: 2px;
+  opacity: 0.15;
+}
+
+.hero-grid-bg span {
+  background: #fff;
+}
+
+.hero-big-n {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(12rem, 22vw, 22rem);
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255,255,255,0.18);
+  text-transform: uppercase;
+  line-height: 1;
+  position: absolute;
+  user-select: none;
+  right: -0.08em;
+  bottom: -0.05em;
+}
+
+.hero-center-block {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+}
+
+.hero-center-block .circle {
+  width: clamp(160px, 20vw, 240px);
+  height: clamp(160px, 20vw, 240px);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+
+.hero-center-block .circle::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+}
+
+.hero-center-block .circle-text {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.5rem;
+}
+
+.hero-center-block .circle-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: #fff;
+}
+
+.hero-stats-row {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  display: block;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* ─── MARQUEE STRIP ──────────────────────────────── */
+.marquee-strip {
+  background: #000;
+  color: #fff;
+  padding: 0.85rem 0;
+  overflow: hidden;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: marquee 22s linear infinite;
+}
+
+.marquee-track span {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  padding: 0 2.5rem;
+  flex-shrink: 0;
+}
+
+.marquee-track .dot {
+  color: var(--gray);
+  padding: 0;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ─── SECTION WRAPPER ────────────────────────────── */
+.section {
+  padding: 6rem 5vw;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.section-header .kicker {
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* ─── FEATURES ───────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 2px solid #000;
+}
+
+.feature-card {
+  padding: 2.5rem 2rem;
+  border-right: 2px solid #000;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+  cursor: default;
+}
+
+.feature-card:last-child {
+  border-right: none;
+}
+
+.feature-card:hover {
+  background: #000;
+  color: #fff;
+}
+
+.feature-card:hover .feature-icon { border-color: rgba(255,255,255,0.3); }
+.feature-card:hover .feature-icon svg { stroke: #fff; }
+.feature-card:hover .kicker { color: rgba(255,255,255,0.45); }
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.feature-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5;
+  transition: stroke 0.2s;
+}
+
+.feature-card h3 {
+  margin-bottom: 0.75rem;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.feature-card:hover p { opacity: 0.65; }
+
+/* ─── SHOWCASE ───────────────────────────────────── */
+.showcase-wrap {
+  background: #000;
+  padding: 0;
+  overflow: hidden;
+}
+
+.showcase-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 6rem 5vw;
+}
+
+.showcase-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+
+.showcase-header h2 {
+  color: #fff;
+}
+
+.showcase-desc {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  align-self: end;
+}
+
+.showcase-desc blockquote {
+  border-left-color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.85);
+  font-size: 1.15rem;
+}
+
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.stat-block {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  position: relative;
+}
+
+.stat-block:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #fff;
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.4);
+}
+
+.stat-rule {
+  width: 30px;
+  height: 2px;
+  background: #fff;
+  margin-bottom: 1rem;
+}
+
+.gallery-strip {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 260px;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.gallery-cell {
+  background: var(--extra);
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-cell:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.08);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-cell-pattern {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Geometric fill patterns */
+.pattern-a {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #1a1a1a 0px, #1a1a1a 1px,
+      transparent 1px, transparent 12px
+    ),
+    #111;
+}
+
+.pattern-b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d0d;
+}
+
+.pattern-b::before {
+  content: '';
+  width: 60%;
+  height: 60%;
+  border: 1px solid rgba(255,255,255,0.12);
+  transform: rotate(45deg);
+}
+
+.pattern-c {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0%, transparent 65%),
+    #111;
+}
+
+.gallery-cell-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ─── MANIFESTO BLOCK ────────────────────────────── */
+.manifesto {
+  padding: 6rem 5vw;
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
+}
+
+.manifesto-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.manifesto-num {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(6rem, 14vw, 12rem);
+  color: transparent;
+  -webkit-text-stroke: 3px #000;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.manifesto-content blockquote {
+  margin-bottom: 1.5rem;
+}
+
+.manifesto-content p {
+  font-size: 0.9rem;
+  color: var(--gray);
+  line-height: 1.7;
+  max-width: 48ch;
+}
+
+/* ─── CTA ────────────────────────────────────────── */
+.cta-section {
+  background: #000;
+  padding: 8rem 5vw;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-bg-text {
+  position: absolute;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(8rem, 22vw, 20rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+  text-transform: uppercase;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-inner .kicker { color: rgba(255,255,255,0.4); margin-bottom: 1.25rem; display: block; }
+
+.cta-inner h2 {
+  color: #fff;
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+.cta-inner p {
+  color: rgba(255,255,255,0.55);
+  font-size: 1rem;
+  max-width: 42ch;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer {
+  border-top: 4px solid #000;
+  padding: 3rem 5vw;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.footer-brand {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.footer-brand span {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  font-weight: 500;
+  margin-top: 0.3rem;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.tag-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.tag-pill {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid #000;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.footer-copy {
+  font-size: 0.65rem;
+  color: var(--gray);
+  letter-spacing: 0.08em;
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+
+/* ─── HERO ANIM ──────────────────────────────────── */
+.hero-text .kicker,
+.hero-headline .line span,
+.hero-sub,
+.hero-actions,
+.hero-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.hero-text .kicker { animation-delay: 0.2s; }
+.hero-headline .line:nth-child(1) span { animation-delay: 0.35s; }
+.hero-headline .line:nth-child(2) span { animation-delay: 0.45s; }
+.hero-headline .line:nth-child(3) span { animation-delay: 0.55s; }
+.hero-sub { animation-delay: 0.65s; }
+.hero-actions { animation-delay: 0.78s; }
+.hero-scroll { animation-delay: 0.9s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-visual .hero-center-block {
+  opacity: 0;
+  animation: fadeIn 0.9s ease 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 1024px) {
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .stats-strip .stat-block:nth-child(2) { border-right: none; }
+  .stats-strip .stat-block:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.15); }
+  .stats-strip .stat-block:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.15); border-right: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 320px;
+  }
+
+  .hero-text {
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    border-right: none;
+    border-bottom: 2px solid #000;
+  }
+
+  .feature-card:last-child { border-bottom: none; }
+
+  .showcase-header {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .stats-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gallery-strip {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 180px);
+  }
+
+  .manifesto-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .manifesto-num {
+    font-size: clamp(4rem, 18vw, 7rem);
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-right {
+    align-items: flex-start;
+  }
+
+  .tag-pills { justify-content: flex-start; }
+
+  .section { padding: 4rem 1.5rem; }
+
+  .showcase-inner { padding: 4rem 1.5rem; }
+
+  blockquote { font-size: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <div class="nav-badge">Monochrome</div>
+  <a href="./index.html" class="nav-back">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Design Sight
+  </a>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="kicker">NOIR Editorial — Est. 2024</span>
+      <h1 class="hero-headline">
+        <span class="line"><span>色は</span></span>
+        <span class="line"><span>いらない。</span></span>
+        <span class="line"><span>純粋な</span></span>
+        <span class="line"><span>力がある。</span></span>
+      </h1>
+      <div class="rule"></div>
+      <p class="hero-sub">気を散らすものをすべて取り除く。色が消えたとき、コントラスト、コンポジション、タイポグラフィが絶対的な力で語り始める。</p>
+      <div class="hero-actions">
+        <a href="#features" class="btn">システムを探索する</a>
+        <a href="#cta" class="btn" style="background:#fff;color:#000;border-color:#000;">マニフェストを見る</a>
+      </div>
+      <div class="hero-scroll">スクロールして発見する</div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-grid-bg">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="hero-big-n">N</div>
+      <div class="hero-center-block">
+        <div class="circle">
+          <span class="circle-num">100</span>
+          <span class="circle-text">% Monochrome</span>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat">
+            <span class="hero-stat-num">0</span>
+            <span class="hero-stat-label">使用色数</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">∞</span>
+            <span class="hero-stat-label">コントラスト域</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">01</span>
+            <span class="hero-stat-label">書体数</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>NOIR EDITORIAL</span><span class="dot">·</span>
+    <span>MONOCHROME DESIGN</span><span class="dot">·</span>
+    <span>BLACK &amp; WHITE</span><span class="dot">·</span>
+    <span>HIGH CONTRAST</span><span class="dot">·</span>
+    <span>EDITORIAL TYPOGRAPHY</span><span class="dot">·</span>
+    <span>MINIMAL FORM</span><span class="dot">·</span>
+    <span>MAXIMUM IMPACT</span><span class="dot">·</span>
+    <span>NOIR EDITORIAL</span><span class="dot">·</span>
+    <span>MONOCHROME DESIGN</span><span class="dot">·</span>
+    <span>BLACK &amp; WHITE</span><span class="dot">·</span>
+    <span>HIGH CONTRAST</span><span class="dot">·</span>
+    <span>EDITORIAL TYPOGRAPHY</span><span class="dot">·</span>
+    <span>MINIMAL FORM</span><span class="dot">·</span>
+    <span>MAXIMUM IMPACT</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- ② FEATURES -->
+<div id="features">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="kicker">デザイン原則</span>
+      <div class="rule"></div>
+      <h2>三つの柱で<br>構築される</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18"/></svg>
+        </div>
+        <span class="kicker">01 — Contrast</span>
+        <h3>絶対的な<br>Black &amp; White</h3>
+        <p>白と黒だけで制作するとき、あらゆるトーンの判断が構造を支える。弱いコンポジションを色で誤魔化すことはできない。</p>
+      </div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </div>
+        <span class="kicker">02 — Typography</span>
+        <h3>建築としての<br>タイポグラフィ</h3>
+        <p>重厚なコンデンス体のディスプレイタイプは装飾ではなく構造要素として機能する。見出しは壁となり、罫線は床となる。</p>
+      </div>
+      <div class="feature-card reveal reveal-d3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        </div>
+        <span class="kicker">03 — Composition</span>
+        <h3>グリッドに支配された<br>精度</h3>
+        <p>すべての要素が意図的な空間を占める。余白は決断だ。空白は不在ではなく、積極的な静寂である。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ SHOWCASE -->
+<div id="showcase" class="showcase-wrap">
+  <div class="showcase-inner">
+    <div class="showcase-header reveal">
+      <h2>数字が<br>作品を定義する</h2>
+      <div class="showcase-desc">
+        <blockquote>
+          「制約は創造の母。色を取り除けば、すべてが研ぎ澄まされる。」
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="stats-strip reveal reveal-d2">
+      <div class="stat-block">
+        <div class="stat-rule"></div>
+        <span class="stat-num">256</span>
+        <div class="stat-label">グレーの階調数 — 全トーン域</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-rule"></div>
+        <span class="stat-num">21:1</span>
+        <div class="stat-label">最大コントラスト比 — WCAG AAA</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-rule"></div>
+        <span class="stat-num">2</span>
+        <div class="stat-label">書体数 — 本文とディスプレイ</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-rule"></div>
+        <span class="stat-num">4px</span>
+        <div class="stat-label">罫線の太さ — 構造の基本単位</div>
+      </div>
+    </div>
+
+    <div class="gallery-strip reveal reveal-d3">
+      <div class="gallery-cell">
+        <div class="gallery-cell-pattern pattern-a"></div>
+        <span class="gallery-cell-label">テクスチャ / ハッチング</span>
+        <div class="gallery-overlay">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="30" height="30" stroke="white" stroke-width="1.5"/><line x1="1" y1="16" x2="31" y2="16" stroke="white" stroke-width="1.5"/><line x1="16" y1="1" x2="16" y2="31" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-cell-pattern pattern-b"></div>
+        <span class="gallery-cell-label">ジオメトリ / フォルム</span>
+        <div class="gallery-overlay">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-cell-pattern pattern-c"></div>
+        <span class="gallery-cell-label">グラデーション / 奥行き</span>
+        <div class="gallery-overlay">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="5" fill="white"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="manifesto-inner reveal">
+    <div class="manifesto-num">01</div>
+    <div class="manifesto-content">
+      <span class="kicker" style="margin-bottom:1rem;display:block;">The Monochrome Manifesto</span>
+      <blockquote>
+        色は近道だ。我々は近道を拒む。
+      </blockquote>
+      <div style="height:1.5rem;"></div>
+      <p>Monochrome のデザインは制限ではない。それは鍛錬だ。色相、彩度、温度感というノイズを剥ぎ取ったとき、残るのはビジュアル思考の骨格——純粋な構造、純粋なコントラスト、純粋な意図。</p>
+      <div style="height:1rem;"></div>
+      <p>NOIR Editorial は証明するために存在する——最高のビジュアルコミュニケーションに松葉杖は不要だ。黒だけ。白だけ。真実だけ。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ④ CTA SECTION -->
+<section id="cta" class="cta-section">
+  <div class="cta-bg-text">NOIR</div>
+  <div class="cta-inner">
+    <span class="kicker">ノイズを取り除く準備はできているか？</span>
+    <h2>Black &amp; White で<br>制作を始める</h2>
+    <p>絶対的なコントラストの力を再発見したエディトリアルデザイナーたちに加わろう。色なし。妥協なし。</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn--inv">システムを手に入れる</a>
+      <a href="#" class="btn" style="background:transparent;color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.25);">事例を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      NOIR
+      <span>エディトリアルデザインシステム — 2024</span>
+    </div>
+    <div class="footer-right">
+      <div class="tag-pills">
+        <span class="tag-pill">Monochrome</span>
+        <span class="tag-pill">Black White</span>
+        <span class="tag-pill">High Contrast</span>
+        <span class="tag-pill">Editorial</span>
+      </div>
+      <div class="footer-copy">
+        &copy; 2024 NOIR Editorial &nbsp;·&nbsp; 無断複製禁止
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for reveal animations
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -60px 0px'
+});
+
+reveals.forEach(el => observer.observe(el));
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Nav bar invert on scroll into dark sections
+const navBar = document.querySelector('.nav-bar');
+const darkSections = document.querySelectorAll('.showcase-wrap, .cta-section');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navBar.style.background = 'rgba(0,0,0,0.92)';
+      navBar.style.borderBottomColor = 'rgba(255,255,255,0.15)';
+      navBar.querySelector('.nav-badge').style.background = '#fff';
+      navBar.querySelector('.nav-badge').style.color = '#000';
+      navBar.querySelector('.nav-back').style.color = '#fff';
+    } else {
+      // Only revert if no other dark section is intersecting
+      const anyDark = Array.from(darkSections).some(s => {
+        const rect = s.getBoundingClientRect();
+        return rect.top <= 56 && rect.bottom > 56;
+      });
+      if (!anyDark) {
+        navBar.style.background = 'rgba(255,255,255,0.92)';
+        navBar.style.borderBottomColor = '#000';
+        navBar.querySelector('.nav-badge').style.background = '#000';
+        navBar.querySelector('.nav-badge').style.color = '#fff';
+        navBar.querySelector('.nav-back').style.color = '#000';
+      }
+    }
+  });
+}, { threshold: 0, rootMargin: '-56px 0px 0px 0px' });
+
+darkSections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>

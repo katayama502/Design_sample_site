@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frostpane — Glassmorphism</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0F172A;
+  --surface: rgba(255,255,255,0.10);
+  --accent: #38BDF8;
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+  --extra: #A855F7;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #F8FAFC;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 20%, #A855F7 0, transparent 45%),
+    radial-gradient(circle at 85% 30%, #38BDF8 0, transparent 45%),
+    radial-gradient(circle at 50% 90%, #818CF8 0, transparent 50%),
+    #0F172A;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+.glass {
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(2,6,23,.45), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.glass-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: .5rem 1rem;
+  font-size: .85rem;
+}
+
+.btn {
+  background: linear-gradient(135deg, #38BDF8, #A855F7);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: .85rem 1.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(56,189,248,.35);
+  transition: transform .2s, box-shadow .2s;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  letter-spacing: .01em;
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(56,189,248,.45); }
+
+.muted { color: #94A3B8; }
+
+/* NAV BADGE */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(15,23,42,.5);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.badge-style {
+  font-family: 'Poppins', sans-serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(56,189,248,.12);
+  border: 1px solid rgba(56,189,248,.3);
+  border-radius: 8px;
+  padding: .35rem .75rem;
+}
+
+.back-link {
+  font-size: .85rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  transition: color .2s;
+}
+
+.back-link:hover { color: var(--text); }
+
+.back-arrow {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .6;
+}
+
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #A855F7, transparent 70%);
+  top: -100px; left: -100px;
+  animation: drift1 12s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #38BDF8, transparent 70%);
+  top: 50px; right: -80px;
+  animation: drift2 10s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #818CF8, transparent 70%);
+  bottom: 0; left: 40%;
+  animation: drift3 14s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 { from { transform: translate(0,0); } to { transform: translate(60px, 80px); } }
+@keyframes drift2 { from { transform: translate(0,0); } to { transform: translate(-50px, 60px); } }
+@keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(40px, -60px); } }
+
+.hero-inner {
+  max-width: 780px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, #F8FAFC 30%, #38BDF8 70%, #A855F7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.2);
+  color: var(--text);
+  border-radius: 14px;
+  padding: .85rem 1.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background .2s, transform .2s;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.btn-ghost:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
+
+/* Glass mockup in hero */
+.hero-mockup {
+  margin-top: 4rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.mockup-window {
+  width: min(620px, 90vw);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(2,6,23,.7), 0 0 0 1px rgba(255,255,255,.12);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,.16);
+}
+
+.mockup-bar {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .85rem 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+}
+
+.dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+}
+
+.dot-r { background: rgba(248,113,113,.8); }
+.dot-y { background: rgba(251,191,36,.8); }
+.dot-g { background: rgba(52,211,153,.8); }
+
+.mockup-url {
+  flex: 1;
+  margin-left: .5rem;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: .3rem .75rem;
+  font-size: .75rem;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+}
+
+.mockup-body {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.mockup-card {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  padding: 1rem;
+  backdrop-filter: blur(8px);
+}
+
+.mockup-card-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: .6rem;
+}
+
+.mockup-card-line {
+  height: 6px;
+  background: rgba(255,255,255,.12);
+  border-radius: 3px;
+  margin-bottom: .4rem;
+}
+
+.mockup-card-line-short {
+  width: 60%;
+}
+
+/* SECTIONS */
+section { padding: 6rem 2rem; }
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+.section-tag {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin: 0 auto 3.5rem;
+  line-height: 1.7;
+}
+
+/* FEATURES */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s;
+}
+
+.feature-card:hover { transform: translateY(-6px); }
+
+.feature-icon {
+  width: 48px; height: 48px;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-1 { background: linear-gradient(135deg, rgba(56,189,248,.3), rgba(56,189,248,.1)); }
+.feature-icon-2 { background: linear-gradient(135deg, rgba(168,85,247,.3), rgba(168,85,247,.1)); }
+.feature-icon-3 { background: linear-gradient(135deg, rgba(129,140,248,.3), rgba(129,140,248,.1)); }
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: .6rem;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+.card-shine {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+}
+
+/* SHOWCASE */
+.showcase { position: relative; overflow: hidden; }
+
+.showcase-bg-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(168,85,247,.25), transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(56,189,248,.2), transparent 50%);
+  pointer-events: none;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  position: relative;
+}
+
+.stat-number {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #38BDF8, #A855F7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+
+.stat-label {
+  font-size: .9rem;
+  color: var(--muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.showcase-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.showcase-text h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.showcase-text p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.layer-stack {
+  position: relative;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layer {
+  position: absolute;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 8px 32px rgba(2,6,23,.4);
+}
+
+.layer-1 {
+  width: 280px; height: 200px;
+  background: rgba(56,189,248,.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transform: rotate(-8deg) translate(-40px, 20px);
+  z-index: 1;
+}
+
+.layer-2 {
+  width: 280px; height: 200px;
+  background: rgba(168,85,247,.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transform: rotate(-3deg) translate(-10px, -10px);
+  z-index: 2;
+}
+
+.layer-3 {
+  width: 280px; height: 200px;
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transform: rotate(2deg) translate(30px, -30px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(2,6,23,.45), inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+.layer-inner-line {
+  width: 80%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(56,189,248,.6), rgba(168,85,247,.6));
+}
+
+.layer-inner-line-sm {
+  width: 55%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.15);
+}
+
+/* CTA SECTION */
+.cta-section {
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.cta-box {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(56,189,248,.08), rgba(168,85,247,.08));
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.cta-box h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 1rem;
+}
+
+.cta-box p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 2.5rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #38BDF8, #A855F7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-pills {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.footer-year {
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: .1s; }
+.delay-2 { transition-delay: .2s; }
+.delay-3 { transition-delay: .3s; }
+.delay-4 { transition-delay: .4s; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .showcase-main { grid-template-columns: 1fr; }
+  .layer-stack { height: 240px; }
+  .layer-1, .layer-2, .layer-3 { width: 220px; height: 160px; }
+  .cta-box { padding: 2.5rem 1.5rem; }
+  .mockup-body { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .nav-bar { padding: .75rem 1rem; }
+  section { padding: 4rem 1rem; }
+  .hero { padding: 5rem 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <span class="badge-style">Glassmorphism</span>
+  <a href="./index.html" class="back-link">
+    <svg class="back-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Design Sight
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow fade-up">
+      <span class="glass-pill">
+        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#38BDF8"/></svg>
+        Frostpane、登場
+      </span>
+    </div>
+
+    <h1 class="hero-title fade-up delay-1">光が屈折する。<br>奥行きが生まれる。</h1>
+
+    <p class="hero-sub fade-up delay-2">
+      光を屈折させる半透明のサーフェスを重ね合わせ、彫刻されたガラスのような——軽やかで、しかし確かな存在感を持つインターフェースを生み出す。
+    </p>
+
+    <div class="hero-cta fade-up delay-3">
+      <button class="btn">今すぐ構築する</button>
+      <button class="btn-ghost">レイヤーを見る</button>
+    </div>
+
+    <div class="hero-mockup fade-up delay-4">
+      <div class="mockup-window">
+        <div class="mockup-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <div class="mockup-url">frostpane.design/canvas</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-card">
+            <div class="mockup-card-bar" style="background:linear-gradient(90deg,#38BDF8,#818CF8);"></div>
+            <div class="mockup-card-line"></div>
+            <div class="mockup-card-line mockup-card-line-short"></div>
+          </div>
+          <div class="mockup-card">
+            <div class="mockup-card-bar" style="background:linear-gradient(90deg,#A855F7,#38BDF8);"></div>
+            <div class="mockup-card-line"></div>
+            <div class="mockup-card-line mockup-card-line-short"></div>
+          </div>
+          <div class="mockup-card">
+            <div class="mockup-card-bar" style="background:linear-gradient(90deg,#818CF8,#A855F7);"></div>
+            <div class="mockup-card-line"></div>
+            <div class="mockup-card-line mockup-card-line-short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container">
+    <div class="section-tag fade-up">
+      <span class="glass-pill">コア原則</span>
+    </div>
+    <h2 class="section-title fade-up delay-1">Glass. 洗練される。</h2>
+    <p class="section-sub fade-up delay-2">Frostpane のデザイン言語を定義する三つの柱——各サーフェスは、光と奥行きが精密に調律された相互作用だ。</p>
+
+    <div class="features-grid">
+      <div class="glass feature-card fade-up delay-1">
+        <div class="card-shine"></div>
+        <div class="feature-icon feature-icon-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="8" height="8" rx="2" fill="rgba(56,189,248,0.8)"/>
+            <rect x="13" y="3" width="8" height="8" rx="2" fill="rgba(56,189,248,0.4)"/>
+            <rect x="3" y="13" width="8" height="8" rx="2" fill="rgba(56,189,248,0.4)"/>
+            <rect x="13" y="13" width="8" height="8" rx="2" fill="rgba(56,189,248,0.2)"/>
+          </svg>
+        </div>
+        <h3>Frosted Transparency</h3>
+        <p class="muted">backdrop-blur がすべてのパネルをフロストレンズに変える——背後の鮮やかなグラデーションが、ガラス面を通してゆらめき輝く。</p>
+      </div>
+
+      <div class="glass feature-card fade-up delay-2">
+        <div class="card-shine"></div>
+        <div class="feature-icon feature-icon-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="rgba(168,85,247,0.8)" stroke-width="2"/>
+            <circle cx="12" cy="12" r="5" fill="rgba(168,85,247,0.5)"/>
+            <circle cx="12" cy="12" r="2" fill="rgba(168,85,247,0.9)"/>
+          </svg>
+        </div>
+        <h3>Layered Depth</h3>
+        <p class="muted">異なるブラー半径と影の深さを持つパネルを重ねることで、触れられそうな奥行きが生まれる。視覚的ノイズなしに、UI が空間的な存在感を獲得する。</p>
+      </div>
+
+      <div class="glass feature-card fade-up delay-3">
+        <div class="card-shine"></div>
+        <div class="feature-icon feature-icon-3">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="rgba(129,140,248,0.8)"/>
+            <path d="M2 17l10 5 10-5" stroke="rgba(129,140,248,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M2 12l10 5 10-5" stroke="rgba(129,140,248,0.4)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Edge Highlight</h3>
+        <p class="muted">白を最大不透明度で inset した 1px のボーダーが、各パネルの縁で光を捉える——本物の面取りガラスの磨かれたリムを完璧に再現する。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="showcase">
+  <div class="showcase-bg-layer"></div>
+  <div class="container" style="position:relative;z-index:2;">
+
+    <div class="stats-row">
+      <div class="glass stat-card fade-up">
+        <div class="card-shine"></div>
+        <div class="stat-number">18px</div>
+        <div class="stat-label">ブラー半径</div>
+      </div>
+      <div class="glass stat-card fade-up delay-1">
+        <div class="card-shine"></div>
+        <div class="stat-number">10%</div>
+        <div class="stat-label">塗りの不透明度</div>
+      </div>
+      <div class="glass stat-card fade-up delay-2">
+        <div class="card-shine"></div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">ガラスレイヤー数</div>
+      </div>
+      <div class="glass stat-card fade-up delay-3">
+        <div class="card-shine"></div>
+        <div class="stat-number">160%</div>
+        <div class="stat-label">彩度</div>
+      </div>
+    </div>
+
+    <div class="showcase-main">
+      <div class="showcase-text fade-up">
+        <span class="glass-pill" style="margin-bottom:1.25rem;display:inline-flex;">マニフェスト</span>
+        <h2>インターフェースは、水を通り抜ける光のように感じられるべきだ。</h2>
+        <p>フラットな不透明度と空虚なブラーを拒絶する。Frostpane は、すべてのサーフェスがその透明性を証明することを要求する——各パネルは、背後の色と上のフロストフィルムとの協奏だ。</p>
+        <p>その結果が、感じられる階層、見える奥行き、そして二度見させるインターフェースだ。</p>
+        <button class="btn">システムを探索する</button>
+      </div>
+
+      <div class="layer-stack fade-up delay-2">
+        <div class="layer layer-1"></div>
+        <div class="layer layer-2"></div>
+        <div class="layer layer-3">
+          <div class="layer-inner-line"></div>
+          <div class="layer-inner-line-sm"></div>
+          <div class="layer-inner-line-sm" style="width:70%;background:rgba(255,255,255,.1);"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-box glass fade-up">
+    <div class="card-shine"></div>
+    <span class="glass-pill" style="margin-bottom:1.5rem;display:inline-flex;">先行アクセスを申し込む</span>
+    <h2>Glass で構築し、<br>自信を持ってリリースする。</h2>
+    <p>Frostpane Studio のウェイトリストに参加しよう——Glassmorphism に特化したデザインからコードへのツールキット。コンポーネント、変数、リアルタイムのブラー調整が一か所に集約される。</p>
+    <div class="cta-buttons">
+      <button class="btn">ウェイトリストに参加する</button>
+      <button class="btn-ghost">ドキュメントを見る</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-brand">Frostpane</span>
+    <div class="footer-pills">
+      <span class="glass-pill">Glassmorphism</span>
+      <span class="glass-pill">#Blur</span>
+      <span class="glass-pill">#Frosted Glass</span>
+    </div>
+    <span class="footer-year muted">2026</span>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

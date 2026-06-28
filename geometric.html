@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polyform — 純粋な形から意味を構築する</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
+:root {
+  --bg: #FAF8F3;
+  --ink: #1B1B1B;
+  --red: #E8503A;
+  --blue: #2B6CB0;
+  --yellow: #F2C14E;
+  --white: #FFFFFF;
+  --muted: #7A7A7A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+/* ── NAV BADGES ── */
+.nav-badge {
+  position: fixed;
+  top: 1.25rem;
+  z-index: 100;
+}
+.nav-badge--left {
+  left: 1.25rem;
+  background: var(--ink);
+  color: var(--yellow);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .35rem .75rem;
+}
+.nav-badge--right {
+  right: 1.25rem;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .75rem;
+  letter-spacing: .03em;
+  padding: .35rem .85rem;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.nav-badge--right:hover { background: var(--ink); color: var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-left {
+  padding: 7rem 3rem 5rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--red);
+  display: block;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1.0;
+  margin-bottom: 1.5rem;
+  color: var(--ink);
+}
+.hero h1 .accent-red { color: var(--red); }
+.hero h1 .accent-blue { color: var(--blue); }
+
+.hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 420px;
+  margin-bottom: 2.5rem;
+}
+
+.btn {
+  background: var(--ink);
+  color: var(--yellow);
+  border: none;
+  border-radius: 0;
+  padding: .85rem 2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .95rem;
+  cursor: pointer;
+  letter-spacing: .02em;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .2s, color .2s;
+  position: relative;
+}
+.btn:hover { background: var(--red); color: #fff; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: .75rem 1.75rem;
+}
+.btn-outline:hover { background: var(--ink); color: var(--yellow); }
+
+.hero-cta-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* HERO COMPOSITION */
+.hero-right {
+  position: relative;
+  height: 100vh;
+  background: var(--blue);
+  overflow: hidden;
+}
+
+.hero-composition {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Big yellow circle */
+.hc-circle-big {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: var(--yellow);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Red block top-right */
+.hc-rect-red {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: var(--red);
+  top: 0;
+  right: 0;
+}
+
+/* Ink square bottom-left */
+.hc-rect-ink {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  background: var(--ink);
+  bottom: 0;
+  left: 0;
+}
+
+/* White circle cutout feel */
+.hc-circle-sm {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--bg);
+  top: 60px;
+  left: 40px;
+}
+
+/* Arc quarter */
+.hc-arc {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 32px solid var(--white);
+  border-radius: 50%;
+  clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+  bottom: 80px;
+  right: 40px;
+}
+
+/* Triangle */
+.hc-tri {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 120px solid var(--red);
+  top: 120px;
+  right: 80px;
+}
+
+/* Dot grid overlay */
+.hc-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.25) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  mix-blend-mode: overlay;
+}
+
+/* Diagonal stripe band */
+.hc-stripe {
+  position: absolute;
+  width: 60px;
+  height: 140%;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 6px,
+    rgba(255,255,255,.12) 6px,
+    rgba(255,255,255,.12) 12px
+  );
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Large outlined circle */
+.hc-circle-outline {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border: 4px solid var(--ink);
+  border-radius: 50%;
+  bottom: -40px;
+  right: -40px;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+
+/* ── SECTION COMMONS ── */
+section { position: relative; }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.section-label span {
+  width: 20px;
+  height: 20px;
+  background: var(--red);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── FEATURES ── */
+.features {
+  padding: 7rem 0 6rem;
+  background: var(--bg);
+}
+
+.features-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+
+.features-header h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.features-header p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--muted);
+  align-self: end;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  background: var(--ink);
+  border: 2px solid var(--ink);
+}
+
+.feature-card {
+  background: var(--white);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: background .25s;
+}
+.feature-card:hover { background: var(--yellow); }
+
+.feature-card-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+/* Icon 1: Overlapping circles */
+.icon-circles::before,
+.icon-circles::after {
+  content: '';
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.icon-circles::before { background: var(--red); top: 0; left: 0; }
+.icon-circles::after { background: var(--blue); top: 12px; left: 16px; mix-blend-mode: multiply; }
+
+/* Icon 2: Triangle + bar */
+.icon-geo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+.icon-geo::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 38px solid var(--ink);
+  display: block;
+}
+.icon-geo::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 6px;
+  background: var(--red);
+}
+
+/* Icon 3: Grid dots */
+.icon-dots {
+  background-image: radial-gradient(var(--ink) 2.5px, transparent 2.5px);
+  background-size: 12px 12px;
+  border-radius: 0;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+  position: relative;
+  z-index: 1;
+}
+.feature-card p {
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+}
+.feature-card:hover p { color: var(--ink); }
+
+.feature-card-num {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 3.5rem;
+  color: var(--bg);
+  line-height: 1;
+  pointer-events: none;
+  transition: color .25s;
+}
+.feature-card:hover .feature-card-num { color: rgba(0,0,0,.07); }
+
+/* ── SHOWCASE ── */
+.showcase {
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  background: var(--blue);
+  color: #fff;
+  padding: 6rem 0 9rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.12) 1.4px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
+.showcase-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.showcase-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.showcase h2 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  color: #fff;
+}
+.showcase h2 em {
+  font-style: normal;
+  color: var(--yellow);
+}
+
+.showcase-manifesto {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,.75);
+}
+.showcase-manifesto strong { color: #fff; font-weight: 500; }
+
+/* Stats row */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5px;
+  background: rgba(255,255,255,.2);
+  border: 1.5px solid rgba(255,255,255,.25);
+}
+
+.stat-cell {
+  background: rgba(255,255,255,.05);
+  padding: 2.25rem 1.75rem;
+  backdrop-filter: blur(4px);
+  transition: background .25s;
+}
+.stat-cell:hover { background: rgba(255,255,255,.12); }
+
+.stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--yellow);
+  margin-bottom: .5rem;
+  letter-spacing: -.03em;
+}
+.stat-label {
+  font-size: .82rem;
+  color: rgba(255,255,255,.6);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+}
+
+/* Gallery strip below stats */
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5px;
+  background: rgba(255,255,255,.15);
+  border: 1.5px solid rgba(255,255,255,.15);
+  margin-top: 1.5px;
+}
+
+.gallery-cell {
+  height: 110px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gc-1 { background: var(--red); }
+.gc-2 { background: var(--yellow); }
+.gc-3 { background: var(--ink); }
+.gc-4 { background: var(--bg); }
+.gc-5 { background: var(--blue); filter: brightness(1.4); }
+
+.gc-1::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--ink);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.gc-2::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  border-bottom: 60px solid var(--blue);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-40%);
+}
+.gc-3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--yellow) 2px, transparent 2px);
+  background-size: 14px 14px;
+}
+.gc-4::before {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: var(--red);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+.gc-5::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 16px solid var(--yellow);
+  border-radius: 50%;
+  clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+/* ── PROCESS STRIP ── */
+.process {
+  padding: 8rem 0 6rem;
+  background: var(--bg);
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.process-label-col h2 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  line-height: 1.1;
+  position: sticky;
+  top: 6rem;
+}
+
+.process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.process-step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  padding: 2.5rem 0;
+  border-top: 1.5px solid var(--ink);
+  transition: background .2s;
+  align-items: start;
+}
+.process-step:last-child { border-bottom: 1.5px solid var(--ink); }
+
+.step-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--muted);
+  padding-top: .3rem;
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  margin-bottom: .6rem;
+}
+.step-content p {
+  font-size: .9rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.step-shape {
+  width: 48px;
+  height: 48px;
+  margin-top: .25rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ── CTA ── */
+.cta-section {
+  background: var(--ink);
+  padding: 7rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-bg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cta-circle-1 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: .25;
+  top: -200px;
+  right: -100px;
+}
+.cta-circle-2 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: .2;
+  bottom: -120px;
+  left: 5%;
+}
+.cta-tri {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid var(--yellow);
+  opacity: .15;
+  top: -40px;
+  left: 40%;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.cta-inner h2 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  color: #fff;
+  line-height: 1.08;
+  margin-bottom: 1.5rem;
+}
+.cta-inner h2 span { color: var(--yellow); }
+
+.cta-inner p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 2.5rem;
+}
+
+.cta-btn-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-yellow {
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  padding: 1rem 2.5rem;
+  cursor: pointer;
+  letter-spacing: .01em;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .2s, transform .15s;
+}
+.btn-yellow:hover { background: var(--red); color: #fff; transform: translateY(-2px); }
+
+.btn-ghost {
+  background: transparent;
+  color: rgba(255,255,255,.7);
+  border: 1.5px solid rgba(255,255,255,.3);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .95rem;
+  padding: .95rem 2.25rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color .2s, color .2s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,.8); color: #fff; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 2px solid var(--ink);
+  padding: 3rem 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.footer-brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  display: inline-block;
+}
+
+.footer-tags {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.tag-pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: .3rem .7rem;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+.tag-pill.red { background: var(--red); color: #fff; border-color: var(--red); }
+.tag-pill.blue { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+.footer-year {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: .8rem;
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1199px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 8rem 2.5rem 3rem; }
+  .hero-right { height: 420px; }
+  .hc-circle-big { width: 280px; height: 280px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .process-label-col h2 { position: static; }
+}
+
+@media (max-width: 768px) {
+  .hero-left { padding: 7rem 1.5rem 3rem; }
+  .features-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .features-grid { grid-template-columns: 1fr; }
+  .showcase-top { grid-template-columns: 1fr; gap: 2rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-strip { grid-template-columns: repeat(3, 1fr); }
+  .gallery-cell:nth-child(n+4) { display: none; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .container { padding: 0 1.25rem; }
+  .hero-right { height: 300px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BADGES -->
+<div class="nav-badge nav-badge--left">Geometric Abstract</div>
+<a href="./index.html" class="nav-badge nav-badge--right">← Design Sight</a>
+
+<!-- ①  HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow reveal">デザイン言語</div>
+    <h1 class="reveal reveal-delay-1">
+      形が<br>
+      <span class="accent-blue">すなわち</span><br>
+      <span class="accent-red">意味だ。</span>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Polyform は純粋な幾何学からビジュアルシステムを構築する。円、三角、弧——意図をもって配置され、色で帯電し、ノイズを排したかたち。
+    </p>
+    <div class="hero-cta-row reveal reveal-delay-3">
+      <a href="#features" class="btn">システムを探索する</a>
+      <a href="#showcase" class="btn btn-outline">作品を見る</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-composition">
+      <div class="hc-circle-big"></div>
+      <div class="hc-rect-red"></div>
+      <div class="hc-rect-ink"></div>
+      <div class="hc-circle-sm"></div>
+      <div class="hc-tri"></div>
+      <div class="hc-arc"></div>
+      <div class="hc-circle-outline"></div>
+      <div class="hc-stripe"></div>
+      <div class="hc-dots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ②  FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="reveal">
+        <div class="section-label"><span></span>基本原則</div>
+        <h2>Geometric Designの<br>三つの法則</h2>
+      </div>
+      <p class="reveal reveal-delay-1">すべての要素に存在意義がある。本システムはビジュアル言語を不可分な最小単位まで削ぎ落とし、最大の確信をもって展開する。</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="feature-card reveal">
+        <div class="feature-card-num">01</div>
+        <div class="feature-card-icon icon-circles"></div>
+        <h3>形が先にある</h3>
+        <p>円・正方形・三角形——一語も書かれる前に、基本的な幾何形態がすべての表現を担う。</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card-num">02</div>
+        <div class="feature-card-icon icon-geo"></div>
+        <h3>Color Blocking</h3>
+        <p>三原色、グラデーションなし、妥協なし。色面間のハードエッジが即座にビジュアル階層を生む。</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card-num">03</div>
+        <div class="feature-card-icon icon-dots"></div>
+        <h3>パターンをテクスチャに</h3>
+        <p>繰り返すドットグリッドと斜めのハッチングが装飾的なイラストに取って代わる——体系的で、無限にスケールする。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③  SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="container showcase-inner">
+    <div class="showcase-top">
+      <div class="reveal">
+        <div class="section-label" style="color:rgba(255,255,255,.5)">
+          <span style="background:var(--yellow)"></span>
+          マニフェスト
+        </div>
+        <h2>
+          純粋な形。<br>
+          <em>絶対的な</em><br>
+          明快さ。
+        </h2>
+      </div>
+      <div class="showcase-manifesto reveal reveal-delay-1">
+        <p>装飾を拒む。曖昧さを拒む。<br><br>
+        <strong>Polyform</strong> とは、形だけですべてを語る鍛錬だ。円は無限の可能性。三角は方向と緊張。正方形は秩序と信頼。<br><br>
+        重ねる。重複させる。切り抜く。意味は<strong>関係性</strong>の中にあり、要素単体にはない。最高のポスターは常にそうして作られてきた——最も耐久性のあるデジタルインターフェースもそうあるべきだ。</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid reveal">
+      <div class="stat-cell">
+        <div class="stat-num">340+</div>
+        <div class="stat-label">制作コンポジション数</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">12</div>
+        <div class="stat-label">基本形態の種類</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">3</div>
+        <div class="stat-label">原色数</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">組み合わせの可能性</div>
+      </div>
+    </div>
+
+    <!-- Gallery strip -->
+    <div class="gallery-strip reveal reveal-delay-1">
+      <div class="gallery-cell gc-1"></div>
+      <div class="gallery-cell gc-2"></div>
+      <div class="gallery-cell gc-3"></div>
+      <div class="gallery-cell gc-4"></div>
+      <div class="gallery-cell gc-5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS (bonus section between showcase and CTA) -->
+<section class="process">
+  <div class="container">
+    <div class="process-grid">
+      <div class="process-label-col reveal">
+        <div class="section-label"><span></span>プロセス</div>
+        <h2>白紙から、力強いシステムへ。</h2>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="step-num">Step 01</div>
+          <div class="step-content">
+            <h3>語彙を選ぶ</h3>
+            <p>3〜5種類の幾何形態プリミティブを選択する。3色のパレットを固定する。残りはすべてこの制約から生まれる。</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="step-num">Step 02</div>
+          <div class="step-content">
+            <h3>緊張感をもってコンポーズする</h3>
+            <p>予想外の比率で形を重ねる。弧を切り抜かせる。三角形をコンテナから飛び出させる。緊張がエネルギーを生む。</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="step-num">Step 03</div>
+          <div class="step-content">
+            <h3>パターンを地として敷く</h3>
+            <p>ドットグリッド、斜線、同心弧がノイズを加えずネガティブスペースを満たす。形が叫ぶ場所で、それらは囁く。</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="step-num">Step 04</div>
+          <div class="step-content">
+            <h3>斜線で切り裂く</h3>
+            <p>clip-pathの分割と斜めブロックカットが視線を面上でダイナミックに動かす。静的グリッドはスプレッドシートのためにある。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④  CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-bg-shapes">
+    <div class="cta-circle-1"></div>
+    <div class="cta-circle-2"></div>
+    <div class="cta-tri"></div>
+  </div>
+
+  <div class="container">
+    <div class="cta-inner reveal">
+      <h2>何か<span>グラフィック</span>なものを作る準備は？</h2>
+      <p>一つの形から始めよう。システムを信じよう。Polyform はアイコンからビルボードまで、あらゆるスケールで創造的な自由を解き放つ制約を与える。</p>
+      <div class="cta-btn-row">
+        <a href="#" class="btn-yellow">Polyform をはじめる</a>
+        <a href="#features" class="btn-ghost">原則を見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤  FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-dot"></div>
+        Polyform
+      </div>
+
+      <div class="footer-tags">
+        <span class="tag-pill red">Geometric</span>
+        <span class="tag-pill blue">Abstract</span>
+        <span class="tag-pill">Pattern</span>
+        <span class="tag-pill">Vector</span>
+        <span class="tag-pill">デザインシステム</span>
+      </div>
+
+      <div class="footer-year">© 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for scroll reveals
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  // Hero elements trigger immediately
+  els.forEach(function(el) {
+    if (el.closest('.hero')) {
+      setTimeout(function() { el.classList.add('visible'); },
+        parseInt(el.className.match(/delay-(\d)/)?.[1] || '0') * 120);
+    } else {
+      obs.observe(el);
+    }
+  });
+})();
+
+// Smooth anchor scrolling
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

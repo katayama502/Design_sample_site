@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORM — Bauhaus Architecture School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F5F0E8;
+  --surface: #FFFFFF;
+  --accent: #E63946;
+  --text: #1D1D1B;
+  --muted: #7A7A78;
+  --extra: #1D5FC4;
+  --yellow: #FFD60A;
+  --border: 3px solid #1D1D1B;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Work Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* TYPOGRAPHY */
+.bauhaus-title {
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* GEOMETRIC SHAPES */
+.bauhaus-circle {
+  width: 80px; height: 80px;
+  background: var(--extra);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.bauhaus-square {
+  width: 80px; height: 80px;
+  background: var(--yellow);
+  flex-shrink: 0;
+}
+.bauhaus-triangle {
+  width: 0; height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 80px solid var(--accent);
+  flex-shrink: 0;
+}
+
+/* BARS */
+.bauhaus-bar {
+  height: 12px;
+  background: var(--accent);
+}
+.bauhaus-bar.blue { background: var(--extra); }
+.bauhaus-bar.yellow { background: var(--yellow); }
+
+/* BAUHAUS CARD */
+.bauhaus {
+  background: var(--surface);
+  border: var(--border);
+  padding: 2rem;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: var(--surface);
+  border-bottom: var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  height: 64px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-right: var(--border);
+  gap: 0.75rem;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--text);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-mark::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.header-title {
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+}
+
+.header-nav a {
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  height: 100%;
+  border-left: var(--border);
+  text-decoration: none;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.header-nav a:hover {
+  background: var(--text);
+  color: var(--surface);
+}
+
+.header-tags {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-left: var(--border);
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.tag {
+  background: var(--bg);
+  border: 2px solid var(--muted);
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ===== HERO ===== */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: var(--border);
+  border-right: var(--border);
+  min-height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.hero-left {
+  border-right: var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--border);
+}
+
+.hero-eyebrow-label {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-right: var(--border);
+}
+
+.hero-year {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.hero-text-block {
+  padding: 3rem 2.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-headline {
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-headline .accent-line {
+  display: block;
+  color: var(--accent);
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 380px;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 0;
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--surface);
+  border: var(--border);
+  padding: 1rem 2rem;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--text);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: var(--border);
+  border-left: none;
+  padding: 1rem 2rem;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: var(--bg);
+}
+
+.hero-bar-group {
+  border-top: var(--border);
+  display: flex;
+}
+
+.hero-bar-group .bauhaus-bar {
+  flex: 1;
+  height: 16px;
+}
+
+/* HERO RIGHT — geometric composition */
+.hero-right {
+  position: relative;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.geo-composition {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.geo-big-circle {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: var(--extra);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: var(--border);
+  animation: spin-slow 20s linear infinite;
+}
+
+.geo-big-square {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  background: var(--yellow);
+  border: var(--border);
+  bottom: 20px;
+  left: 20px;
+  animation: float-square 4s ease-in-out infinite;
+}
+
+.geo-big-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 140px solid var(--accent);
+  top: 20px;
+  right: 20px;
+  filter: drop-shadow(3px 3px 0 var(--text));
+  animation: float-tri 5s ease-in-out infinite;
+}
+
+.geo-sm-circle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: var(--yellow);
+  border-radius: 50%;
+  border: var(--border);
+  top: 30px;
+  left: 30px;
+}
+
+.geo-sm-square {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: var(--accent);
+  border: var(--border);
+  bottom: 60px;
+  right: 40px;
+  animation: spin-slow 8s linear infinite reverse;
+}
+
+.geo-line-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--text);
+  top: 50%;
+}
+
+.geo-line-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--text);
+  left: 50%;
+}
+
+@keyframes spin-slow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes float-square {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+}
+
+@keyframes float-tri {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-5deg); }
+}
+
+/* Grid dot overlay */
+.hero-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--text) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* ===== INTRO STRIP ===== */
+.intro-strip {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: var(--border);
+  border-right: var(--border);
+  border-top: var(--border);
+  display: flex;
+}
+
+.intro-cell {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  border-right: var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.intro-cell:last-child { border-right: none; }
+
+.intro-number {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--text);
+}
+
+.intro-number .num-accent { color: var(--accent); }
+
+.intro-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* ===== FEATURES ===== */
+.features-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: var(--border);
+  border-right: var(--border);
+  border-top: var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: stretch;
+  border-bottom: var(--border);
+}
+
+.section-label {
+  padding: 1.25rem 2rem;
+  border-right: var(--border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  writing-mode: horizontal-tb;
+  display: flex;
+  align-items: center;
+}
+
+.section-title-wrap {
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.section-shape {
+  margin-left: auto;
+  padding: 1.25rem 2rem;
+  border-left: var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mini-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--extra);
+  border: var(--border);
+}
+.mini-square {
+  width: 36px; height: 36px;
+  background: var(--yellow);
+  border: var(--border);
+}
+.mini-triangle {
+  width: 0; height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 36px solid var(--accent);
+  filter: drop-shadow(2px 2px 0 var(--text));
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.feature-card {
+  border-right: var(--border);
+  border-bottom: var(--border);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: background 0.2s;
+  cursor: default;
+}
+
+.feature-card:last-child { border-right: none; }
+
+.feature-card:hover {
+  background: var(--text);
+  color: var(--surface);
+}
+
+.feature-card:hover .feature-title { color: var(--surface); }
+.feature-card:hover .feature-desc { color: rgba(255,255,255,0.65); }
+.feature-card:hover .feature-number { color: var(--yellow); }
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle { width: 60px; height: 60px; border-radius: 50%; border: var(--border); background: transparent; }
+.icon-square { width: 60px; height: 60px; border: var(--border); background: transparent; }
+.icon-triangle-outline {
+  width: 0; height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 55px solid transparent;
+  position: relative;
+}
+.icon-triangle-outline::after {
+  content: '';
+  position: absolute;
+  width: 0; height: 0;
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-bottom: 44px solid var(--bg);
+  left: -24px;
+  top: 9px;
+}
+.icon-cross {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+.icon-cross::before {
+  content: '';
+  position: absolute;
+  width: 3px;
+  background: var(--text);
+  top: 0; bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.icon-cross::after {
+  content: '';
+  position: absolute;
+  height: 3px;
+  background: var(--text);
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.feature-number {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.feature-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.feature-card:hover .icon-circle { border-color: var(--yellow); }
+.feature-card:hover .icon-square { border-color: var(--accent); }
+.feature-card:hover .icon-cross::before,
+.feature-card:hover .icon-cross::after { background: var(--surface); }
+
+/* ===== PRINCIPLES ===== */
+.principles-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: var(--border);
+  border-right: var(--border);
+  border-top: var(--border);
+}
+
+.principles-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.principles-left {
+  border-right: var(--border);
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.principle-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid rgba(29,29,27,0.12);
+}
+
+.principle-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.principle-shape-small {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-circle { width: 48px; height: 48px; border-radius: 50%; background: var(--extra); border: var(--border); }
+.p-square { width: 48px; height: 48px; background: var(--yellow); border: var(--border); }
+.p-triangle {
+  width: 0; height: 0;
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-bottom: 48px solid var(--accent);
+  filter: drop-shadow(2px 2px 0 var(--text));
+}
+.p-diamond {
+  width: 34px; height: 34px;
+  background: var(--text);
+  border: 2px solid var(--text);
+  transform: rotate(45deg);
+}
+
+.principle-text h3 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.principle-text p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* GRID VISUAL — right side */
+.principles-right {
+  background: var(--text);
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-visual-title {
+  color: var(--surface);
+  padding: 2rem 2.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+  opacity: 0.6;
+}
+
+.grid-canvas {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.gc-cell {
+  border-right: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  transition: background 0.3s;
+}
+
+.gc-cell:nth-child(3n) { border-right: none; }
+
+.gc-fill-red { background: var(--accent); border-color: transparent !important; }
+.gc-fill-blue { background: var(--extra); border-color: transparent !important; }
+.gc-fill-yellow { background: var(--yellow); border-color: transparent !important; }
+
+.gc-shape-c { width: 50px; height: 50px; border-radius: 50%; background: var(--surface); opacity: 0.9; }
+.gc-shape-s { width: 50px; height: 50px; background: var(--surface); opacity: 0.9; }
+.gc-shape-t {
+  width: 0; height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 50px solid rgba(255,255,255,0.9);
+}
+.gc-line {
+  width: 60%;
+  height: 3px;
+  background: rgba(255,255,255,0.4);
+}
+
+/* ===== TESTIMONIALS / MANIFESTO ===== */
+.manifesto-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: var(--border);
+  border-top: var(--border);
+  margin-top: 0;
+  background: var(--accent);
+  padding: 4rem 3rem;
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.manifesto-section::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.08);
+}
+
+.manifesto-section::after {
+  content: '';
+  position: absolute;
+  left: 40%;
+  bottom: -80px;
+  width: 200px;
+  height: 200px;
+  background: rgba(0,0,0,0.06);
+  transform: rotate(45deg);
+}
+
+.manifesto-shape {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.m-big-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.m-inner-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+}
+
+.manifesto-text {
+  position: relative;
+  z-index: 1;
+}
+
+.manifesto-quote {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  color: var(--surface);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.manifesto-attr {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ===== CTA ===== */
+.cta-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: var(--border);
+  border-right: var(--border);
+  border-bottom: var(--border);
+  display: grid;
+  grid-template-columns: 1fr 400px;
+}
+
+.cta-left {
+  padding: 4rem 3rem;
+  border-right: var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cta-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  max-width: 500px;
+}
+
+.cta-subtitle {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 420px;
+  font-weight: 500;
+}
+
+.cta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 420px;
+}
+
+.form-row {
+  display: flex;
+  border: var(--border);
+}
+
+.form-input {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: var(--surface);
+  border: none;
+  outline: none;
+  color: var(--text);
+}
+
+.form-input::placeholder { color: var(--muted); }
+
+.form-btn {
+  background: var(--text);
+  color: var(--surface);
+  border: none;
+  border-left: var(--border);
+  padding: 1rem 1.5rem;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.form-btn:hover { background: var(--extra); }
+
+.form-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 0.75rem;
+  padding-left: 0.25rem;
+}
+
+.cta-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.cta-stat {
+  flex: 1;
+  padding: 2rem;
+  border-bottom: var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cta-stat:last-child { border-bottom: none; }
+
+.stat-num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.stat-num.red { color: var(--accent); }
+.stat-num.blue { color: var(--extra); }
+.stat-num.yellow-bg {
+  display: inline-block;
+  background: var(--yellow);
+  padding: 0 0.25rem;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--text);
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--surface);
+  border-left: var(--border);
+  border-right: var(--border);
+  border-bottom: var(--border);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.footer-col {
+  padding: 3rem 2rem;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-col:last-child { border-right: none; }
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-logo-mark {
+  width: 48px;
+  height: 48px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo-mark::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.footer-brand-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.footer-brand-desc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+  max-width: 260px;
+}
+
+.footer-col-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1.25rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.footer-links a:hover { color: var(--surface); }
+.footer-links a:hover::before { background: var(--accent); }
+
+.footer-bottom {
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.footer-colors {
+  display: flex;
+  gap: 0;
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .feature-card:nth-child(2) { border-right: none; }
+  .feature-card:nth-child(3), .feature-card:nth-child(4) { border-top: none; }
+  .feature-card:nth-child(4) { border-right: none; }
+  .principles-inner { grid-template-columns: 1fr; }
+  .principles-right { display: none; }
+  .cta-section { grid-template-columns: 1fr; }
+  .cta-right { flex-direction: row; border-top: var(--border); }
+  .cta-stat { border-bottom: none; border-right: var(--border); }
+  .cta-stat:last-child { border-right: none; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-col:nth-child(2) { border-right: none; }
+  .intro-strip { flex-wrap: wrap; }
+  .intro-cell { min-width: 50%; }
+  .intro-cell:nth-child(2) { border-right: none; }
+  .header-tags { display: none; }
+  .manifesto-section { flex-direction: column; gap: 2rem; padding: 3rem 2rem; }
+}
+
+@media (max-width: 600px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card { border-right: none; }
+  .header-nav a { display: none; }
+  .header-nav a:last-child { display: flex; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-col { border-right: none; }
+  .cta-right { flex-direction: column; }
+  .cta-stat { border-right: none; border-bottom: var(--border); }
+  .intro-cell { min-width: 100%; border-right: none; }
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Progress bar */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent);
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+#progress-bar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--extra));
+  opacity: 0.8;
+}
+
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="logo-mark"></div>
+      <span class="header-title">Bauhaus</span>
+    </div>
+    <nav class="header-nav">
+      <a href="#features">Program</a>
+      <a href="#principles">Principles</a>
+      <a href="#enroll">Enroll</a>
+    </nav>
+    <div class="header-tags">
+      <span class="tag">#Bauhaus</span>
+      <span class="tag">#PrimaryColors</span>
+      <span class="tag">#Geometric</span>
+      <span class="tag">#Functional</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-label">School of Pure Form</span>
+      <span class="hero-year">Est. — 2024</span>
+    </div>
+    <div class="hero-text-block">
+      <h1 class="bauhaus-title hero-headline">
+        Design<br>
+        <span class="accent-line">Without</span>
+        Ornament
+      </h1>
+      <p class="hero-desc">
+        FORM is a school of architecture and design rooted in the Bauhaus
+        tradition. We teach that beauty emerges from function — through
+        primary colors, elemental geometry, and disciplined composition.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#enroll" class="btn-primary">Apply Now</a>
+        <a href="#features" class="btn-secondary">Our Program</a>
+      </div>
+    </div>
+    <div class="hero-bar-group">
+      <div class="bauhaus-bar"></div>
+      <div class="bauhaus-bar blue"></div>
+      <div class="bauhaus-bar yellow"></div>
+      <div class="bauhaus-bar"></div>
+      <div class="bauhaus-bar blue"></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="geo-line-h"></div>
+    <div class="geo-line-v"></div>
+    <div class="geo-composition">
+      <div class="geo-big-circle"></div>
+      <div class="geo-big-square"></div>
+      <div class="geo-big-triangle"></div>
+      <div class="geo-sm-circle"></div>
+      <div class="geo-sm-square"></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip reveal">
+  <div class="intro-cell">
+    <span class="intro-number"><span class="num-accent">3</span></span>
+    <span class="intro-label">Elemental Forms</span>
+  </div>
+  <div class="intro-cell">
+    <span class="intro-number"><span class="num-accent">12</span></span>
+    <span class="intro-label">Disciplines Taught</span>
+  </div>
+  <div class="intro-cell">
+    <span class="intro-number">400<span class="num-accent">+</span></span>
+    <span class="intro-label">Alumni Worldwide</span>
+  </div>
+  <div class="intro-cell">
+    <span class="intro-number"><span class="num-accent">1</span></span>
+    <span class="intro-label">Core Philosophy</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="features-section reveal">
+  <div class="section-header">
+    <span class="section-label">Curriculum</span>
+    <div class="section-title-wrap">
+      <h2 class="bauhaus-title section-title">Core Program</h2>
+    </div>
+    <div class="section-shape">
+      <div class="mini-circle"></div>
+      <div class="mini-square"></div>
+      <div class="mini-triangle"></div>
+    </div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><div class="bauhaus-circle" style="width:60px;height:60px;"></div></div>
+      <span class="feature-number">01 — Foundation</span>
+      <h3 class="feature-title">Geometric Mastery</h3>
+      <p class="feature-desc">Begin with the circle, square, and triangle. Every structure in the built world resolves to these three elemental forms. Master them before attempting complexity.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><div class="bauhaus-square" style="width:60px;height:60px;"></div></div>
+      <span class="feature-number">02 — Color Theory</span>
+      <h3 class="feature-title">Primary Logic</h3>
+      <p class="feature-desc">Red carries action. Blue carries thought. Yellow carries spirit. Learn to assign color with purpose, never decoration. The palette is your vocabulary, not your ornament.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <div class="bauhaus-triangle" style="border-left-width:30px;border-right-width:30px;border-bottom-width:55px;"></div>
+      </div>
+      <span class="feature-number">03 — Composition</span>
+      <h3 class="feature-title">Grid Discipline</h3>
+      <p class="feature-desc">The grid is not a constraint — it is the skeleton of clarity. Through strict modular composition, learn to create visual hierarchy that communicates before it pleases.</p>
+    </div>
+    <div class="feature-card" style="border-right:none;">
+      <div class="feature-icon"><div class="icon-cross"></div></div>
+      <span class="feature-number">04 — Workshop</span>
+      <h3 class="feature-title">Material Making</h3>
+      <p class="feature-desc">Design and craft are inseparable. Students work in wood, steel, and ceramic — understanding how material nature demands honest expression, not concealment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles" class="principles-section reveal">
+  <div class="section-header">
+    <span class="section-label">Philosophy</span>
+    <div class="section-title-wrap">
+      <h2 class="bauhaus-title section-title">Our Principles</h2>
+    </div>
+    <div class="section-shape">
+      <div class="mini-circle"></div>
+      <div class="mini-square"></div>
+      <div class="mini-triangle"></div>
+    </div>
+  </div>
+
+  <div class="principles-inner">
+    <div class="principles-left">
+      <div class="principle-item">
+        <div class="principle-shape-small"><div class="p-circle"></div></div>
+        <div class="principle-text">
+          <h3>Form Follows Function</h3>
+          <p>Every visual decision must justify itself through purpose. If removing an element leaves the work cleaner without loss of meaning, remove it. Decoration is failure.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-shape-small"><div class="p-square"></div></div>
+        <div class="principle-text">
+          <h3>Unity of Art and Craft</h3>
+          <p>There is no hierarchy between fine art and functional craft. The chair is as worthy of mastery as the painting. Great design lives in both the gallery and the home.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-shape-small"><div class="p-triangle"></div></div>
+        <div class="principle-text">
+          <h3>Elemental Reduction</h3>
+          <p>Strip all design to its irreducible core. The circle, the square, the triangle are not simplifications — they are perfections. Complexity is a problem to be solved, not a virtue to be celebrated.</p>
+        </div>
+      </div>
+      <div class="principle-item">
+        <div class="principle-shape-small"><div class="p-diamond"></div></div>
+        <div class="principle-text">
+          <h3>Design for All</h3>
+          <p>Great design should not be reserved for the wealthy. Industrial production and honest material usage bring beauty to every household. This is the moral imperative of the designer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="principles-right">
+      <div class="grid-visual-title">Compositional Studies — Workshop II</div>
+      <div class="grid-canvas">
+        <div class="gc-cell gc-fill-red"></div>
+        <div class="gc-cell"><div class="gc-shape-c"></div></div>
+        <div class="gc-cell"><div class="gc-line"></div></div>
+        <div class="gc-cell"><div class="gc-shape-s"></div></div>
+        <div class="gc-cell gc-fill-blue"></div>
+        <div class="gc-cell"><div class="gc-shape-t"></div></div>
+        <div class="gc-cell"><div class="gc-line" style="height:60%;width:3px;"></div></div>
+        <div class="gc-cell"><div class="gc-shape-c" style="width:30px;height:30px;"></div></div>
+        <div class="gc-cell gc-fill-yellow"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<div class="manifesto-section reveal">
+  <div class="manifesto-shape">
+    <div class="m-big-circle">
+      <div class="m-inner-circle"></div>
+    </div>
+  </div>
+  <div class="manifesto-text">
+    <p class="manifesto-quote">"Art and technology — a new unity."</p>
+    <span class="manifesto-attr">Walter Gropius — Bauhaus Manifesto, 1919</span>
+  </div>
+</div>
+
+<!-- CTA / ENROLL -->
+<section id="enroll" class="cta-section reveal">
+  <div class="cta-left">
+    <h2 class="bauhaus-title cta-title">Begin Your Formation</h2>
+    <p class="cta-subtitle">
+      Applications for the 2025 cohort are now open. Forty places available.
+      Join designers, architects, and craftspeople who believe that how
+      something looks and how it works are the same question.
+    </p>
+    <div class="cta-form">
+      <div class="form-row">
+        <input class="form-input" type="email" placeholder="Your email address">
+        <button class="form-btn">Apply</button>
+      </div>
+      <p class="form-note">No application fee. Decisions within 14 days.</p>
+    </div>
+  </div>
+
+  <div class="cta-right">
+    <div class="cta-stat">
+      <span class="stat-num red">40</span>
+      <span class="stat-label">Places per cohort</span>
+    </div>
+    <div class="cta-stat">
+      <span class="stat-num blue">2yr</span>
+      <span class="stat-label">Program duration</span>
+    </div>
+    <div class="cta-stat">
+      <span class="stat-num"><span class="yellow-bg">100%</span></span>
+      <span class="stat-label">Employment rate</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <div class="footer-logo-mark"></div>
+        <div class="footer-brand-name">FORM</div>
+        <p class="footer-brand-desc">A school of architecture and design in the Bauhaus tradition. Reducing design to its essential, functional, and beautiful core since 2024.</p>
+        <div style="display:flex;gap:0.75rem;margin-top:0.5rem;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--extra);border:2px solid rgba(255,255,255,0.2);"></div>
+          <div style="width:36px;height:36px;background:var(--yellow);border:2px solid rgba(255,255,255,0.2);"></div>
+          <div style="width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-bottom:36px solid var(--accent);filter:drop-shadow(1px 1px 0 rgba(255,255,255,0.2));"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Program</div>
+      <ul class="footer-links">
+        <li><a href="#">Foundation Year</a></li>
+        <li><a href="#">Workshop Studies</a></li>
+        <li><a href="#">Color Theory</a></li>
+        <li><a href="#">Composition Lab</a></li>
+        <li><a href="#">Final Project</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">School</div>
+      <ul class="footer-links">
+        <li><a href="#">Faculty</a></li>
+        <li><a href="#">Alumni Work</a></li>
+        <li><a href="#">Exhibitions</a></li>
+        <li><a href="#">Library</a></li>
+        <li><a href="#">Residencies</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="#">Apply Now</a></li>
+        <li><a href="#">Open Day</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Partnerships</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&#169; 2024 FORM — School of Pure Design. All rights reserved.</span>
+    <div class="footer-colors">
+      <div class="color-swatch" style="background:var(--accent);"></div>
+      <div class="color-swatch" style="background:var(--extra);"></div>
+      <div class="color-swatch" style="background:var(--yellow);"></div>
+      <div class="color-swatch" style="background:var(--surface);"></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Progress bar
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (scrolled / total * 100) + '%';
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+reveals.forEach(el => observer.observe(el));
+
+// Grid cell hover animation
+const gcCells = document.querySelectorAll('.gc-cell:not(.gc-fill-red):not(.gc-fill-blue):not(.gc-fill-yellow)');
+gcCells.forEach(cell => {
+  cell.addEventListener('mouseenter', () => {
+    const colors = ['rgba(230,57,70,0.12)', 'rgba(29,95,196,0.12)', 'rgba(255,214,10,0.15)'];
+    cell.style.background = colors[Math.floor(Math.random() * colors.length)];
+  });
+  cell.addEventListener('mouseleave', () => {
+    cell.style.background = '';
+  });
+});
+
+// Form submit
+document.querySelector('.form-btn').addEventListener('click', () => {
+  const input = document.querySelector('.form-input');
+  if (input.value) {
+    input.value = '';
+    input.placeholder = 'Application received.';
+    document.querySelector('.form-btn').textContent = 'Done';
+    document.querySelector('.form-btn').style.background = 'var(--extra)';
+  } else {
+    input.style.borderLeft = '4px solid var(--accent)';
+    input.placeholder = 'Enter your email';
+    setTimeout(() => { input.style.borderLeft = ''; }, 1000);
+  }
+});
+</script>
+</body>
+</html>

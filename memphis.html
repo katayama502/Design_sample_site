@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zigzag Bop — Memphis Neo Memphis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap');
+
+:root {
+  --pink: #FF4FA3;
+  --yellow: #FFD23F;
+  --teal: #22C3C3;
+  --ink: #1A1A1A;
+  --white: #FFFFFF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #fff;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 800; }
+
+/* NAV BADGES */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  pointer-events: none;
+}
+
+.nav-badge {
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: .35rem .85rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: .7rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  pointer-events: all;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.nav-back {
+  background: var(--white);
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: .35rem .85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: .75rem;
+  text-decoration: none;
+  color: var(--ink);
+  pointer-events: all;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .15s, box-shadow .15s;
+}
+.nav-back:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
+
+/* BUTTONS */
+.btn {
+  background: var(--pink);
+  color: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: .85rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform .15s, box-shadow .15s;
+  display: inline-block;
+  text-decoration: none;
+}
+.btn:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--ink); }
+
+.btn-teal {
+  background: var(--teal);
+  color: #fff;
+}
+
+.pill-y {
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: .3rem 1rem;
+  font-weight: 700;
+  display: inline-block;
+  font-size: .85rem;
+}
+.pill-p {
+  background: var(--pink);
+  color: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: .3rem 1rem;
+  font-weight: 700;
+  display: inline-block;
+  font-size: .85rem;
+}
+.pill-t {
+  background: var(--teal);
+  color: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: .3rem 1rem;
+  font-weight: 700;
+  display: inline-block;
+  font-size: .85rem;
+}
+
+/* CARDS */
+.card {
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: rotate(-1.5deg);
+  position: relative;
+  overflow: hidden;
+}
+.card:nth-child(even) { transform: rotate(1.5deg); }
+.card:nth-child(3n) { transform: rotate(-0.5deg); }
+
+/* GEOMETRIC DECORATIONS */
+.blob { position: absolute; z-index: 0; pointer-events: none; }
+
+.dot-el {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--teal);
+  position: absolute;
+}
+
+.zig-el {
+  width: 80px; height: 24px;
+  background: repeating-linear-gradient(135deg, var(--yellow) 0 8px, transparent 8px 16px);
+  position: absolute;
+}
+
+/* SVG SHAPES */
+.shape-abs { position: absolute; pointer-events: none; }
+
+/* ===================== HERO ===================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 1.5rem 4rem;
+  background: #fff;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 820px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-h1 {
+  font-size: clamp(3.2rem, 10vw, 8rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.hero-h1 .line1 { display: block; color: var(--ink); }
+.hero-h1 .line2 {
+  display: block;
+  color: var(--pink);
+  -webkit-text-stroke: 3px var(--ink);
+  paint-order: stroke fill;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #444;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  font-weight: 500;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* marquee band */
+.marquee-band {
+  background: var(--ink);
+  color: var(--yellow);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .85rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 18s linear infinite;
+}
+.marquee-inner span { margin: 0 2.5rem; }
+.marquee-inner .dot-m {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--pink);
+  vertical-align: middle;
+  margin: 0 .5rem;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===================== FEATURES ===================== */
+.features {
+  padding: 6rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: .75rem;
+  display: block;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card-icon {
+  width: 56px; height: 56px;
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.card h3 {
+  font-size: 1.35rem;
+  margin-bottom: .6rem;
+}
+.card p { color: #444; font-size: .95rem; line-height: 1.65; }
+
+/* card accent stripe */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  border-radius: 15px 15px 0 0;
+}
+.card-pink::before { background: var(--pink); }
+.card-yellow::before { background: var(--yellow); }
+.card-teal::before { background: var(--teal); }
+
+/* ===================== SHOWCASE ===================== */
+.showcase {
+  background: var(--ink);
+  color: #fff;
+  padding: 6rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.showcase .section-label { color: var(--yellow); }
+.showcase .section-title { color: #fff; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+.stat-card {
+  border: 3px solid rgba(255,255,255,.2);
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, transform .2s;
+}
+.stat-card:hover { border-color: var(--pink); transform: translateY(-4px); }
+
+.stat-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+.stat-num.pink { color: var(--pink); }
+.stat-num.yellow { color: var(--yellow); }
+.stat-num.teal { color: var(--teal); }
+
+.stat-label { color: rgba(255,255,255,.65); font-size: .9rem; font-weight: 500; }
+
+/* manifesto strip */
+.manifesto {
+  margin-top: 5rem;
+  border: 3px solid var(--pink);
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+.manifesto-quote {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  line-height: 1.3;
+  color: #fff;
+}
+.manifesto-quote em { color: var(--yellow); font-style: normal; }
+.manifesto-attr {
+  margin-top: 1rem;
+  color: rgba(255,255,255,.5);
+  font-size: .85rem;
+  font-weight: 500;
+}
+
+/* colour bar */
+.color-bar {
+  display: flex;
+  margin-top: 3rem;
+  border: 3px solid rgba(255,255,255,.2);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 60px;
+}
+.color-bar-seg {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  color: var(--ink);
+}
+.cb-pink { background: var(--pink); color: #fff; }
+.cb-yellow { background: var(--yellow); }
+.cb-teal { background: var(--teal); color: #fff; }
+.cb-white { background: #fff; }
+
+/* ===================== CTA SECTION ===================== */
+.cta-section {
+  padding: 7rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: var(--yellow);
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+}
+
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-title {
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.cta-sub {
+  font-size: 1.1rem;
+  color: rgba(26,26,26,.7);
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+}
+
+.cta-btn-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-ink {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 5px 5px 0 rgba(0,0,0,.25);
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: var(--ink);
+  color: #fff;
+  padding: 3rem 1.5rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+.footer-brand span { color: var(--pink); }
+
+.footer-pills {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+}
+
+.footer-right {
+  color: rgba(255,255,255,.4);
+  font-size: .8rem;
+}
+
+/* ===================== ANIMATIONS ===================== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+.fade-up:nth-child(2) { transition-delay: .1s; }
+.fade-up:nth-child(3) { transition-delay: .2s; }
+.fade-up:nth-child(4) { transition-delay: .3s; }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .color-bar-seg { font-size: .6rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <span class="nav-badge">Memphis Neo Memphis</span>
+  <a href="./index.html" class="nav-back">← Design Sight</a>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+
+  <!-- scattered canvas decorations -->
+  <div class="hero-canvas" aria-hidden="true">
+
+    <!-- big pink circle -->
+    <svg class="shape-abs" style="top:8%;left:5%;width:180px;height:180px;opacity:.18" viewBox="0 0 180 180">
+      <circle cx="90" cy="90" r="88" fill="none" stroke="#FF4FA3" stroke-width="4"/>
+      <circle cx="90" cy="90" r="60" fill="#FF4FA3" opacity=".3"/>
+    </svg>
+
+    <!-- yellow triangle -->
+    <svg class="shape-abs" style="top:12%;right:8%;width:120px;height:120px;transform:rotate(22deg)" viewBox="0 0 120 120">
+      <polygon points="60,4 116,116 4,116" fill="#FFD23F" stroke="#1A1A1A" stroke-width="4"/>
+    </svg>
+
+    <!-- teal squiggle left -->
+    <svg class="shape-abs" style="top:55%;left:2%;width:100px;height:60px;transform:rotate(-10deg)" viewBox="0 0 100 60">
+      <path d="M4 30 Q20 4 36 30 Q52 56 68 30 Q84 4 100 30" fill="none" stroke="#22C3C3" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- pink squiggle right -->
+    <svg class="shape-abs" style="top:30%;right:3%;width:90px;height:55px;transform:rotate(15deg)" viewBox="0 0 90 55">
+      <path d="M4 28 Q18 4 32 28 Q46 52 60 28 Q74 4 88 28" fill="none" stroke="#FF4FA3" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- dot clusters -->
+    <svg class="shape-abs" style="bottom:18%;left:8%" viewBox="0 0 80 80" width="80" height="80">
+      <circle cx="10" cy="10" r="8" fill="#22C3C3"/>
+      <circle cx="40" cy="10" r="8" fill="#FF4FA3"/>
+      <circle cx="70" cy="10" r="8" fill="#FFD23F"/>
+      <circle cx="25" cy="38" r="8" fill="#FFD23F"/>
+      <circle cx="55" cy="38" r="8" fill="#22C3C3"/>
+      <circle cx="10" cy="66" r="8" fill="#FF4FA3"/>
+      <circle cx="40" cy="66" r="8" fill="#22C3C3"/>
+      <circle cx="70" cy="66" r="8" fill="#FF4FA3"/>
+    </svg>
+
+    <!-- zigzag strip top -->
+    <svg class="shape-abs" style="top:20%;left:40%;width:160px;height:30px;transform:rotate(5deg)" viewBox="0 0 160 30">
+      <polyline points="0,25 20,5 40,25 60,5 80,25 100,5 120,25 140,5 160,25" fill="none" stroke="#FFD23F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <!-- bottom right cross -->
+    <svg class="shape-abs" style="bottom:12%;right:6%;width:60px;height:60px;transform:rotate(20deg)" viewBox="0 0 60 60">
+      <rect x="24" y="4" width="12" height="52" fill="#FF4FA3" rx="4"/>
+      <rect x="4" y="24" width="52" height="12" fill="#FF4FA3" rx="4"/>
+    </svg>
+
+    <!-- teal rectangle -->
+    <svg class="shape-abs" style="bottom:25%;left:18%;width:70px;height:40px;transform:rotate(-8deg)" viewBox="0 0 70 40">
+      <rect x="3" y="3" width="64" height="34" fill="#22C3C3" stroke="#1A1A1A" stroke-width="3" rx="6"/>
+    </svg>
+
+    <!-- yellow star-like -->
+    <svg class="shape-abs" style="top:75%;right:15%;width:55px;height:55px;transform:rotate(35deg)" viewBox="0 0 55 55">
+      <polygon points="27.5,2 33,20 52,20 37,32 43,50 27.5,39 12,50 18,32 3,20 22,20" fill="#FFD23F" stroke="#1A1A1A" stroke-width="3"/>
+    </svg>
+
+    <!-- ink square -->
+    <svg class="shape-abs" style="top:40%;left:30%;width:24px;height:24px;transform:rotate(30deg)" viewBox="0 0 24 24">
+      <rect x="2" y="2" width="20" height="20" fill="none" stroke="#1A1A1A" stroke-width="3"/>
+    </svg>
+
+    <!-- dots top right cluster -->
+    <svg class="shape-abs" style="top:5%;right:22%;width:60px;height:60px;opacity:.6" viewBox="0 0 60 60">
+      <circle cx="10" cy="10" r="7" fill="#22C3C3"/>
+      <circle cx="30" cy="10" r="7" fill="#FF4FA3"/>
+      <circle cx="50" cy="10" r="7" fill="#FFD23F"/>
+      <circle cx="20" cy="35" r="7" fill="#FFD23F"/>
+      <circle cx="45" cy="35" r="7" fill="#22C3C3"/>
+    </svg>
+
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="pill-y">Memphis</span>
+      <span class="pill-p">Geometric</span>
+      <span class="pill-t">80s Pop</span>
+    </div>
+
+    <h1 class="hero-h1">
+      <span class="line1">Zigzag</span>
+      <span class="line2">Bop</span>
+    </h1>
+
+    <p class="hero-sub">軽やかな無政府的ジオメトリと衝突するポップカラーで、良識をかなぐり捨てよう。ルールは四角形のためにある。</p>
+
+    <div class="hero-cta-row">
+      <a href="#features" class="btn">騒ごう</a>
+      <a href="#showcase" class="btn btn-teal">カオスを見る</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- MARQUEE BAND -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>ZIGZAG BOP</span><span class="dot-m"></span>
+    <span>MEMPHIS DESIGN</span><span class="dot-m"></span>
+    <span>POP GEOMETRY</span><span class="dot-m"></span>
+    <span>80s REVIVAL</span><span class="dot-m"></span>
+    <span>BOLD & BEAUTIFUL</span><span class="dot-m"></span>
+    <span>ZIGZAG BOP</span><span class="dot-m"></span>
+    <span>MEMPHIS DESIGN</span><span class="dot-m"></span>
+    <span>POP GEOMETRY</span><span class="dot-m"></span>
+    <span>80s REVIVAL</span><span class="dot-m"></span>
+    <span>BOLD & BEAUTIFUL</span><span class="dot-m"></span>
+    <span>ZIGZAG BOP</span><span class="dot-m"></span>
+    <span>MEMPHIS DESIGN</span><span class="dot-m"></span>
+    <span>POP GEOMETRY</span><span class="dot-m"></span>
+    <span>80s REVIVAL</span><span class="dot-m"></span>
+    <span>BOLD & BEAUTIFUL</span><span class="dot-m"></span>
+  </div>
+</div>
+
+<!-- ② FEATURES -->
+<section class="features" id="features">
+
+  <!-- bg decorations -->
+  <svg class="shape-abs" style="top:-40px;right:-30px;width:200px;height:200px;opacity:.06;z-index:0" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="98" fill="#FF4FA3"/>
+  </svg>
+  <svg class="shape-abs" style="bottom:-60px;left:-40px;width:180px;height:180px;opacity:.07;z-index:0" viewBox="0 0 180 180" aria-hidden="true">
+    <polygon points="90,2 178,178 2,178" fill="#22C3C3"/>
+  </svg>
+
+  <div class="section-header fade-up">
+    <span class="section-label">なぜ Zigzag Bop なのか</span>
+    <h2 class="section-title">じっとしていることを<br>拒むデザイン</h2>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="card card-pink fade-up">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="26" fill="#FF4FA3" stroke="#1A1A1A" stroke-width="3"/>
+          <path d="M14 28 Q21 12 28 28 Q35 44 42 28" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>無秩序なジオメトリ</h3>
+      <p>すべての形が常識に反抗する。三角が円に激突し、ジグザグが直線を遮り、退屈な直角など存在しない。</p>
+    </div>
+
+    <div class="card card-yellow fade-up">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <rect x="4" y="4" width="48" height="48" rx="10" fill="#FFD23F" stroke="#1A1A1A" stroke-width="3"/>
+          <rect x="16" y="16" width="10" height="10" rx="2" fill="#1A1A1A"/>
+          <rect x="30" y="16" width="10" height="10" rx="2" fill="#FF4FA3"/>
+          <rect x="16" y="30" width="10" height="10" rx="2" fill="#22C3C3"/>
+          <rect x="30" y="30" width="10" height="10" rx="2" fill="#1A1A1A"/>
+        </svg>
+      </div>
+      <h3>クラッシュ・ポップカラー</h3>
+      <p>ホットピンク × エレクトリックティール × 叫ぶようなイエロー。色の調和は臆病者のもの。網膜が歓喜するパレットを作り上げる。</p>
+    </div>
+
+    <div class="card card-teal fade-up">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <polygon points="28,4 52,52 4,52" fill="#22C3C3" stroke="#1A1A1A" stroke-width="3"/>
+          <line x1="28" y1="20" x2="28" y2="40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="28" cy="46" r="3" fill="#fff"/>
+        </svg>
+      </div>
+      <h3>ハードオフセットシャドウ</h3>
+      <p>ぼかしなし。グラデーションなし。ブルータリストなベタ影が宣言する——この要素は存在し、重みを持ち、一切謝らない、と。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ③ SHOWCASE -->
+<section class="showcase" id="showcase">
+
+  <!-- bg shapes on dark -->
+  <svg class="shape-abs" style="top:40px;right:60px;width:120px;height:120px;opacity:.08" viewBox="0 0 120 120" aria-hidden="true">
+    <polygon points="60,4 116,116 4,116" fill="#FFD23F"/>
+  </svg>
+  <svg class="shape-abs" style="bottom:40px;left:40px;width:100px;height:100px;opacity:.1" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="48" fill="#FF4FA3"/>
+  </svg>
+  <svg class="shape-abs" style="top:30%;right:5%;width:80px;height:40px;opacity:.12" viewBox="0 0 80 40" aria-hidden="true">
+    <path d="M4 20 Q20 4 36 20 Q52 36 68 20 Q76 12 80 20" fill="none" stroke="#22C3C3" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+
+  <div class="showcase-inner">
+    <div class="section-header fade-up">
+      <span class="section-label">数字で見るカオス</span>
+      <h2 class="section-title">数値化されたカオス</h2>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-num pink">99</div>
+        <div class="stat-label">1デザインあたりのルール破り数</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num yellow">3</div>
+        <div class="stat-label">クラッシュカラーの最低使用数</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num teal">∞</div>
+        <div class="stat-label">使用可能なジオメトリック形状</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-num pink">0</div>
+        <div class="stat-label">使用した退屈なグラデーション</div>
+      </div>
+    </div>
+
+    <div class="manifesto fade-up">
+      <p class="manifesto-quote">
+        「良識は偉大なデザインの<em>敵だ</em>。Memphisムーブメントは許可など求めなかった——あらゆるものに<em>三角形を撒き散らし</em>、それを革命と呼んだ。」
+      </p>
+      <p class="manifesto-attr">— Zigzag Bop デザイン・マニフェスト, 1981 (2024年再発行)</p>
+    </div>
+
+    <div class="color-bar fade-up">
+      <div class="color-bar-seg cb-pink">PINK</div>
+      <div class="color-bar-seg cb-yellow">YELLOW</div>
+      <div class="color-bar-seg cb-teal">TEAL</div>
+      <div class="color-bar-seg cb-white">WHITE</div>
+      <div class="color-bar-seg" style="background:var(--ink);color:#fff;">INK</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ④ CTA SECTION -->
+<section class="cta-section" id="cta">
+
+  <!-- cta decorations -->
+  <svg class="shape-abs" style="top:20px;left:40px;width:90px;height:90px;transform:rotate(-15deg);opacity:.4" viewBox="0 0 90 90" aria-hidden="true">
+    <rect x="4" y="4" width="82" height="82" rx="12" fill="none" stroke="#1A1A1A" stroke-width="4"/>
+    <rect x="18" y="18" width="54" height="54" rx="8" fill="#FF4FA3" opacity=".4"/>
+  </svg>
+  <svg class="shape-abs" style="bottom:15px;right:50px;width:100px;height:60px;transform:rotate(8deg);opacity:.35" viewBox="0 0 100 60" aria-hidden="true">
+    <path d="M4 30 Q20 4 36 30 Q52 56 68 30 Q84 4 100 30" fill="none" stroke="#1A1A1A" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+  <svg class="shape-abs" style="top:50%;left:5%;width:55px;height:55px;transform:rotate(20deg);opacity:.3" viewBox="0 0 55 55" aria-hidden="true">
+    <polygon points="27.5,2 33,20 52,20 37,32 43,50 27.5,39 12,50 18,32 3,20 22,20" fill="#22C3C3"/>
+  </svg>
+  <svg class="shape-abs" style="top:10%;right:10%;width:50px;height:50px;opacity:.25" viewBox="0 0 50 50" aria-hidden="true">
+    <circle cx="25" cy="25" r="23" fill="#1A1A1A"/>
+  </svg>
+
+  <div class="cta-inner">
+    <h2 class="cta-title fade-up">さあ、弾けよう？</h2>
+    <p class="cta-sub fade-up">無秩序なジオメトリ革命に参加しよう。あなたのポートフォリオは二度と同じ顔をしない——それがまさに狙いだ。</p>
+    <div class="cta-btn-row fade-up">
+      <a href="#" class="btn">カオスを始める</a>
+      <a href="#" class="btn btn-ink">マニフェストを読む</a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ FOOTER -->
+<footer>
+  <div class="footer-inner">
+
+    <div>
+      <div class="footer-brand">Zigzag<span>Bop</span></div>
+      <div style="color:rgba(255,255,255,.4);font-size:.8rem;margin-top:.35rem;">良識を捨てよ。Bopを抱きしめよ。</div>
+    </div>
+
+    <div class="footer-pills" style="align-items:center">
+      <span class="pill-p" style="font-size:.75rem">Memphis</span>
+      <span class="pill-y" style="font-size:.75rem;color:var(--ink)">Geometric</span>
+      <span class="pill-t" style="font-size:.75rem">Pop</span>
+      <span style="background:rgba(255,255,255,.1);border:3px solid rgba(255,255,255,.2);border-radius:999px;padding:.3rem 1rem;font-weight:700;display:inline-block;font-size:.75rem;color:#fff;">80s</span>
+    </div>
+
+    <div class="footer-right">
+      &copy; 2024 Zigzag Bop.<br>すべての形状は保護されています。
+    </div>
+
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Subtle parallax tilt on hero shapes
+const heroCanvas = document.querySelector('.hero-canvas');
+if (heroCanvas && window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 18;
+    const y = (e.clientY / window.innerHeight - 0.5) * 12;
+    heroCanvas.style.transform = `translate(${x}px, ${y}px)`;
+  });
+}
+</script>
+</body>
+</html>

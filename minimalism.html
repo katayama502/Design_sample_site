@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blanc Studio — Minimalism</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #FFFFFF;
+  --surface: #F7F7F5;
+  --ink: #1A1A1A;
+  --muted: #8A8A8A;
+  --line: #E5E5E2;
+  --extra: #E5E5E2;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAVIGATION BADGE & BACK LINK ── */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.badge {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+  background: var(--bg);
+}
+
+.back-link {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.back-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── UTILITY ── */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+}
+
+.container--wide {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0 0 1.5rem;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+p {
+  color: #3a3a3a;
+  max-width: 60ch;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 3rem 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1.75rem;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: 0 1px 12px rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.link {
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: var(--ink);
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.75rem 1.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.btn:hover {
+  opacity: 0.82;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.btn--ghost:hover {
+  background: var(--ink);
+  color: #fff;
+  opacity: 1;
+}
+
+/* ── FADE-IN ANIMATION ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in:nth-child(2) { transition-delay: 0.1s; }
+.fade-in:nth-child(3) { transition-delay: 0.2s; }
+.fade-in:nth-child(4) { transition-delay: 0.3s; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background: var(--surface);
+  z-index: 0;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 40%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 60%;
+  background: var(--line);
+  z-index: 1;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero__content {}
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.hero__eyebrow-line {
+  width: 2rem;
+  height: 1px;
+  background: var(--muted);
+}
+
+.hero__title {
+  font-size: clamp(2.5rem, 5.5vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 1.75rem;
+}
+
+.hero__title strong {
+  font-weight: 600;
+  display: block;
+}
+
+.hero__sub {
+  font-size: 1.0625rem;
+  color: #555;
+  line-height: 1.7;
+  max-width: 42ch;
+  margin-bottom: 2.5rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.hero__glyph {
+  position: relative;
+  width: 240px;
+  height: 240px;
+}
+
+.hero__glyph-outer {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  animation: rotate-slow 20s linear infinite;
+}
+
+.hero__glyph-inner {
+  position: absolute;
+  inset: 2.5rem;
+  border: 1px solid var(--extra);
+  border-radius: 2px;
+  animation: rotate-slow 14s linear infinite reverse;
+}
+
+.hero__glyph-center {
+  position: absolute;
+  inset: 5rem;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+.hero__glyph-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: var(--bg);
+  border-radius: 50%;
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── FEATURES ── */
+.features {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2rem 1.75rem;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 1px 12px rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.feature-card__icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-card__title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6rem;
+}
+
+.feature-card__desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: none;
+}
+
+/* ── SHOWCASE ── */
+.showcase {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.showcase__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 7rem 2rem;
+}
+
+.showcase__label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.showcase__label-line {
+  width: 1.5rem;
+  height: 1px;
+  background: #444;
+}
+
+.showcase__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 5rem;
+}
+
+.stat {
+  padding: 2.5rem 0;
+  border-left: 1px solid #2e2e2e;
+  padding-left: 2rem;
+}
+
+.stat:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.stat__number {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+  color: #fff;
+}
+
+.stat__label {
+  font-size: 0.75rem;
+  color: #666;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.showcase__manifesto {
+  border-top: 1px solid #2e2e2e;
+  padding-top: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.showcase__manifesto h2 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.showcase__manifesto h2 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.showcase__principles {
+  list-style: none;
+}
+
+.showcase__principles li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 0.875rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.showcase__principles li:last-child {
+  border-bottom: none;
+}
+
+.principle-num {
+  font-size: 0.6875rem;
+  color: #444;
+  letter-spacing: 0.06em;
+  min-width: 2ch;
+}
+
+/* ── CTA ── */
+.cta-section {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.cta-section__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+  text-align: center;
+}
+
+.cta-section__eyebrow {
+  margin-bottom: 1.5rem;
+}
+
+.cta-section h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+
+.cta-section h2 strong {
+  font-weight: 600;
+}
+
+.cta-section p {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0 auto 2.5rem;
+  max-width: 44ch;
+}
+
+.cta-section__actions {
+  display: flex;
+  gap: 0.875rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.footer__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer__brand {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.footer__tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+}
+
+.footer__copy {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1200px) {
+  .showcase__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .stat:nth-child(2) {
+    padding-left: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero::before {
+    display: none;
+  }
+
+  .hero::after {
+    display: none;
+  }
+
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: 2rem;
+  }
+
+  .hero__visual {
+    display: none;
+  }
+
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showcase__manifesto {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .stat:nth-child(3) {
+    border-left: 1px solid #2e2e2e;
+    padding-left: 2rem;
+  }
+
+  .stat:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .stat:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .stat:nth-child(even) {
+    border-left: 1px solid #2e2e2e;
+    padding-left: 2rem;
+  }
+
+  .nav-bar {
+    padding: 1rem 1.25rem;
+  }
+
+  .container--wide {
+    padding: 4rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat {
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-top: 1px solid #2e2e2e;
+    padding-top: 1.5rem;
+  }
+
+  .stat:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-section__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <span class="badge">Minimalism</span>
+  <a href="./index.html" class="back-link">
+    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Design Sight
+  </a>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__content">
+      <div class="hero__eyebrow fade-in">
+        <span class="hero__eyebrow-line"></span>
+        <span class="meta">Blanc Studio</span>
+      </div>
+      <h1 class="hero__title fade-in">
+        削ぎ落とす。<br>
+        <strong>ただそれだけ。</strong>
+      </h1>
+      <p class="hero__sub fade-in">
+        必要でないものはすべて取り除く。
+        残るのは空白ではなく、精度だ。デザインを
+        その不可分な核へと還元する。
+      </p>
+      <div class="hero__actions fade-in">
+        <a href="#features" class="btn">作品を見る</a>
+        <a href="#cta" class="btn btn--ghost">お問い合わせ</a>
+      </div>
+    </div>
+
+    <div class="hero__visual fade-in" aria-hidden="true">
+      <div class="hero__glyph">
+        <div class="hero__glyph-outer"></div>
+        <div class="hero__glyph-inner"></div>
+        <div class="hero__glyph-center">
+          <div class="hero__glyph-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② FEATURES -->
+<section class="features" id="features">
+  <div class="container--wide">
+    <div class="fade-in">
+      <span class="meta">原則</span>
+    </div>
+    <hr class="divider">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;max-width:680px;">
+      <div class="fade-in">
+        <h2>節制を支える<br>三つの柱。</h2>
+      </div>
+      <div class="fade-in">
+        <p style="font-size:0.9375rem;color:var(--muted);line-height:1.75;">
+          すべての選択に意図がある。すべての要素が存在意義を持つ。
+          余白は無駄なスペースではなく、構図が必要とする息吹だ。
+        </p>
+      </div>
+    </div>
+
+    <div class="features__grid" style="margin-top:3rem;">
+      <div class="feature-card fade-in">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" stroke="#1A1A1A" stroke-width="1"/>
+            <rect x="9" y="9" width="6" height="6" fill="#1A1A1A"/>
+          </svg>
+        </div>
+        <p class="feature-card__title">空間の明晰さ</p>
+        <p class="feature-card__desc">余白こそが主役のデザイン要素だ。リズムを生み、視線を導き、それぞれの要素が競合せずに呼吸できる空間をつくる。</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="3" y1="7" x2="21" y2="7" stroke="#1A1A1A" stroke-width="1.5"/>
+            <line x1="3" y1="12" x2="16" y2="12" stroke="#1A1A1A" stroke-width="1"/>
+            <line x1="3" y1="17" x2="12" y2="17" stroke="#1A1A1A" stroke-width="0.75"/>
+          </svg>
+        </div>
+        <p class="feature-card__title">タイポグラフィの階層</p>
+        <p class="feature-card__desc">ウェイト、サイズ、スペーシングによる厳密な階層が装飾的な要素に取って代わる。書体だけでトーンと意図を伝える。</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="8" stroke="#1A1A1A" stroke-width="1"/>
+            <circle cx="12" cy="12" r="2" fill="#1A1A1A"/>
+          </svg>
+        </div>
+        <p class="feature-card__title">抑制されたパレット</p>
+        <p class="feature-card__desc">ほぼ白とほぼ黒の二色に、階層のためのミッドグレーを一色。色は装飾ではなく、情報であり構造だ。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="showcase__inner">
+    <div class="showcase__label fade-in">
+      <span class="showcase__label-line"></span>
+      数値で見る
+    </div>
+
+    <div class="showcase__stats">
+      <div class="stat fade-in">
+        <div class="stat__number">04</div>
+        <div class="stat__label">最大色数</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat__number">1px</div>
+        <div class="stat__label">ボーダーの太さ</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat__number">60ch</div>
+        <div class="stat__label">行の長さ</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat__number">0</div>
+        <div class="stat__label">装飾レイヤー数</div>
+      </div>
+    </div>
+
+    <div class="showcase__manifesto">
+      <div class="fade-in">
+        <h2>
+          これ以上<br>
+          <em>何も削れない</em><br>
+          ところまで削る。
+        </h2>
+      </div>
+      <div class="fade-in">
+        <ul class="showcase__principles">
+          <li>
+            <span class="principle-num">01</span>
+            すべての要素は、存在する理由を持たなければならない。
+          </li>
+          <li>
+            <span class="principle-num">02</span>
+            余白は不在ではない——存在だ。
+          </li>
+          <li>
+            <span class="principle-num">03</span>
+            一つの書体を極めることは、十の書体を雑に使うことに勝る。
+          </li>
+          <li>
+            <span class="principle-num">04</span>
+            グリッドは見えない。しかしその秩序は見える。
+          </li>
+          <li>
+            <span class="principle-num">05</span>
+            節制は最も難しい鍛錬であり、最高の技巧だ。
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ CTA SECTION -->
+<section class="cta-section" id="cta">
+  <div class="cta-section__inner">
+    <div class="cta-section__eyebrow fade-in">
+      <span class="meta">はじめる</span>
+    </div>
+    <h2 class="fade-in">すべてを<br><strong>削ぎ落とす準備は？</strong></h2>
+    <p class="fade-in">
+      重要なことから始め、それ以外は取り除く。
+      Blanc Studio は、明快さがコミュニケーションの最強の形だと
+      信じる創業者やチームとともに歩む。
+    </p>
+    <div class="cta-section__actions fade-in">
+      <a href="#" class="btn">プロジェクトを開始する</a>
+      <a href="#" class="btn btn--ghost">厳選作品を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">Blanc Studio</span>
+    <div class="footer__tags">
+      <span class="tag">Minimalism</span>
+      <span class="tag">#Clean</span>
+      <span class="tag">#Whitespace</span>
+    </div>
+    <span class="footer__copy">© 2026</span>
+  </div>
+</footer>
+
+<script>
+  // Staggered fade-in via Intersection Observer
+  const fadeEls = document.querySelectorAll('.fade-in');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Stagger siblings within the same parent
+  document.querySelectorAll('.features__grid, .showcase__stats, .showcase__manifesto, .cta-section__inner, .hero__content').forEach(parent => {
+    const children = parent.querySelectorAll('.fade-in');
+    children.forEach((child, i) => {
+      child.style.transitionDelay = `${i * 0.08}s`;
+    });
+  });
+</script>
+
+</body>
+</html>

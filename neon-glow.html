@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glowline Bar — Neon Glow</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Chakra+Petch:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #05060A;
+  --surface: #0D0F18;
+  --green: #39FF14;
+  --pink: #FF2BD6;
+  --ink: #E8FFF4;
+  --muted: #5C7D6E;
+  --extra: #FF2BD6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV BADGES ── */
+.corner-badge {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 999;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  background: rgba(5,6,10,0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 6px var(--green), inset 0 0 4px rgba(57,255,20,0.15);
+}
+
+.back-link {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 999;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid #1e2e28;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  background: rgba(5,6,10,0.85);
+  backdrop-filter: blur(8px);
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.back-link:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+  box-shadow: 0 0 8px rgba(92,125,110,0.4);
+}
+
+/* ── TYPOGRAPHY ── */
+h1, h2, h3 { font-family: 'Audiowide', cursive; color: #fff; }
+
+h1 {
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-shadow:
+    0 0 5px var(--green),
+    0 0 15px var(--green),
+    0 0 35px var(--green),
+    0 0 70px rgba(57,255,20,0.4);
+  animation: flicker 4s infinite;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  text-shadow:
+    0 0 5px var(--green),
+    0 0 15px var(--green),
+    0 0 35px var(--green);
+  animation: flicker 6s infinite 1.5s;
+}
+
+h3 {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 55%, 57%, 100% { opacity: 1; }
+  20%, 56% { opacity: .55; }
+}
+
+@keyframes flickerPink {
+  0%, 18%, 22%, 52%, 58%, 100% { opacity: 1; }
+  19%, 57% { opacity: .45; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px var(--pink), 0 0 22px rgba(255,43,214,.5), inset 0 0 12px rgba(255,43,214,.2); }
+  50%       { box-shadow: 0 0 16px var(--pink), 0 0 45px rgba(255,43,214,.7), inset 0 0 20px rgba(255,43,214,.3); }
+}
+
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-block;
+  background: transparent;
+  color: var(--green);
+  border: 2px solid var(--green);
+  border-radius: 10px;
+  padding: .8rem 1.9rem;
+  font-family: 'Audiowide', cursive;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 8px var(--green);
+  box-shadow: 0 0 10px var(--green), inset 0 0 8px rgba(57,255,20,.3);
+  transition: .25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn:hover {
+  background: var(--green);
+  color: #05060A;
+  text-shadow: none;
+  box-shadow: 0 0 14px var(--green), 0 0 40px var(--green), 0 0 80px rgba(57,255,20,0.5);
+}
+
+.btn-pink {
+  color: var(--pink);
+  border-color: var(--pink);
+  text-shadow: 0 0 8px var(--pink);
+  box-shadow: 0 0 10px var(--pink), inset 0 0 8px rgba(255,43,214,.3);
+}
+.btn-pink:hover {
+  background: var(--pink);
+  color: #05060A;
+  text-shadow: none;
+  box-shadow: 0 0 14px var(--pink), 0 0 40px var(--pink), 0 0 80px rgba(255,43,214,0.5);
+}
+
+/* ── CARD ── */
+.tube {
+  border: 2px solid var(--pink);
+  border-radius: 14px;
+  padding: 1.75rem;
+  background: var(--surface);
+  box-shadow:
+    0 0 8px var(--pink),
+    0 0 22px rgba(255,43,214,.5),
+    inset 0 0 12px rgba(255,43,214,.2);
+  animation: pulseGlow 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+.tube:hover { transform: translateY(-4px); }
+
+.tube-green {
+  border-color: var(--green);
+  box-shadow:
+    0 0 8px var(--green),
+    0 0 22px rgba(57,255,20,.5),
+    inset 0 0 12px rgba(57,255,20,.2);
+  animation: none;
+}
+.tube-green:hover {
+  box-shadow:
+    0 0 16px var(--green),
+    0 0 45px rgba(57,255,20,.7),
+    inset 0 0 20px rgba(57,255,20,.3);
+}
+
+.neon-pink {
+  color: var(--pink);
+  text-shadow: 0 0 8px var(--pink), 0 0 20px var(--pink);
+}
+.neon-green {
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green), 0 0 20px var(--green);
+}
+
+/* ── LAYOUT ── */
+section { padding: 6rem 1.5rem; }
+.container { max-width: 1160px; margin: 0 auto; }
+
+/* ─────────────────────────────────────
+   ① HERO
+───────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 7rem 1.5rem 5rem;
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(57,255,20,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,255,20,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 30%, var(--bg) 80%);
+  pointer-events: none;
+}
+
+.hero-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(57,255,20,0.3), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-shadow: 0 0 8px var(--pink), 0 0 20px var(--pink);
+  margin-bottom: 1.25rem;
+  animation: flickerPink 5s infinite;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  max-width: 560px;
+  margin: 1.5rem auto 2.5rem;
+  line-height: 1.75;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Neon sign decorative element */
+.hero-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(255,43,214,0.3);
+  border-radius: 30px;
+  background: rgba(255,43,214,0.05);
+}
+
+.hero-sign-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 6px var(--pink), 0 0 12px var(--pink);
+  animation: flickerPink 2s infinite;
+}
+
+.hero-sign-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-shadow: 0 0 6px var(--pink);
+}
+
+/* decorative orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.18;
+}
+.orb-1 { width: 480px; height: 480px; background: var(--green); top: -100px; left: -180px; }
+.orb-2 { width: 360px; height: 360px; background: var(--pink);  bottom: -80px; right: -120px; }
+
+/* ─────────────────────────────────────
+   ② FEATURES
+───────────────────────────────────── */
+.features { background: var(--surface); }
+
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.feature-card {
+  position: relative;
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 1.25rem;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin-top: 0.6rem;
+}
+
+.feature-card h3 {
+  color: var(--ink);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+/* ─────────────────────────────────────
+   ③ SHOWCASE (Stats strip)
+───────────────────────────────────── */
+.showcase {
+  overflow: hidden;
+  position: relative;
+}
+
+.showcase::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), var(--pink), transparent);
+  box-shadow: 0 0 12px var(--green);
+}
+.showcase::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--pink), var(--green), transparent);
+  box-shadow: 0 0 12px var(--pink);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.stat-block {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(57,255,20,0.2);
+}
+
+.stat-num {
+  font-family: 'Audiowide', cursive;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green), 0 0 25px var(--green);
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Bar visual */
+.bar-visual {
+  margin-top: 4rem;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid rgba(255,43,214,0.2);
+  box-shadow: 0 0 30px rgba(255,43,214,0.1);
+  padding: 2.5rem;
+}
+
+.bar-visual-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  height: 120px;
+}
+
+.bar-col {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: height 0.5s ease;
+}
+
+.bar-col-label {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.bar-caption {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────
+   ④ CTA
+───────────────────────────────────── */
+.cta-section {
+  background: var(--surface);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(57,255,20,0.07) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cta-section p {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 480px;
+  margin: 1rem auto 2.5rem;
+  line-height: 1.8;
+}
+
+.cta-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--pink));
+  margin: 1.5rem auto;
+  box-shadow: 0 0 8px var(--green);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─────────────────────────────────────
+   ⑤ FOOTER
+───────────────────────────────────── */
+footer {
+  padding: 3rem 1.5rem;
+  border-top: 1px solid rgba(92,125,110,0.2);
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: 'Audiowide', cursive;
+  font-size: 1.4rem;
+  color: #fff;
+  text-shadow: 0 0 5px var(--green), 0 0 15px var(--green);
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.footer-tags {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.tag-pill {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid;
+}
+
+.tag-pill.green {
+  color: var(--green);
+  border-color: rgba(57,255,20,0.4);
+  background: rgba(57,255,20,0.05);
+}
+.tag-pill.pink {
+  color: var(--pink);
+  border-color: rgba(255,43,214,0.4);
+  background: rgba(255,43,214,0.05);
+}
+
+.footer-copy {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  section { padding: 4rem 1.25rem; }
+  .hero { padding: 6rem 1.25rem 4rem; }
+  .bar-visual-inner { height: 80px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Corner badges -->
+<span class="corner-badge">Neon Glow</span>
+<a href="./index.html" class="back-link">← Design Sight</a>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-scanline"></div>
+
+  <div class="hero-inner">
+    <div class="hero-sign">
+      <span class="hero-sign-dot"></span>
+      <span class="hero-sign-text">Open · Est. 2024</span>
+    </div>
+
+    <p class="hero-eyebrow">夜が息を吹き返す場所へ</p>
+
+    <h1>GLOWLINE<br>BAR</h1>
+
+    <p class="hero-sub">
+      電光の闇へ踏み込め。ネオンはあらゆる面を、カクテルを、ビートを貫いて脈打つ。ここが、この街で最も輝く場所だ。
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="#cta" class="btn">席を予約する</a>
+      <a href="#showcase" class="btn btn-pink">バーを探索する</a>
+    </div>
+  </div>
+</section>
+
+<!-- ② FEATURES -->
+<section class="features">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">提供するもの</span>
+      <h2>この <span class="neon-pink">体験</span></h2>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card tube reveal" style="transition-delay:0.1s">
+        <svg class="feature-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="10" stroke="#FF2BD6" stroke-width="2"/>
+          <circle cx="22" cy="22" r="4" fill="#FF2BD6" opacity="0.8"/>
+          <line x1="22" y1="2" x2="22" y2="10" stroke="#FF2BD6" stroke-width="2" stroke-linecap="round"/>
+          <line x1="22" y1="34" x2="22" y2="42" stroke="#FF2BD6" stroke-width="2" stroke-linecap="round"/>
+          <line x1="2" y1="22" x2="10" y2="22" stroke="#FF2BD6" stroke-width="2" stroke-linecap="round"/>
+          <line x1="34" y1="22" x2="42" y2="22" stroke="#FF2BD6" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3>シグネチャーカクテル</h3>
+        <p>紫外線の下で輝く、手作りのドリンク。それぞれのグラスは発光する芸術作品——暗闇の中でキンキンに冷やされて提供される。</p>
+      </div>
+
+      <div class="feature-card tube reveal" style="transition-delay:0.2s">
+        <svg class="feature-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="16" width="36" height="22" rx="3" stroke="#FF2BD6" stroke-width="2"/>
+          <path d="M14 16V10a8 8 0 0116 0v6" stroke="#FF2BD6" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="22" cy="27" r="4" fill="#FF2BD6" opacity="0.7"/>
+        </svg>
+        <h3>プライベートブース</h3>
+        <p>2名から12名まで対応する、ネオンが灯る親密な個室空間。発光チューブと脈打つアンビエントサウンドに包まれる。</p>
+      </div>
+
+      <div class="feature-card tube reveal" style="transition-delay:0.3s">
+        <svg class="feature-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="22,4 27,17 42,17 30,26 34,40 22,31 10,40 14,26 2,17 17,17" stroke="#FF2BD6" stroke-width="2" fill="none"/>
+          <polygon points="22,12 25,20 33,20 27,25 29,33 22,28 15,33 17,25 11,20 19,20" fill="#FF2BD6" opacity="0.3"/>
+        </svg>
+        <h3>ライブDJセット</h3>
+        <p>レジデントアーティストが毎週末、電光の空気を演出する。ネオンの周波数に共鳴するよう設計された、重低音ドリブンのセット。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ③ SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="section-label">数字で見る</span>
+      <h2><span class="neon-green">数字</span>は嘘をつかない</h2>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-block reveal" style="transition-delay:0.05s">
+        <span class="stat-num">247</span>
+        <span class="stat-label">カクテルの種類</span>
+      </div>
+      <div class="stat-block reveal" style="transition-delay:0.1s">
+        <span class="stat-num">18</span>
+        <span class="stat-label">ネオンインスタレーション</span>
+      </div>
+      <div class="stat-block reveal" style="transition-delay:0.15s">
+        <span class="stat-num">4K</span>
+        <span class="stat-label">月間来客数</span>
+      </div>
+      <div class="stat-block reveal" style="transition-delay:0.2s">
+        <span class="stat-num">99%</span>
+        <span class="stat-label">バイブスコア</span>
+      </div>
+    </div>
+
+    <div class="bar-visual reveal" style="transition-delay:0.25s">
+      <div style="margin-bottom:3.5rem">
+        <span class="section-label">週間来客数 · 月〜日</span>
+        <div style="font-family:'Audiowide',cursive;font-size:0.85rem;color:var(--ink);margin-top:0.25rem">Crowd Pulse</div>
+      </div>
+      <div class="bar-visual-inner">
+        <div class="bar-col" style="height:35%;background:linear-gradient(to top,var(--green),rgba(57,255,20,0.3));box-shadow:0 0 10px var(--green)"><span class="bar-col-label">MON</span></div>
+        <div class="bar-col" style="height:50%;background:linear-gradient(to top,var(--green),rgba(57,255,20,0.3));box-shadow:0 0 10px var(--green)"><span class="bar-col-label">TUE</span></div>
+        <div class="bar-col" style="height:60%;background:linear-gradient(to top,var(--green),rgba(57,255,20,0.3));box-shadow:0 0 10px var(--green)"><span class="bar-col-label">WED</span></div>
+        <div class="bar-col" style="height:75%;background:linear-gradient(to top,var(--pink),rgba(255,43,214,0.3));box-shadow:0 0 10px var(--pink)"><span class="bar-col-label">THU</span></div>
+        <div class="bar-col" style="height:100%;background:linear-gradient(to top,var(--pink),rgba(255,43,214,0.3));box-shadow:0 0 14px var(--pink)"><span class="bar-col-label">FRI</span></div>
+        <div class="bar-col" style="height:95%;background:linear-gradient(to top,var(--pink),rgba(255,43,214,0.3));box-shadow:0 0 14px var(--pink)"><span class="bar-col-label">SAT</span></div>
+        <div class="bar-col" style="height:45%;background:linear-gradient(to top,var(--green),rgba(57,255,20,0.3));box-shadow:0 0 10px var(--green)"><span class="bar-col-label">SUN</span></div>
+      </div>
+      <p class="bar-caption">週末に火が点く — ネオンは決して消えない</p>
+    </div>
+
+    <!-- Manifesto strip -->
+    <div class="reveal" style="transition-delay:0.3s;margin-top:3.5rem;padding:2.5rem;border-radius:14px;background:var(--surface);border:1px solid rgba(57,255,20,0.15);text-align:center">
+      <blockquote style="font-family:'Audiowide',cursive;font-size:clamp(1rem,2.5vw,1.4rem);color:#fff;line-height:1.6;text-shadow:0 0 5px var(--green),0 0 15px var(--green)">
+        「偉大な夜はいつも、<br>ネオンが灯る瞬間から始まる。」
+      </blockquote>
+      <cite style="display:block;margin-top:1rem;font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);font-style:normal">
+        — Glowline Bar, Founder
+      </cite>
+    </div>
+  </div>
+</section>
+
+<!-- ④ CTA SECTION -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label" style="display:block;text-align:center">夜の世界へ</span>
+      <h2><span class="neon-pink">輝く</span>準備はできた？</h2>
+      <div class="cta-divider"></div>
+      <p>
+        ブースを予約して、ゲストリストに登録するか、日が落ちてネオンサインが輝きだしたら気軽に立ち寄ろう。光を求める者に、バーは常に開かれている。
+      </p>
+      <div class="cta-buttons">
+        <a href="#" class="btn">ブースを予約する</a>
+        <a href="#" class="btn btn-pink">ゲストリストに登録</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ FOOTER -->
+<footer>
+  <div class="footer-brand">GLOWLINE BAR</div>
+  <div class="footer-tags">
+    <span class="tag-pill green">Neon</span>
+    <span class="tag-pill pink">Glow</span>
+    <span class="tag-pill green">Night</span>
+    <span class="tag-pill pink">Vibrant</span>
+    <span class="tag-pill green">Electric</span>
+  </div>
+  <p class="footer-copy">&copy; 2026 Glowline Bar. All rights reserved. / 無断転載禁止。</p>
+</footer>
+
+<script>
+// Intersection Observer for reveal animations
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+revealEls.forEach(el => obs.observe(el));
+
+// Staggered bar animation on entry
+const barCols = document.querySelectorAll('.bar-col');
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const cols = entry.target.querySelectorAll('.bar-col');
+      const heights = [];
+      cols.forEach(c => {
+        heights.push(c.style.height);
+        c.style.height = '0%';
+      });
+      cols.forEach((c, i) => {
+        setTimeout(() => {
+          c.style.transition = 'height 0.6s cubic-bezier(0.34,1.56,0.64,1)';
+          c.style.height = heights[i];
+        }, i * 80 + 200);
+      });
+      barObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const barVisual = document.querySelector('.bar-visual-inner');
+if (barVisual) barObs.observe(barVisual.parentElement);
+</script>
+
+</body>
+</html>

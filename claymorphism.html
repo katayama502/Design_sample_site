@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squish UI — Claymorphism デザイン</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #EAE6FF;
+  --clay: #FFFFFF;
+  --purple: #7C6FF0;
+  --pink: #FF9AC1;
+  --ink: #3A3160;
+  --muted: #9189C0;
+  --extra: #FF9AC1;
+  --mint: #A8E6CF;
+  --yellow: #FFE4A0;
+  --peach: #FFBFA0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+}
+
+/* ── CLAY BASE ── */
+.clay {
+  background: var(--clay);
+  border-radius: 32px;
+  padding: 2rem;
+  box-shadow:
+    0 18px 40px rgba(124,111,240,.25),
+    inset 0 -8px 14px rgba(124,111,240,.12),
+    inset 0 8px 14px rgba(255,255,255,.9);
+}
+
+.clay--purple {
+  background: var(--purple);
+  color: #fff;
+  box-shadow:
+    0 18px 40px rgba(124,111,240,.4),
+    inset 0 -8px 14px rgba(60,45,150,.4),
+    inset 0 8px 14px rgba(255,255,255,.35);
+}
+
+.clay--pink {
+  background: var(--pink);
+  color: #fff;
+  box-shadow:
+    0 18px 40px rgba(255,154,193,.45),
+    inset 0 -8px 14px rgba(220,90,140,.35),
+    inset 0 8px 14px rgba(255,255,255,.4);
+}
+
+.clay--mint {
+  background: var(--mint);
+  color: var(--ink);
+  box-shadow:
+    0 18px 40px rgba(168,230,207,.5),
+    inset 0 -8px 14px rgba(80,180,130,.25),
+    inset 0 8px 14px rgba(255,255,255,.7);
+}
+
+.clay--yellow {
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow:
+    0 18px 40px rgba(255,228,160,.5),
+    inset 0 -8px 14px rgba(200,160,60,.2),
+    inset 0 8px 14px rgba(255,255,255,.75);
+}
+
+.clay--peach {
+  background: var(--peach);
+  color: var(--ink);
+  box-shadow:
+    0 18px 40px rgba(255,191,160,.5),
+    inset 0 -8px 14px rgba(200,120,80,.2),
+    inset 0 8px 14px rgba(255,255,255,.65);
+}
+
+/* ── BUTTON ── */
+.btn {
+  background: var(--pink);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: .95rem 2rem;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow:
+    0 12px 24px rgba(255,154,193,.45),
+    inset 0 -6px 10px rgba(220,90,140,.4),
+    inset 0 6px 10px rgba(255,255,255,.5);
+  transition: transform .18s, box-shadow .18s;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 20px 36px rgba(255,154,193,.55),
+    inset 0 -6px 10px rgba(220,90,140,.4),
+    inset 0 6px 10px rgba(255,255,255,.5);
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn--purple {
+  background: var(--purple);
+  box-shadow:
+    0 12px 24px rgba(124,111,240,.45),
+    inset 0 -6px 10px rgba(60,45,150,.4),
+    inset 0 6px 10px rgba(255,255,255,.35);
+}
+
+.btn--purple:hover {
+  box-shadow:
+    0 20px 36px rgba(124,111,240,.55),
+    inset 0 -6px 10px rgba(60,45,150,.4),
+    inset 0 6px 10px rgba(255,255,255,.35);
+}
+
+.btn--large {
+  padding: 1.15rem 2.6rem;
+  font-size: 1.15rem;
+  border-radius: 28px;
+}
+
+/* ── NAV BADGES ── */
+.corner-badge {
+  position: fixed;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 100;
+  background: var(--clay);
+  border-radius: 14px;
+  padding: .38rem .9rem;
+  font-family: 'Baloo 2', cursive;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--purple);
+  box-shadow:
+    0 6px 16px rgba(124,111,240,.2),
+    inset 0 -3px 6px rgba(124,111,240,.1),
+    inset 0 3px 6px rgba(255,255,255,.9);
+  letter-spacing: .04em;
+}
+
+.nav-back {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.4rem;
+  z-index: 100;
+  font-family: 'Nunito', sans-serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--clay);
+  border-radius: 14px;
+  padding: .38rem 1rem;
+  box-shadow:
+    0 6px 16px rgba(124,111,240,.2),
+    inset 0 -3px 6px rgba(124,111,240,.1),
+    inset 0 3px 6px rgba(255,255,255,.9);
+  transition: transform .15s;
+}
+
+.nav-back:hover { transform: translateY(-2px); }
+
+/* ── FADE-IN ANIMATION ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── SECTION LAYOUT ── */
+section { padding: 5rem 1.5rem; }
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════
+   ① HERO
+═══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.hero__bg-blob--1 {
+  width: 420px;
+  height: 420px;
+  background: rgba(124,111,240,.18);
+  top: -80px;
+  right: -60px;
+}
+
+.hero__bg-blob--2 {
+  width: 320px;
+  height: 320px;
+  background: rgba(255,154,193,.2);
+  bottom: 40px;
+  left: -80px;
+}
+
+.hero__bg-blob--3 {
+  width: 200px;
+  height: 200px;
+  background: rgba(168,230,207,.3);
+  top: 50%;
+  left: 55%;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1140px;
+  width: 100%;
+}
+
+.hero__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(124,111,240,.12);
+  border-radius: 20px;
+  padding: .35rem 1rem;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 1.2rem;
+}
+
+.hero__tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple);
+  box-shadow: 0 0 0 3px rgba(124,111,240,.25);
+}
+
+.hero__headline {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+
+.hero__headline span {
+  color: var(--purple);
+  display: inline-block;
+  position: relative;
+}
+
+.hero__sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 2rem;
+}
+
+.hero__cta-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero__label {
+  font-size: .85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Hero Visual */
+.hero__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero__card-stack {
+  position: relative;
+  width: 320px;
+  height: 380px;
+}
+
+.hero__card {
+  position: absolute;
+  width: 280px;
+  border-radius: 36px;
+  padding: 1.8rem;
+}
+
+.hero__card--back {
+  background: var(--purple);
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  height: 240px;
+  box-shadow:
+    0 24px 50px rgba(124,111,240,.4),
+    inset 0 -10px 18px rgba(60,45,150,.4),
+    inset 0 10px 18px rgba(255,255,255,.3);
+}
+
+.hero__card--mid {
+  background: var(--pink);
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(3deg);
+  height: 240px;
+  box-shadow:
+    0 24px 50px rgba(255,154,193,.45),
+    inset 0 -10px 18px rgba(220,90,140,.35),
+    inset 0 10px 18px rgba(255,255,255,.4);
+}
+
+.hero__card--front {
+  background: var(--clay);
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 280px;
+  box-shadow:
+    0 28px 56px rgba(124,111,240,.3),
+    inset 0 -10px 18px rgba(124,111,240,.12),
+    inset 0 10px 18px rgba(255,255,255,.95);
+}
+
+.hero__card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: var(--purple);
+  margin-bottom: 1.1rem;
+  box-shadow:
+    0 10px 20px rgba(124,111,240,.4),
+    inset 0 -5px 8px rgba(60,45,150,.4),
+    inset 0 5px 8px rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__card-icon svg { width: 24px; height: 24px; }
+
+.hero__card-title {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: .4rem;
+}
+
+.hero__card-sub {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hero__card-bar {
+  margin-top: 1rem;
+  height: 10px;
+  border-radius: 10px;
+  background: rgba(124,111,240,.12);
+  overflow: hidden;
+}
+
+.hero__card-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: var(--purple);
+  box-shadow: inset 0 -3px 5px rgba(60,45,150,.3), inset 0 3px 5px rgba(255,255,255,.35);
+  width: 72%;
+}
+
+.hero__card-row {
+  display: flex;
+  gap: .6rem;
+  margin-top: .9rem;
+}
+
+.hero__card-pill {
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(124,111,240,.1);
+  flex: 1;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.7), inset 0 -2px 4px rgba(124,111,240,.1);
+}
+
+/* Floating clay blobs around visual */
+.hero__blob {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.hero__blob--1 {
+  width: 64px;
+  height: 64px;
+  background: var(--mint);
+  top: 10px;
+  right: -10px;
+  box-shadow:
+    0 12px 24px rgba(168,230,207,.5),
+    inset 0 -5px 8px rgba(80,180,130,.2),
+    inset 0 5px 8px rgba(255,255,255,.7);
+  animation: floatA 4s ease-in-out infinite;
+}
+
+.hero__blob--2 {
+  width: 44px;
+  height: 44px;
+  background: var(--yellow);
+  bottom: 60px;
+  right: 10px;
+  box-shadow:
+    0 10px 20px rgba(255,228,160,.5),
+    inset 0 -4px 7px rgba(200,160,60,.2),
+    inset 0 4px 7px rgba(255,255,255,.75);
+  animation: floatB 3.5s ease-in-out infinite;
+}
+
+.hero__blob--3 {
+  width: 36px;
+  height: 36px;
+  background: var(--peach);
+  bottom: 20px;
+  left: 10px;
+  box-shadow:
+    0 8px 18px rgba(255,191,160,.5),
+    inset 0 -3px 6px rgba(200,120,80,.2),
+    inset 0 3px 6px rgba(255,255,255,.65);
+  animation: floatA 5s ease-in-out infinite;
+}
+
+@keyframes floatA {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes floatB {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* ═══════════════════════════════
+   ② FEATURES
+═══════════════════════════════ */
+.features { background: transparent; }
+
+.section-label {
+  display: inline-block;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--purple);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: rgba(124,111,240,.1);
+  border-radius: 12px;
+  padding: .3rem .85rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--ink);
+  margin-bottom: .8rem;
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.feature-card {
+  border-radius: 32px;
+  padding: 2rem;
+  transition: transform .22s;
+  cursor: default;
+}
+
+.feature-card:hover { transform: translateY(-6px) scale(1.01); }
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 20px;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-card__icon--purple {
+  background: var(--purple);
+  box-shadow:
+    0 10px 20px rgba(124,111,240,.4),
+    inset 0 -5px 8px rgba(60,45,150,.4),
+    inset 0 5px 8px rgba(255,255,255,.35);
+}
+
+.feature-card__icon--pink {
+  background: var(--pink);
+  box-shadow:
+    0 10px 20px rgba(255,154,193,.45),
+    inset 0 -5px 8px rgba(220,90,140,.35),
+    inset 0 5px 8px rgba(255,255,255,.5);
+}
+
+.feature-card__icon--mint {
+  background: var(--mint);
+  box-shadow:
+    0 10px 20px rgba(168,230,207,.5),
+    inset 0 -5px 8px rgba(80,180,130,.2),
+    inset 0 5px 8px rgba(255,255,255,.7);
+}
+
+.feature-card__title {
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: .6rem;
+}
+
+.feature-card__desc {
+  font-size: .92rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════
+   ③ SHOWCASE
+═══════════════════════════════ */
+.showcase { padding: 5rem 1.5rem; }
+
+.showcase__header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.showcase__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  border-radius: 28px;
+  padding: 1.8rem 1.4rem;
+  text-align: center;
+  transition: transform .2s;
+}
+
+.stat-card:hover { transform: translateY(-5px); }
+
+.stat-card__number {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: .3rem;
+}
+
+.stat-card__label {
+  font-size: .85rem;
+  font-weight: 600;
+  opacity: .75;
+}
+
+/* Mockup strip */
+.showcase__strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.mockup-panel {
+  border-radius: 32px;
+  padding: 2rem;
+  background: var(--clay);
+  box-shadow:
+    0 18px 40px rgba(124,111,240,.22),
+    inset 0 -8px 14px rgba(124,111,240,.1),
+    inset 0 8px 14px rgba(255,255,255,.9);
+}
+
+.mockup-panel__title {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 1.2rem;
+}
+
+/* Input fields */
+.clay-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: var(--bg);
+  border-radius: 18px;
+  padding: .85rem 1.1rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: .9rem;
+  color: var(--ink);
+  margin-bottom: .85rem;
+  box-shadow:
+    inset 0 4px 10px rgba(124,111,240,.12),
+    inset 0 -3px 6px rgba(255,255,255,.8),
+    0 2px 6px rgba(124,111,240,.06);
+  transition: box-shadow .2s;
+}
+
+.clay-input:focus {
+  box-shadow:
+    inset 0 4px 12px rgba(124,111,240,.2),
+    inset 0 -3px 6px rgba(255,255,255,.8),
+    0 0 0 3px rgba(124,111,240,.15);
+}
+
+.clay-input::placeholder { color: var(--muted); }
+
+/* Slider */
+.clay-slider-wrap { margin-bottom: 1rem; }
+
+.clay-slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: .5rem;
+}
+
+.clay-slider-track {
+  height: 12px;
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: inset 0 3px 6px rgba(124,111,240,.15), inset 0 -2px 4px rgba(255,255,255,.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.clay-slider-fill {
+  height: 100%;
+  border-radius: 12px;
+  background: var(--purple);
+  box-shadow: inset 0 -3px 5px rgba(60,45,150,.35), inset 0 3px 5px rgba(255,255,255,.35);
+}
+
+/* Toggle */
+.clay-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .85rem;
+}
+
+.clay-toggle-label-text {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.clay-toggle {
+  width: 52px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--purple);
+  box-shadow:
+    0 6px 14px rgba(124,111,240,.35),
+    inset 0 -4px 7px rgba(60,45,150,.35),
+    inset 0 4px 7px rgba(255,255,255,.3);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.clay-toggle::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background: #fff;
+  top: 3px;
+  right: 3px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+.clay-toggle--off {
+  background: rgba(145,137,192,.25);
+  box-shadow:
+    inset 0 4px 8px rgba(124,111,240,.12),
+    inset 0 -3px 6px rgba(255,255,255,.7);
+}
+
+.clay-toggle--off::after { right: auto; left: 3px; }
+
+/* Chips */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  border-radius: 14px;
+  padding: .3rem .85rem;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s;
+}
+
+.chip:hover { transform: scale(1.05); }
+
+.chip--active {
+  background: var(--purple);
+  color: #fff;
+  box-shadow:
+    0 6px 14px rgba(124,111,240,.4),
+    inset 0 -3px 6px rgba(60,45,150,.35),
+    inset 0 3px 6px rgba(255,255,255,.3);
+}
+
+.chip--idle {
+  background: var(--bg);
+  color: var(--muted);
+  box-shadow:
+    inset 0 3px 6px rgba(124,111,240,.1),
+    inset 0 -2px 4px rgba(255,255,255,.8);
+}
+
+/* Notification cards */
+.notif-card {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  border-radius: 20px;
+  padding: .9rem 1.1rem;
+  margin-bottom: .8rem;
+  background: var(--bg);
+  box-shadow:
+    0 6px 16px rgba(124,111,240,.1),
+    inset 0 -4px 8px rgba(124,111,240,.07),
+    inset 0 4px 8px rgba(255,255,255,.85);
+  transition: transform .15s;
+}
+
+.notif-card:hover { transform: translateX(4px); }
+
+.notif-card__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.notif-card__text {
+  font-size: .87rem;
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+}
+
+.notif-card__time {
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+/* ═══════════════════════════════
+   ④ CTA SECTION
+═══════════════════════════════ */
+.cta-section { padding: 5rem 1.5rem; }
+
+.cta-box {
+  border-radius: 48px;
+  padding: 4.5rem 3rem;
+  text-align: center;
+  background: var(--purple);
+  box-shadow:
+    0 30px 70px rgba(124,111,240,.45),
+    inset 0 -14px 24px rgba(60,45,150,.4),
+    inset 0 14px 24px rgba(255,255,255,.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box__blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.cta-box__blob--1 {
+  width: 300px;
+  height: 300px;
+  background: rgba(255,154,193,.3);
+  top: -100px;
+  right: -60px;
+}
+
+.cta-box__blob--2 {
+  width: 200px;
+  height: 200px;
+  background: rgba(168,230,207,.2);
+  bottom: -60px;
+  left: 5%;
+}
+
+.cta-box__title {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: #fff;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.cta-box__sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.75);
+  max-width: 480px;
+  margin: 0 auto 2.2rem;
+  line-height: 1.7;
+  position: relative;
+}
+
+.btn--white {
+  background: #fff;
+  color: var(--purple);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.15),
+    inset 0 -5px 9px rgba(124,111,240,.1),
+    inset 0 5px 9px rgba(255,255,255,.95);
+}
+
+.btn--white:hover {
+  box-shadow:
+    0 22px 40px rgba(0,0,0,.2),
+    inset 0 -5px 9px rgba(124,111,240,.1),
+    inset 0 5px 9px rgba(255,255,255,.95);
+}
+
+.cta-box__note {
+  margin-top: 1.1rem;
+  font-size: .82rem;
+  color: rgba(255,255,255,.55);
+  position: relative;
+}
+
+/* ═══════════════════════════════
+   ⑤ FOOTER
+═══════════════════════════════ */
+.footer {
+  padding: 2.5rem 1.5rem;
+  border-top: 2px solid rgba(124,111,240,.1);
+}
+
+.footer__inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer__brand {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.footer__tags {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.footer__tag {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: rgba(124,111,240,.1);
+  border-radius: 10px;
+  padding: .25rem .7rem;
+}
+
+.footer__copy {
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1200px) {
+  .showcase__stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .hero__sub { margin-left: auto; margin-right: auto; }
+  .hero__cta-row { justify-content: center; }
+
+  .features__grid { grid-template-columns: 1fr; }
+
+  .showcase__stats { grid-template-columns: repeat(2, 1fr); }
+  .showcase__strip { grid-template-columns: 1fr; }
+
+  .hero__card-stack { width: 280px; height: 320px; }
+  .hero__card { width: 240px; }
+
+  .cta-box { padding: 3rem 1.5rem; border-radius: 36px; }
+
+  .footer__inner { flex-direction: column; text-align: center; }
+
+  .corner-badge { font-size: .7rem; padding: .3rem .7rem; }
+  .nav-back { font-size: .78rem; padding: .3rem .8rem; }
+}
+
+@media (max-width: 480px) {
+  .showcase__stats { grid-template-columns: 1fr 1fr; gap: .8rem; }
+  .stat-card__number { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Corner badge -->
+<span class="corner-badge">Claymorphism</span>
+<a class="nav-back" href="./index.html">← Design Sight</a>
+
+<!-- ═══════════════════════════════
+     ① HERO
+═══════════════════════════════ -->
+<section class="hero">
+  <div class="hero__bg-blob hero__bg-blob--1"></div>
+  <div class="hero__bg-blob hero__bg-blob--2"></div>
+  <div class="hero__bg-blob hero__bg-blob--3"></div>
+
+  <div class="hero__inner">
+    <div class="hero__text reveal">
+      <div class="hero__tag">
+        <span class="hero__tag-dot"></span>
+        Squish UI 1.0 — ついに登場
+      </div>
+      <h1 class="hero__headline">
+        触れたくなる<br>
+        <span>デザインを。</span>
+      </h1>
+      <p class="hero__sub">
+        やわらかく成形された粘土から生まれた UI システム。ぷっくりと膨らんだ、手で触りたくなるコンポーネントが、インタラクションへと誘います。
+      </p>
+      <div class="hero__cta-row">
+        <button class="btn btn--large">今すぐ試す</button>
+        <button class="btn btn--purple btn--large">ドキュメントを見る</button>
+      </div>
+      <p class="hero__label" style="margin-top:1.2rem;">角ばった辺もなく、硬いグリッドもない。あるのは純粋な楽しさだけ。</p>
+    </div>
+
+    <div class="hero__visual reveal" style="transition-delay:.15s">
+      <div class="hero__card-stack">
+        <div class="hero__card hero__card--back"></div>
+        <div class="hero__card hero__card--mid"></div>
+        <div class="hero__card hero__card--front">
+          <div class="hero__card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="hero__card-title">Clay コンポーネントキット</div>
+          <div class="hero__card-sub">48種の成形可能なコンポーネント。角なし、個性は無限大。</div>
+          <div class="hero__card-bar">
+            <div class="hero__card-bar-fill"></div>
+          </div>
+          <div class="hero__card-row">
+            <div class="hero__card-pill"></div>
+            <div class="hero__card-pill" style="flex:.6"></div>
+            <div class="hero__card-pill" style="flex:.8"></div>
+          </div>
+        </div>
+        <div class="hero__blob hero__blob--1"></div>
+        <div class="hero__blob hero__blob--2"></div>
+        <div class="hero__blob hero__blob--3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     ② FEATURES
+═══════════════════════════════ -->
+<section class="features">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Squish UI の理由</span>
+      <h2 class="section-title">触れるために、作られた。</h2>
+      <p class="section-sub">すべてのコンポーネントは、ぷっくりと膨らんだ粘土を模した多層シャドウで彫刻されています。これは単なる UI ではなく、触覚的なデザインです。</p>
+    </div>
+    <div class="features__grid">
+      <div class="feature-card clay reveal" style="transition-delay:.05s">
+        <div class="feature-card__icon feature-card__icon--purple">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">はじめからぷっくり</h3>
+        <p class="feature-card__desc">すべてのシェイプは3層のbox-shadowで膨らみ、奥行きと弾力感をそのまま表現します。設定不要で即使えます。</p>
+      </div>
+
+      <div class="feature-card clay--pink reveal" style="transition-delay:.12s">
+        <div class="feature-card__icon" style="background:#fff;box-shadow:0 10px 20px rgba(255,154,193,.3),inset 0 -5px 8px rgba(220,90,140,.15),inset 0 5px 8px rgba(255,255,255,.9)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF9AC1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title" style="color:#fff">弾むインタラクション</h3>
+        <p class="feature-card__desc" style="color:rgba(255,255,255,.8)">ホバー時のスケール、クリック時の沈み込み、スプリングトランジションで、すべての操作が温かい粘土を押すような感触になります。</p>
+      </div>
+
+      <div class="feature-card clay--mint reveal" style="transition-delay:.2s">
+        <div class="feature-card__icon feature-card__icon--mint" style="background:rgba(255,255,255,.6);box-shadow:0 10px 20px rgba(168,230,207,.4),inset 0 -5px 8px rgba(80,180,130,.15),inset 0 5px 8px rgba(255,255,255,.9)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3A3160" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">パステルパレット</h3>
+        <p class="feature-card__desc">新鮮な粘土の色を思わせる、やわらかく彩度を落とした厳選カラー。親しみやすく、温かみがあり、自由に組み合わせられます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     ③ SHOWCASE
+═══════════════════════════════ -->
+<section class="showcase">
+  <div class="container">
+    <div class="showcase__header reveal">
+      <span class="section-label">実績で語る</span>
+      <h2 class="section-title">世界は粘土を愛している。</h2>
+      <p class="section-sub">Squish UI はすでに、人々が本当に使いたいと思うプロダクトを形作っています。</p>
+    </div>
+
+    <div class="showcase__stats">
+      <div class="stat-card clay--purple reveal" style="transition-delay:.05s">
+        <div class="stat-card__number" style="color:#fff">48</div>
+        <div class="stat-card__label" style="color:rgba(255,255,255,.8)">Clay コンポーネント</div>
+      </div>
+      <div class="stat-card clay--pink reveal" style="transition-delay:.1s">
+        <div class="stat-card__number" style="color:#fff">12k+</div>
+        <div class="stat-card__label" style="color:rgba(255,255,255,.8)">利用デザイナー数</div>
+      </div>
+      <div class="stat-card clay--mint reveal" style="transition-delay:.15s">
+        <div class="stat-card__number">4.9</div>
+        <div class="stat-card__label">平均評価</div>
+      </div>
+      <div class="stat-card clay--yellow reveal" style="transition-delay:.2s">
+        <div class="stat-card__number">0</div>
+        <div class="stat-card__label">使用された鋭角の数</div>
+      </div>
+    </div>
+
+    <div class="showcase__strip">
+      <!-- Left: Form mockup -->
+      <div class="mockup-panel reveal" style="transition-delay:.08s">
+        <div class="mockup-panel__title">コンポーネントプレビュー — フォーム</div>
+        <input class="clay-input" type="text" placeholder="お名前（やわらかく、ぷっくりと）">
+        <input class="clay-input" type="email" placeholder="hello@squishui.com">
+
+        <div class="clay-slider-wrap">
+          <div class="clay-slider-label"><span>やわらかさ</span><span>72%</span></div>
+          <div class="clay-slider-track"><div class="clay-slider-fill" style="width:72%"></div></div>
+        </div>
+        <div class="clay-slider-wrap">
+          <div class="clay-slider-label"><span>弾力感</span><span>45%</span></div>
+          <div class="clay-slider-track"><div class="clay-slider-fill" style="width:45%;background:var(--pink);box-shadow:inset 0 -3px 5px rgba(220,90,140,.35),inset 0 3px 5px rgba(255,255,255,.4)"></div></div>
+        </div>
+
+        <div style="margin-top:.5rem">
+          <div class="clay-toggle-row">
+            <span class="clay-toggle-label-text">Clay モード</span>
+            <div class="clay-toggle"></div>
+          </div>
+          <div class="clay-toggle-row">
+            <span class="clay-toggle-label-text">鋭角エッジ</span>
+            <div class="clay-toggle clay-toggle--off"></div>
+          </div>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip chip--active">Pastel</span>
+          <span class="chip chip--active">3D</span>
+          <span class="chip chip--idle">Flat</span>
+          <span class="chip chip--idle">Minimal</span>
+          <span class="chip chip--idle">Dark</span>
+        </div>
+      </div>
+
+      <!-- Right: Notification mockup -->
+      <div class="mockup-panel reveal" style="transition-delay:.18s">
+        <div class="mockup-panel__title">コンポーネントプレビュー — 通知</div>
+
+        <div class="notif-card">
+          <div class="notif-card__dot" style="background:var(--purple);box-shadow:0 0 0 3px rgba(124,111,240,.2)"></div>
+          <div class="notif-card__text">Clay キットの準備が整いました</div>
+          <div class="notif-card__time">今</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card__dot" style="background:var(--pink);box-shadow:0 0 0 3px rgba(255,154,193,.2)"></div>
+          <div class="notif-card__text">新しいコンポーネントが48種追加されました</div>
+          <div class="notif-card__time">2分前</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card__dot" style="background:var(--mint);box-shadow:0 0 0 3px rgba(168,230,207,.3)"></div>
+          <div class="notif-card__text">Hayato があなたの Clay デザインにいいねしました</div>
+          <div class="notif-card__time">5分前</div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-card__dot" style="background:var(--yellow);box-shadow:0 0 0 3px rgba(255,228,160,.4)"></div>
+          <div class="notif-card__text">アップデートあり — v1.2 はさらにぷっくり</div>
+          <div class="notif-card__time">1時間前</div>
+        </div>
+        <div class="notif-card" style="opacity:.5">
+          <div class="notif-card__dot" style="background:var(--muted)"></div>
+          <div class="notif-card__text">旧フラットデザインをアーカイブしました</div>
+          <div class="notif-card__time">3時間前</div>
+        </div>
+
+        <div style="margin-top:1.4rem;display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="btn" style="flex:1;text-align:center;padding:.75rem 1rem;font-size:.88rem">すべて既読にする</button>
+          <button class="btn btn--purple" style="flex:1;text-align:center;padding:.75rem 1rem;font-size:.88rem">設定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     ④ CTA SECTION
+═══════════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="cta-box__blob cta-box__blob--1"></div>
+      <div class="cta-box__blob cta-box__blob--2"></div>
+      <h2 class="cta-box__title">全力で Clay に飛び込む準備はできた？</h2>
+      <p class="cta-box__sub">
+        フラットで硬いインターフェースを手放した 12,000 人以上のデザイナーとともに、ユーザーが思わず触れたくなるぷっくりとしたコンポーネントの世界へ。
+      </p>
+      <button class="btn btn--white btn--large">Squish UI を無料で始める</button>
+      <p class="cta-box__note">個人プロジェクトは永久無料。クレジットカード不要。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     ⑤ FOOTER
+═══════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">Squish UI</span>
+    <div class="footer__tags">
+      <span class="footer__tag">Claymorphism</span>
+      <span class="footer__tag">Soft 3D</span>
+      <span class="footer__tag">Pastel</span>
+      <span class="footer__tag">Clay</span>
+    </div>
+    <span class="footer__copy">© 2026 Squish UI. すべてのぷっくりを保護します。</span>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for staggered reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

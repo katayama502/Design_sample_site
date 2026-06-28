@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyggehaus — Scandinavian Nordic Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Mulish:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg: #F5F1EB;
+  --card: #FFFFFF;
+  --sage: #A8B5A2;
+  --clay: #C9A98A;
+  --ink: #2E3330;
+  --muted: #8C8880;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Mulish', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 6px 24px rgba(46, 51, 48, 0.06);
+}
+
+.tag {
+  display: inline-block;
+  background: var(--sage);
+  color: #2E3330;
+  border-radius: 999px;
+  padding: 0.3rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn {
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s;
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: #444a45;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--clay);
+  border-radius: 12px;
+  padding: 0.8rem 1.9rem;
+  cursor: pointer;
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.25s, color 0.25s;
+}
+
+.btn-ghost:hover {
+  background: var(--clay);
+  color: var(--card);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(46, 51, 48, 0.1);
+  margin: 2.5rem 0;
+}
+
+/* NAV BAR */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 2rem;
+  background: rgba(245, 241, 235, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-badge {
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--card);
+  border: 1px solid rgba(46, 51, 48, 0.1);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+}
+
+.nav-back {
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s;
+}
+
+.nav-back:hover {
+  color: var(--ink);
+}
+
+.nav-back svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 2rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-bg-circle-1 {
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, rgba(168, 181, 162, 0.22) 0%, transparent 70%);
+  top: -80px;
+  right: -120px;
+}
+
+.hero-bg-circle-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 169, 138, 0.18) 0%, transparent 70%);
+  bottom: 40px;
+  left: -80px;
+}
+
+.hero-bg-circle-3 {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(168, 181, 162, 0.14) 0%, transparent 70%);
+  top: 200px;
+  left: 30%;
+}
+
+.hero-inner {
+  max-width: 820px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.8rem;
+}
+
+.hero-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clay);
+  display: inline-block;
+}
+
+.hero-eyebrow-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-visual {
+  margin-top: 5rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.hero-card-visual {
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(46, 51, 48, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hero-card-main {
+  width: 280px;
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-card-side {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.hero-card-small {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(46, 51, 48, 0.07);
+  padding: 1.2rem;
+  flex: 1;
+}
+
+.visual-block {
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.visual-block-tall {
+  height: 120px;
+  background: linear-gradient(135deg, rgba(168, 181, 162, 0.3), rgba(201, 169, 138, 0.25));
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block-tall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 18px,
+    rgba(168, 181, 162, 0.15) 18px,
+    rgba(168, 181, 162, 0.15) 19px
+  );
+}
+
+.visual-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.visual-value {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.visual-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.visual-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.visual-bar-track {
+  flex: 1;
+  height: 5px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.visual-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--sage);
+}
+
+.visual-swatch-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.visual-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+/* FEATURES */
+.features {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 0.75rem;
+}
+
+.section-header p {
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 2.2rem;
+  box-shadow: 0 6px 24px rgba(46, 51, 48, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage), var(--clay));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(46, 51, 48, 0.1);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+
+.feature-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* SHOWCASE */
+.showcase {
+  background: var(--ink);
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase-bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.06;
+}
+
+.showcase-bg-shape-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--sage);
+  top: -200px;
+  right: -100px;
+}
+
+.showcase-bg-shape-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--clay);
+  bottom: -100px;
+  left: 10%;
+}
+
+.showcase-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.showcase-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.showcase-text h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--bg);
+  margin-bottom: 1.2rem;
+  line-height: 1.15;
+}
+
+.showcase-text h2 em {
+  font-style: italic;
+  color: var(--clay);
+}
+
+.showcase-text p {
+  color: rgba(245, 241, 235, 0.6);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 420px;
+}
+
+.showcase-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.6rem;
+  transition: background 0.3s;
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stat-number {
+  font-family: 'Fraunces', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--bg);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-number span {
+  color: var(--clay);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: rgba(245, 241, 235, 0.5);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.showcase-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-block {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-block-tall {
+  height: 220px;
+  background: linear-gradient(135deg, rgba(168, 181, 162, 0.25) 0%, rgba(201, 169, 138, 0.2) 100%);
+  border-radius: 16px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.4rem;
+}
+
+.gallery-block-medium {
+  height: 220px;
+  border-radius: 16px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.2rem;
+  overflow: hidden;
+}
+
+.gallery-block-medium:nth-child(1) {
+  background: linear-gradient(135deg, rgba(201, 169, 138, 0.3) 0%, rgba(168, 181, 162, 0.2) 100%);
+}
+
+.gallery-block-medium:nth-child(2) {
+  background: linear-gradient(135deg, rgba(168, 181, 162, 0.2) 0%, rgba(201, 169, 138, 0.3) 100%);
+}
+
+.gallery-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+}
+
+.gallery-caption {
+  position: relative;
+  z-index: 2;
+}
+
+.gallery-caption-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  color: var(--bg);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.gallery-caption-sub {
+  font-size: 0.72rem;
+  color: rgba(245, 241, 235, 0.65);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* MANIFESTO strip */
+.manifesto {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.manifesto-inner {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.manifesto-quote {
+  flex: 1;
+}
+
+.manifesto-quote blockquote {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.manifesto-quote cite {
+  display: block;
+  margin-top: 1.2rem;
+  font-family: 'Mulish', sans-serif;
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.manifesto-side {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.principle-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(46, 51, 48, 0.05);
+  min-width: 240px;
+  transition: transform 0.25s;
+}
+
+.principle-item:hover {
+  transform: translateX(4px);
+}
+
+.principle-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.principle-text {
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* CTA SECTION */
+.cta-section {
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cta-card {
+  background: var(--card);
+  border-radius: 28px;
+  padding: 4rem 3rem;
+  box-shadow: 0 12px 48px rgba(46, 51, 48, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 181, 162, 0.2), transparent 70%);
+  pointer-events: none;
+}
+
+.cta-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 169, 138, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.cta-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-line {
+  width: 32px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.cta-eyebrow-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+
+.cta-card h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 1rem;
+  line-height: 1.15;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-card p {
+  color: var(--muted);
+  margin-bottom: 2.2rem;
+  font-weight: 300;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-note {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+}
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  padding: 3.5rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-brand {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--bg);
+}
+
+.footer-brand span {
+  color: var(--clay);
+}
+
+.footer-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(245, 241, 235, 0.6);
+  border-radius: 999px;
+  padding: 0.25rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(245, 241, 235, 0.35);
+  font-weight: 400;
+}
+
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up-d1 { transition-delay: 0.1s; }
+.fade-up-d2 { transition-delay: 0.2s; }
+.fade-up-d3 { transition-delay: 0.3s; }
+.fade-up-d4 { transition-delay: 0.4s; }
+.fade-up-d5 { transition-delay: 0.5s; }
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showcase-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .showcase-gallery .gallery-item:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-bar {
+    padding: 0.9rem 1.2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-top {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .showcase-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .showcase-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-gallery .gallery-item:last-child {
+    display: block;
+  }
+
+  .manifesto-inner {
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .principle-item {
+    min-width: unset;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .cta-card {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <span class="nav-badge">Scandinavian Nordic</span>
+  <a href="./index.html" class="nav-back">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Design Sight
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle hero-bg-circle-1"></div>
+  <div class="hero-bg-circle hero-bg-circle-2"></div>
+  <div class="hero-bg-circle hero-bg-circle-3"></div>
+
+  <div style="width:100%; max-width:1200px; margin:0 auto;">
+    <div class="hero-inner fade-up">
+      <div class="hero-eyebrow">
+        <span class="hero-dot"></span>
+        <span class="hero-eyebrow-text">Slow living · 温もりのシンプルさ</span>
+        <span class="hero-dot"></span>
+      </div>
+
+      <h1><em>静けさ</em>が、<br>暮らしかたになる</h1>
+
+      <p class="hero-sub">Hyggehausは、スカンジナビアの温かみを日々の生活へ。丁寧につくられたプロダクトが、空間に静かな喜びをもたらします。</p>
+
+      <div class="hero-cta">
+        <a href="#" class="btn">コレクションを見る</a>
+        <a href="#" class="btn-ghost">私たちのストーリー</a>
+      </div>
+    </div>
+
+    <!-- Hero Visual -->
+    <div class="hero-visual fade-up fade-up-d3">
+      <!-- Main card -->
+      <div class="hero-card-visual hero-card-main">
+        <div class="visual-block-tall"></div>
+        <div>
+          <div class="visual-label">コレクションテーマ</div>
+          <div class="visual-value">Natural Living</div>
+        </div>
+        <div class="visual-bar-row">
+          <div class="visual-bar-item">
+            <span style="width:48px; flex-shrink:0;">Calm</span>
+            <div class="visual-bar-track"><div class="visual-bar-fill" style="width:92%"></div></div>
+          </div>
+          <div class="visual-bar-item">
+            <span style="width:48px; flex-shrink:0;">Form</span>
+            <div class="visual-bar-track"><div class="visual-bar-fill" style="width:80%;background:var(--clay)"></div></div>
+          </div>
+          <div class="visual-bar-item">
+            <span style="width:48px; flex-shrink:0;">Cozy</span>
+            <div class="visual-bar-track"><div class="visual-bar-fill" style="width:88%;background:var(--muted)"></div></div>
+          </div>
+        </div>
+        <div class="visual-swatch-row">
+          <div class="visual-swatch" style="background:#F5F1EB; border:1px solid rgba(46,51,48,0.1)"></div>
+          <div class="visual-swatch" style="background:#A8B5A2"></div>
+          <div class="visual-swatch" style="background:#C9A98A"></div>
+          <div class="visual-swatch" style="background:#2E3330"></div>
+          <div class="visual-swatch" style="background:#8C8880"></div>
+        </div>
+      </div>
+
+      <!-- Side cards -->
+      <div class="hero-card-side">
+        <div class="hero-card-small">
+          <div class="visual-label">製作アイテム数</div>
+          <div class="visual-value">1,240</div>
+          <div style="margin-top:0.6rem; height:40px; background:linear-gradient(90deg, rgba(168,181,162,0.25), rgba(201,169,138,0.2)); border-radius:8px;"></div>
+        </div>
+        <div class="hero-card-small">
+          <div class="visual-label">顧客満足度</div>
+          <div class="visual-value">98<span style="font-size:1rem; color:var(--clay)">%</span></div>
+          <div style="margin-top:0.6rem; display:flex; gap:3px;">
+            <div style="flex:9.8; height:5px; background:var(--sage); border-radius:999px;"></div>
+            <div style="flex:0.2; height:5px; background:var(--bg); border-radius:999px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-header fade-up">
+    <span class="tag" style="margin-bottom:1rem;">Why Hyggehaus</span>
+    <h2>本当の暮らしのために<br>デザインされたもの</h2>
+    <p>すべてのプロダクトはひとつの信念のもとに生まれます。美しいものは、暮らしを少し豊かにしてくれるはずだ、という信念です。</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card fade-up fade-up-d1">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-linecap="round"/>
+          <path d="M8 12h8M12 8v8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="tag" style="margin-bottom:1rem; font-size:0.72rem;">Natural Materials</span>
+      <h3>素材の誠実さ</h3>
+      <p>持続可能な方法で調達した木材・リネン・ウールを使用。手に触れたときの温もりと、背景にある物語が、素材そのものの価値を伝えます。</p>
+    </div>
+
+    <div class="feature-card fade-up fade-up-d2">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="7" height="7" rx="2"/>
+          <rect x="14" y="3" width="7" height="7" rx="2"/>
+          <rect x="3" y="14" width="7" height="7" rx="2"/>
+          <rect x="14" y="14" width="7" height="7" rx="2"/>
+        </svg>
+      </div>
+      <span class="tag" style="margin-bottom:1rem; font-size:0.72rem; background:rgba(201,169,138,0.3);">Functional Form</span>
+      <h3>意図あるシンプルさ</h3>
+      <p>Nordic デザインは余分なものを削ぎ落とし、本質を輝かせます。すべての曲線・継手・プロポーションは、形になる前に丁寧に検討されています。</p>
+    </div>
+
+    <div class="feature-card fade-up fade-up-d3">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="tag" style="margin-bottom:1rem; font-size:0.72rem; background:rgba(140,136,128,0.18);">Hygge Spirit</span>
+      <h3>残り続ける温かさ</h3>
+      <p>Hygge はトレンドではなく、感覚です。人が集い、キャンドルの光を受け、時代を超えて愛され続けるものをつくっています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="showcase">
+  <div class="showcase-bg-shape showcase-bg-shape-1"></div>
+  <div class="showcase-bg-shape showcase-bg-shape-2"></div>
+
+  <div class="showcase-inner">
+    <div class="showcase-top">
+      <div class="showcase-text fade-up">
+        <h2>数字が語る、<br><em>正直な</em>ものづくり</h2>
+        <p>私たちが大切にするのは量ではなく、どれだけ多くの人に「手放したくない一品」と思ってもらえたか、です。</p>
+      </div>
+
+      <div class="showcase-stats fade-up fade-up-d2">
+        <div class="stat-card">
+          <div class="stat-number">12<span>k</span></div>
+          <div class="stat-label">納入した家庭数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">98<span>%</span></div>
+          <div class="stat-label">ずっと使い続ける</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">7</div>
+          <div class="stat-label">素材の調達国数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">0<span>%</span></div>
+          <div class="stat-label">使い捨て家具</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-gallery fade-up fade-up-d2">
+      <div class="gallery-item">
+        <div class="gallery-block-tall">
+          <svg class="gallery-pattern" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                <circle cx="20" cy="20" r="1.5" fill="rgba(168,181,162,0.8)"/>
+              </pattern>
+            </defs>
+            <rect width="400" height="220" fill="url(#p1)"/>
+          </svg>
+          <div class="gallery-caption">
+            <div class="gallery-caption-title">The Stillroom Series</div>
+            <div class="gallery-caption-sub">Oak · Linen · Beeswax</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-block-medium" style="background: linear-gradient(135deg, rgba(201,169,138,0.35), rgba(168,181,162,0.25));">
+          <svg class="gallery-pattern" viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p2" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="15" x2="30" y2="15" stroke="rgba(201,169,138,0.6)" stroke-width="0.8"/>
+              </pattern>
+            </defs>
+            <rect width="180" height="220" fill="url(#p2)"/>
+          </svg>
+          <div class="gallery-caption">
+            <div class="gallery-caption-title">Morgen Bowl</div>
+            <div class="gallery-caption-sub">Turned Birch</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-block-medium" style="background: linear-gradient(135deg, rgba(168,181,162,0.25), rgba(201,169,138,0.35));">
+          <svg class="gallery-pattern" viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p3" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M0 0 L20 20 M-5 15 L5 25 M15 -5 L25 5" stroke="rgba(168,181,162,0.5)" stroke-width="0.8"/>
+              </pattern>
+            </defs>
+            <rect width="180" height="220" fill="url(#p3)"/>
+          </svg>
+          <div class="gallery-caption">
+            <div class="gallery-caption-title">Kveld Candle</div>
+            <div class="gallery-caption-sub">Soy · Cedarwood</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <div class="manifesto-quote fade-up">
+      <div class="tag" style="margin-bottom:1.5rem;">私たちの哲学</div>
+      <blockquote>
+        「最も美しい部屋とは、スマートフォンを手に取ることを忘れてしまう場所。光は柔らかく、空気には木の香りと温もりが漂っている。」
+      </blockquote>
+      <cite>— The Hyggehaus Manifesto, 2019</cite>
+    </div>
+
+    <div class="manifesto-side fade-up fade-up-d2">
+      <div class="principle-item">
+        <div class="principle-dot" style="background:var(--sage)"></div>
+        <span class="principle-text">少なく、でも丁寧に</span>
+      </div>
+      <div class="principle-item">
+        <div class="principle-dot" style="background:var(--clay)"></div>
+        <span class="principle-text">人工より自然を</span>
+      </div>
+      <div class="principle-item">
+        <div class="principle-dot" style="background:var(--muted)"></div>
+        <span class="principle-text">装飾より機能を</span>
+      </div>
+      <div class="principle-item">
+        <div class="principle-dot" style="background:var(--ink)"></div>
+        <span class="principle-text">持ち続けられるものを</span>
+      </div>
+      <div class="principle-item">
+        <div class="principle-dot" style="background:var(--sage)"></div>
+        <span class="principle-text">細部にまで温もりを</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px; margin:0 auto 0;"></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner fade-up">
+    <div class="cta-card">
+      <div class="cta-eyebrow">
+        <div class="cta-line"></div>
+        <span class="cta-eyebrow-text">はじめの一歩</span>
+        <div class="cta-line"></div>
+      </div>
+
+      <h2>Nordic の静けさを、<br>あなたの家へ</h2>
+
+      <p>すべての商品はリサイクル紙で梱包され、手書きのメッセージカードを同封してお届けします。届く瞬間まで、体験の一部だと考えているからです。</p>
+
+      <div class="cta-buttons">
+        <a href="#" class="btn">コレクションを購入する</a>
+        <a href="#" class="btn-ghost">ジャーナルを読む</a>
+      </div>
+
+      <p class="cta-note">80 EUR 以上のご注文は送料無料 · 木製品全品に生涯保証</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Hygge<span>haus</span></div>
+
+    <div class="footer-tags">
+      <span class="footer-tag">Scandinavian</span>
+      <span class="footer-tag">Nordic</span>
+      <span class="footer-tag">Hygge</span>
+      <span class="footer-tag">Calm</span>
+    </div>
+
+    <div class="footer-copy">© 2026 Hyggehaus. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Animate hero immediately
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-up').forEach(el => {
+      el.classList.add('visible');
+    });
+  }, 120);
+</script>
+</body>
+</html>

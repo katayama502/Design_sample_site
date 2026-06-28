@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONCRETE.OS — Brutalism Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --ink: #000;
+  --paper: #FFF;
+  --loud: #FF3B00;
+  --muted: #555555;
+  --surface: #FFFFFF;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: .95;
+  letter-spacing: -.02em;
+}
+
+.box {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  padding: 1.75rem;
+}
+
+.box--loud {
+  background: var(--loud);
+  color: #fff;
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.btn {
+  display: inline-block;
+  background: var(--loud);
+  color: #fff;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: .85rem 1.6rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .08s, box-shadow .08s;
+  text-decoration: none;
+  font-size: 1rem;
+  letter-spacing: .05em;
+}
+
+.btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 var(--ink);
+  background: var(--loud);
+  color: #fff;
+}
+
+.btn:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn--ghost {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.tag {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: .25rem .6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: .7rem;
+  font-family: 'Space Mono', monospace;
+}
+
+.tag--loud {
+  background: var(--loud);
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+  transition: background .08s, color .08s;
+}
+
+a:hover {
+  background: var(--loud);
+  color: #fff;
+}
+
+/* NAV BAR */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1.5rem;
+  background: var(--paper);
+  border-bottom: 3px solid var(--ink);
+}
+
+.nav-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  padding: .3rem .6rem;
+  letter-spacing: .1em;
+}
+
+.nav-back {
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border: 2px solid var(--ink);
+  padding: .3rem .7rem;
+  transition: background .08s, color .08s, transform .08s, box-shadow .08s;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.nav-back:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding: 8rem 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--ink);
+}
+
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-grid-lines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ink) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: .04;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.hero-eyebrow-line {
+  height: 3px;
+  width: 48px;
+  background: var(--loud);
+}
+
+.hero-eyebrow-text {
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--muted);
+}
+
+.hero-headline {
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: .88;
+  letter-spacing: -.04em;
+  position: relative;
+}
+
+.hero-headline span {
+  display: block;
+}
+
+.hero-headline .accent-word {
+  color: var(--loud);
+  position: relative;
+  display: inline-block;
+}
+
+.hero-headline .accent-word::after {
+  content: '';
+  position: absolute;
+  bottom: .05em;
+  left: 0;
+  right: 0;
+  height: .06em;
+  background: var(--loud);
+}
+
+.hero-sub-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.hero-subheadline {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(.9rem, 1.8vw, 1.15rem);
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.hero-stamp {
+  position: absolute;
+  right: 2rem;
+  bottom: 3rem;
+  width: 140px;
+  height: 140px;
+  border: 4px solid var(--loud);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(-12deg);
+  color: var(--loud);
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: .7rem;
+  letter-spacing: .15em;
+  padding: .5rem;
+}
+
+.hero-stamp-inner {
+  font-size: 1.8rem;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.hero-number-strip {
+  display: flex;
+  gap: 0;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  margin-top: 3rem;
+}
+
+.hero-number-item {
+  flex: 1;
+  padding: 1.25rem 1rem;
+  border-right: 3px solid var(--ink);
+  text-align: center;
+}
+
+.hero-number-item:last-child {
+  border-right: none;
+}
+
+.hero-number-value {
+  font-family: 'Archivo', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.hero-number-value.loud {
+  color: var(--loud);
+}
+
+.hero-number-label {
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-top: .25rem;
+}
+
+/* FEATURES */
+.features {
+  padding: 6rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  border-bottom: 3px solid var(--ink);
+  padding-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--loud);
+  margin-bottom: .5rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.section-number {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(4rem, 8vw, 6rem);
+  color: var(--ink);
+  opacity: .06;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  padding: 2rem;
+  transition: transform .08s, box-shadow .08s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.feature-card:nth-child(2) {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 8px 8px 0 var(--loud);
+}
+
+.feature-card:nth-child(2):hover {
+  box-shadow: 4px 4px 0 var(--loud);
+}
+
+.feature-card:nth-child(2) .feature-title {
+  color: var(--paper);
+}
+
+.feature-card:nth-child(2) .feature-desc {
+  color: rgba(255,255,255,.65);
+}
+
+.feature-card:nth-child(2) .feature-icon-shape {
+  border-color: var(--loud);
+  background: var(--loud);
+}
+
+.feature-number {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--loud);
+  opacity: .15;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  letter-spacing: -.05em;
+  pointer-events: none;
+}
+
+.feature-card:nth-child(2) .feature-number {
+  color: var(--loud);
+  opacity: .3;
+}
+
+.feature-icon {
+  margin-bottom: 1.5rem;
+}
+
+.feature-icon-shape {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--ink);
+  background: var(--loud);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-shape svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: square;
+}
+
+.feature-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  margin-bottom: .75rem;
+  color: var(--ink);
+}
+
+.feature-desc {
+  font-size: .85rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* SHOWCASE */
+.showcase {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 6rem 1.5rem;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+
+.showcase::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--loud);
+}
+
+.showcase-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.showcase-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--loud);
+  margin-bottom: 1rem;
+}
+
+.showcase-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: var(--paper);
+  margin-bottom: 3rem;
+}
+
+.showcase-title em {
+  font-style: normal;
+  color: var(--loud);
+}
+
+.manifesto-blocks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.1);
+  margin-bottom: 4rem;
+}
+
+.manifesto-item {
+  padding: 2rem 2rem;
+  background: var(--ink);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  transition: background .1s;
+}
+
+.manifesto-item:last-child {
+  border-bottom: none;
+}
+
+.manifesto-item:hover {
+  background: #111;
+}
+
+.manifesto-item-num {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--loud);
+  line-height: 1;
+  min-width: 60px;
+}
+
+.manifesto-item-text h3 {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--paper);
+  margin-bottom: .5rem;
+}
+
+.manifesto-item-text p {
+  font-size: .8rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.7;
+}
+
+.showcase-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.1);
+}
+
+.showcase-stat {
+  background: var(--ink);
+  padding: 2rem 1.5rem;
+  border: 1px solid rgba(255,255,255,.1);
+  position: relative;
+}
+
+.showcase-stat:nth-child(odd) {
+  border-left: 4px solid var(--loud);
+}
+
+.showcase-stat-value {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--paper);
+}
+
+.showcase-stat-unit {
+  color: var(--loud);
+}
+
+.showcase-stat-label {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  color: rgba(255,255,255,.45);
+  margin-top: .5rem;
+}
+
+/* CTA */
+.cta-section {
+  padding: 6rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cta-box {
+  background: var(--loud);
+  border: 3px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink);
+  padding: 3rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::after {
+  content: 'CONCRETE.OS';
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 5rem;
+  color: rgba(0,0,0,.08);
+  white-space: nowrap;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
+.cta-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.7);
+  margin-bottom: .75rem;
+}
+
+.cta-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.cta-subtitle {
+  font-size: .9rem;
+  color: rgba(255,255,255,.8);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn--white {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn--white:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn--outline-white {
+  background: transparent;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.3);
+}
+
+.btn--outline-white:hover {
+  background: #fff;
+  color: var(--loud);
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 rgba(0,0,0,.3);
+}
+
+.cta-fine-print {
+  font-size: .7rem;
+  color: rgba(255,255,255,.55);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  align-self: center;
+}
+
+/* FOOTER */
+.footer {
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 3px solid var(--ink);
+  padding: 3rem 1.5rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  margin-bottom: 2rem;
+}
+
+.footer-brand {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: var(--paper);
+}
+
+.footer-brand span {
+  color: var(--loud);
+}
+
+.footer-tagline {
+  font-size: .75rem;
+  color: rgba(255,255,255,.45);
+  margin-top: .5rem;
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-self: flex-end;
+}
+
+.footer-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: .3rem .65rem;
+  border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.5);
+}
+
+.footer-tag.active {
+  border-color: var(--loud);
+  color: var(--loud);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-size: .7rem;
+  color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  font-size: .7rem;
+  color: rgba(255,255,255,.4);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  transition: color .1s;
+}
+
+.footer-links a:hover {
+  color: var(--loud);
+  background: transparent;
+}
+
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up-delay-1 { transition-delay: .1s; }
+.fade-up-delay-2 { transition-delay: .2s; }
+.fade-up-delay-3 { transition-delay: .3s; }
+.fade-up-delay-4 { transition-delay: .4s; }
+.fade-up-delay-5 { transition-delay: .5s; }
+
+/* TICKER */
+.ticker-wrap {
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  background: var(--loud);
+  overflow: hidden;
+  padding: .75rem 0;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 0;
+  animation: ticker 20s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: .1em;
+  flex-shrink: 0;
+}
+
+.ticker-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255,255,255,.6);
+  flex-shrink: 0;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .hero-sub-row {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .manifesto-blocks {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .cta-box {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .cta-content {
+    grid-column: 1 / -1;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-content {
+    gap: 1.5rem;
+  }
+
+  .hero-number-strip {
+    margin-top: 4rem;
+  }
+
+  .manifesto-item {
+    padding: 2rem 3rem;
+  }
+
+  .cta-box {
+    padding: 4rem 3.5rem;
+  }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-badge">Brutalism</span>
+  <a href="./index.html" class="nav-back">← Design Sight</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="fade-up">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">オペレーティングシステム / v4.0.1</span>
+      </div>
+      <h1 class="hero-headline">
+        <span>CON</span>
+        <span class="accent-word">CRETE</span>
+        <span>.OS</span>
+      </h1>
+    </div>
+    <div class="hero-sub-row fade-up fade-up-delay-2">
+      <p class="hero-subheadline">
+        生の構造。装飾ゼロ。剥き出しの誠実さを原則に構築されたオペレーティングシステム。継ぎ目はすべて露出し、ボルトはすべて見え、システムはすべて説明責任を果たす。
+      </p>
+      <div class="hero-cta-group">
+        <a href="#cta" class="btn">アクセスを取得</a>
+        <a href="#features" class="btn btn--ghost">詳細を見る</a>
+      </div>
+    </div>
+    <div class="hero-number-strip fade-up fade-up-delay-3">
+      <div class="hero-number-item">
+        <div class="hero-number-value loud">100%</div>
+        <div class="hero-number-label">透明性</div>
+      </div>
+      <div class="hero-number-item">
+        <div class="hero-number-value">0</div>
+        <div class="hero-number-label">隠しレイヤー</div>
+      </div>
+      <div class="hero-number-item">
+        <div class="hero-number-value">∞</div>
+        <div class="hero-number-label">生のパワー</div>
+      </div>
+      <div class="hero-number-item">
+        <div class="hero-number-value loud">NOW</div>
+        <div class="hero-number-label">遅延なし</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stamp">
+    <span class="hero-stamp-inner">BETA</span>
+    <span style="margin-top:.4rem">オープン</span>
+    <span>アクセス</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-dot"></span>CONCRETE.OS</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>剥き出しの誠実さ</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>NO SOFTENING</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>RAW BY DESIGN</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>装飾ゼロ</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>構造をさらけ出す</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>CONCRETE.OS</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>剥き出しの誠実さ</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>NO SOFTENING</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>RAW BY DESIGN</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>装飾ゼロ</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>構造をさらけ出す</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+  <div class="section-header">
+    <div>
+      <div class="section-label">02 / 機能</div>
+      <h2 class="section-title">異なる設計。<br>見える設計。</h2>
+    </div>
+    <div class="section-number" aria-hidden="true">02</div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card fade-up">
+      <div class="feature-number" aria-hidden="true">01</div>
+      <div class="feature-icon">
+        <div class="feature-icon-shape">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </div>
+      </div>
+      <h3 class="feature-title">オープンアーキテクチャ</h3>
+      <p class="feature-desc">すべてのシステムコンポーネントは完全に公開され、監査可能です。隠しプロセスなし、バックグラウンドノイズなし。何が動いていてなぜ動いているかを正確に把握できます。</p>
+    </div>
+    <div class="feature-card fade-up fade-up-delay-1">
+      <div class="feature-number" aria-hidden="true">02</div>
+      <div class="feature-icon">
+        <div class="feature-icon-shape">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="9" y1="21" x2="9" y2="9"></line>
+          </svg>
+        </div>
+      </div>
+      <h3 class="feature-title">グリッドファーストレイアウト</h3>
+      <p class="feature-desc">構造がフォームを支配します。厳格で妥協のないグリッドシステムが、すべての要素を意図的で誠実な空間に配置します。装飾のための空間は存在しません。</p>
+    </div>
+    <div class="feature-card fade-up fade-up-delay-2">
+      <div class="feature-number" aria-hidden="true">03</div>
+      <div class="feature-icon">
+        <div class="feature-icon-shape">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="12 2 22 20 2 20"></polygon>
+          </svg>
+        </div>
+      </div>
+      <h3 class="feature-title">ゼロトレランスセキュリティ</h3>
+      <p class="feature-desc">パーミッションは二値です。アクセスは宣言され、前提とされません。セキュリティモデルは、それが守るインターフェースと同様に、率直で読解可能です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="showcase">
+  <div class="showcase-inner">
+    <div class="showcase-label fade-up">03 / マニフェスト</div>
+    <h2 class="showcase-title fade-up fade-up-delay-1">私たちは<br><em>偽ることを</em>拒否する。</h2>
+
+    <div class="manifesto-blocks">
+      <div class="manifesto-item fade-up">
+        <div class="manifesto-item-num">01</div>
+        <div class="manifesto-item-text">
+          <h3>快適さより誠実さ</h3>
+          <p>ソフトウェアは、あなたを安心させるものではなく、その本質を見せるべきです。複雑さを隠すことは欺瞞の一形態です。私たちはそれを完全に拒否します。</p>
+        </div>
+      </div>
+      <div class="manifesto-item fade-up fade-up-delay-1">
+        <div class="manifesto-item-num">02</div>
+        <div class="manifesto-item-text">
+          <h3>構造こそが美学</h3>
+          <p>グリッド、ボーダー、生のタイポグラフィ——これらは制約ではありません。これらがプロダクトそのものです。機能しかないから、フォームは機能に従います。</p>
+        </div>
+      </div>
+      <div class="manifesto-item fade-up fade-up-delay-2">
+        <div class="manifesto-item-num">03</div>
+        <div class="manifesto-item-text">
+          <h3>重さは意味を持つ</h3>
+          <p>すべてのシャドウはコミットメントです。すべての太いボーダーはステートメントです。装飾的な柔らかさは、私たちが語ることを拒む嘘です。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-stats">
+      <div class="showcase-stat fade-up">
+        <div class="showcase-stat-value">12<span class="showcase-stat-unit">ms</span></div>
+        <div class="showcase-stat-label">起動時間</div>
+      </div>
+      <div class="showcase-stat fade-up fade-up-delay-1">
+        <div class="showcase-stat-value">0<span class="showcase-stat-unit">px</span></div>
+        <div class="showcase-stat-label">ブラー半径</div>
+      </div>
+      <div class="showcase-stat fade-up fade-up-delay-2">
+        <div class="showcase-stat-value">3<span class="showcase-stat-unit">px</span></div>
+        <div class="showcase-stat-label">ボーダーの太さ</div>
+      </div>
+      <div class="showcase-stat fade-up fade-up-delay-3">
+        <div class="showcase-stat-value">1<span class="showcase-stat-unit">clr</span></div>
+        <div class="showcase-stat-label">使用アクセントカラー</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <div class="cta-box fade-up">
+    <div class="cta-content">
+      <div class="cta-label">04 / はじめる</div>
+      <h2 class="cta-title">隠すのをやめて、<br>構築をはじめる。</h2>
+      <p class="cta-subtitle">
+        CONCRETE.OS はオープンベータ公開中です。ウェイトリストなし。マーケティングの建前なし。ダウンロードして、インストールして、あなたのシステムと直接向き合ってください。
+      </p>
+    </div>
+    <div class="cta-actions">
+      <a href="#" class="btn btn--white">ベータ版をダウンロード</a>
+      <a href="#" class="btn btn--outline-white">ドキュメントを読む</a>
+      <span class="cta-fine-print">ベータ期間中は無料 &mdash; カード不要</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">CONCRETE<span>.</span>OS</div>
+        <p class="footer-tagline">剥き出しの誠実さの上に構築されたオペレーティングシステム。柔らかさなし。見せかけなし。ただ生の、読解可能な構造だけ。</p>
+      </div>
+      <div class="footer-tags">
+        <span class="footer-tag active">Brutalism</span>
+        <span class="footer-tag active">Bold</span>
+        <span class="footer-tag active">Raw</span>
+        <span class="footer-tag active">High Contrast</span>
+        <span class="footer-tag">オープンソース</span>
+        <span class="footer-tag">無駄ゼロ</span>
+        <span class="footer-tag">タイポグラフィ優先</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 CONCRETE.OS — All rights reserved</span>
+      <div class="footer-links">
+        <a href="#">プライバシー</a>
+        <a href="#">ドキュメント</a>
+        <a href="#">GitHub</a>
+        <a href="./index.html">Design Sight</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for staggered fade-in
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Nav shadow on scroll
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      nav.style.boxShadow = '0 4px 0 #000';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>

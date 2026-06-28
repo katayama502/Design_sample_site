@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Softshell — Neumorphism UI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600&display=swap');
+
+:root {
+  --bg: #E0E5EC;
+  --dark: #A3B1C6;
+  --light: #FFFFFF;
+  --accent: #6D5DFC;
+  --accent-light: #8B7FFD;
+  --text: #4B5563;
+  --muted: #9BAACF;
+  --extra: #A3B1C6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+}
+
+/* ── NAV BADGE & BACK LINK ── */
+.nav-strip {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  pointer-events: none;
+}
+
+.badge {
+  pointer-events: all;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 0.45rem 0.9rem;
+  box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+}
+
+.back-link {
+  pointer-events: all;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-decoration: none;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 0.45rem 0.9rem;
+  box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+  transition: color 0.2s, box-shadow 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+.back-link:active { box-shadow: inset 3px 3px 6px var(--dark), inset -3px -3px 6px var(--light); }
+
+/* ── SHARED COMPONENTS ── */
+.card {
+  background: var(--bg);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 9px 9px 18px var(--dark), -9px -9px 18px var(--light);
+}
+
+.inset {
+  background: var(--bg);
+  border-radius: 18px;
+  box-shadow: inset 6px 6px 12px var(--dark), inset -6px -6px 12px var(--light);
+}
+
+.btn {
+  background: var(--bg);
+  border: none;
+  border-radius: 16px;
+  padding: 0.9rem 1.8rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 6px 6px 12px var(--dark), -6px -6px 12px var(--light);
+  transition: box-shadow 0.18s, color 0.18s;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+.btn:hover { color: var(--accent); }
+.btn:active { box-shadow: inset 5px 5px 10px var(--dark), inset -5px -5px 10px var(--light); }
+
+.btn-accent {
+  background: linear-gradient(135deg, #6D5DFC, #8B7FFD);
+  color: #fff;
+  box-shadow: 6px 6px 14px rgba(109,93,252,0.35), -4px -4px 10px var(--light);
+}
+.btn-accent:hover { color: #fff; box-shadow: 8px 8px 18px rgba(109,93,252,0.45), -4px -4px 10px var(--light); }
+.btn-accent:active { box-shadow: inset 4px 4px 10px rgba(0,0,0,0.2), inset -3px -3px 8px rgba(255,255,255,0.15); }
+
+.icon-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  box-shadow: 5px 5px 10px var(--dark), -5px -5px 10px var(--light);
+}
+
+.toggle {
+  width: 60px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--bg);
+  box-shadow: inset 4px 4px 8px var(--dark), inset -4px -4px 8px var(--light);
+  position: relative;
+  cursor: pointer;
+}
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 5px; left: 5px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 3px 3px 6px var(--dark), -3px -3px 6px var(--light);
+  transition: transform 0.3s;
+}
+.toggle.on::after { transform: translateX(28px); background: var(--accent); box-shadow: 2px 2px 6px rgba(109,93,252,0.4); }
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.34s; }
+.reveal-delay-4 { transition-delay: 0.46s; }
+
+/* ── SECTION WRAPPER ── */
+section { padding: 6rem 2rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* ══════════════════════════════
+   ① HERO
+══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 6rem;
+  position: relative;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text {}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+  box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+  margin-bottom: 1.5rem;
+}
+
+.hero-headline {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 1.12;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+.hero-headline span {
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  max-width: 440px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Hero visual */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.device-shell {
+  width: 280px;
+  height: 480px;
+  border-radius: 40px;
+  background: var(--bg);
+  box-shadow: 20px 20px 40px var(--dark), -20px -20px 40px var(--light);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+
+.device-notch {
+  width: 80px;
+  height: 10px;
+  border-radius: 999px;
+  margin: 0 auto 6px;
+  box-shadow: inset 3px 3px 6px var(--dark), inset -3px -3px 6px var(--light);
+}
+
+.device-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.device-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.device-avatar svg { width: 22px; height: 22px; }
+
+.device-text-group { flex: 1; }
+
+.device-line {
+  height: 8px;
+  border-radius: 999px;
+  margin-bottom: 5px;
+  box-shadow: inset 2px 2px 4px var(--dark), inset -2px -2px 4px var(--light);
+}
+.device-line.short { width: 55%; }
+.device-line.shorter { width: 35%; }
+
+.device-card-mini {
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--bg);
+  box-shadow: 6px 6px 12px var(--dark), -6px -6px 12px var(--light);
+}
+
+.device-progress-track {
+  height: 6px;
+  border-radius: 999px;
+  margin-top: 8px;
+  background: var(--bg);
+  box-shadow: inset 2px 2px 5px var(--dark), inset -2px -2px 5px var(--light);
+  position: relative;
+  overflow: hidden;
+}
+
+.device-progress-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 68%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+.device-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.device-btn-mini {
+  height: 36px;
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+  display: grid;
+  place-items: center;
+}
+.device-btn-mini.accent-btn {
+  background: linear-gradient(135deg, #6D5DFC, #8B7FFD);
+  box-shadow: 4px 4px 10px rgba(109,93,252,0.35), -3px -3px 8px var(--light);
+}
+
+/* ══════════════════════════════
+   ② FEATURES
+══════════════════════════════ */
+.features { background: var(--bg); }
+
+.section-label {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 3.5rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.feature-card {
+  padding: 2.2rem;
+  border-radius: 28px;
+  background: var(--bg);
+  box-shadow: 10px 10px 20px var(--dark), -10px -10px 20px var(--light);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.feature-card:hover {
+  box-shadow: 14px 14px 28px var(--dark), -14px -14px 28px var(--light);
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+.feature-card p {
+  font-size: 0.93rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════
+   ③ SHOWCASE
+══════════════════════════════ */
+.showcase { background: var(--bg); }
+
+.showcase-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.showcase-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  border-radius: 22px;
+  padding: 1.8rem 1.5rem;
+  background: var(--bg);
+  box-shadow: 8px 8px 16px var(--dark), -8px -8px 16px var(--light);
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.showcase-ui {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.ui-panel {
+  border-radius: 22px;
+  padding: 1.6rem;
+  background: var(--bg);
+  box-shadow: 8px 8px 16px var(--dark), -8px -8px 16px var(--light);
+}
+
+.ui-panel-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.slider-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg);
+  box-shadow: inset 3px 3px 6px var(--dark), inset -3px -3px 6px var(--light);
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.slider-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 3px 3px 7px var(--dark), -3px -3px 7px var(--light);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.toggle-label {
+  font-size: 0.88rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════
+   ④ CTA
+══════════════════════════════ */
+.cta-section { background: var(--bg); }
+
+.cta-box {
+  border-radius: 36px;
+  padding: 4rem 3rem;
+  background: var(--bg);
+  box-shadow: 16px 16px 32px var(--dark), -16px -16px 32px var(--light);
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-box h2 {
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.cta-box p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.input-shell {
+  border-radius: 14px;
+  padding: 0.85rem 1.2rem;
+  background: var(--bg);
+  box-shadow: inset 4px 4px 9px var(--dark), inset -4px -4px 9px var(--light);
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  width: 220px;
+}
+.input-shell::placeholder { color: var(--muted); }
+
+/* ══════════════════════════════
+   ⑤ FOOTER
+══════════════════════════════ */
+.footer {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.footer-brand span { color: var(--accent); }
+
+.footer-tags {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.tag-pill {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  box-shadow: 3px 3px 6px var(--dark), -3px -3px 6px var(--light);
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--extra);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .hero-inner { gap: 2.5rem; }
+  .showcase-inner { gap: 2.5rem; }
+}
+
+@media (max-width: 768px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-sub { margin: 0 auto 2rem; }
+  .hero-actions { justify-content: center; }
+  .hero-visual { order: -1; }
+  .device-shell { width: 220px; height: 380px; padding: 20px 16px; }
+
+  .features-grid { grid-template-columns: 1fr; }
+
+  .showcase-inner { grid-template-columns: 1fr; }
+  .showcase-stats { order: 2; }
+  .showcase-ui { order: 1; }
+
+  .cta-box { padding: 2.5rem 1.5rem; }
+  .input-shell { width: 100%; }
+  .cta-actions { flex-direction: column; align-items: center; }
+
+  section { padding: 4rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV STRIP -->
+<nav class="nav-strip">
+  <span class="badge">Neumorphism</span>
+  <a class="back-link" href="./index.html">← Design Sight</a>
+</nav>
+
+<!-- ════════════════════════════
+     ① HERO
+════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow reveal">Soft UI · 3D Shadow</div>
+      <h1 class="hero-headline reveal reveal-delay-1">
+        ひとつの面から<br><span>彫り出される。</span>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Softshell は、あらゆるコントロールをひとつの中立的なマテリアルから押し出します。デュアルシャドウが鋭いエッジを持たずに奥行きを刻み、インターフェースを実際に押せるような感触に仕上げます。
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <button class="btn btn-accent" style="font-size:1rem;padding:1rem 2.2rem;">はじめる</button>
+        <button class="btn" style="font-size:1rem;padding:1rem 2.2rem;">探索する</button>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="device-shell">
+        <div class="device-notch"></div>
+
+        <!-- Row 1 -->
+        <div class="device-row">
+          <div class="device-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6D5DFC" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <div class="device-text-group">
+            <div class="device-line"></div>
+            <div class="device-line short"></div>
+          </div>
+        </div>
+
+        <!-- Mini card -->
+        <div class="device-card-mini">
+          <div class="device-line shorter"></div>
+          <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--bg);box-shadow:3px 3px 6px var(--dark),-3px -3px 6px var(--light);display:grid;place-items:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6D5DFC" stroke-width="2.2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div class="device-progress-track">
+                <div class="device-progress-fill"></div>
+              </div>
+            </div>
+            <span style="font-size:0.6rem;font-weight:700;color:var(--accent);font-family:'Quicksand',sans-serif;">68%</span>
+          </div>
+        </div>
+
+        <!-- Toggle rows -->
+        <div style="padding:0 4px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:0.68rem;font-weight:600;color:var(--text);font-family:'Quicksand',sans-serif;">ダークモード</span>
+            <div class="toggle on"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:0.68rem;font-weight:600;color:var(--text);font-family:'Quicksand',sans-serif;">触覚フィードバック</span>
+            <div class="toggle"></div>
+          </div>
+        </div>
+
+        <!-- Bottom btns -->
+        <div class="device-btn-row" style="margin-top:auto;">
+          <div class="device-btn-mini">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9BAACF" stroke-width="2.2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div class="device-btn-mini accent-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     ② FEATURES
+════════════════════════════ -->
+<section class="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">提供するもの</div>
+      <h2 class="section-title">装飾なき、深み。</h2>
+      <p class="section-sub">Softshell のインターフェースを触感豊かに仕上げる3つの原則。光沢なし、グラデーションなし、ギミックなし。</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">
+          <div class="icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <path d="M8 12h8M12 8v8"/>
+            </svg>
+          </div>
+        </div>
+        <h3>押し出されたコントロール</h3>
+        <p>ボタン、カード、入力フィールドのすべてが同じ面から押し出されます。デュアルシャドウが、ボーダーをひとつも使わずに本物の浮き上がりを生み出します。</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">
+          <div class="icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </div>
+        </div>
+        <h3>触覚的なプレス状態</h3>
+        <p>操作するとシャドウがインセットに反転し、要素が面に沈み込みます。純粋な CSS だけで、ハプティクスのような満足感を実現します。</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">
+          <div class="icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+        </div>
+        <h3>単一パレットシステム</h3>
+        <p>UI 全体をひとつの背景色で統一。光と影のトーンはアルゴリズムで導出され、コンパクトなウィジェットからフルページレイアウトまでシームレスにスケールします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     ③ SHOWCASE
+════════════════════════════ -->
+<section class="showcase">
+  <div class="container">
+    <div class="showcase-inner">
+      <!-- Stats -->
+      <div class="showcase-stats">
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">満足度</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-num">3.2×</div>
+          <div class="stat-label">インタラクション向上</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-num">0</div>
+          <div class="stat-label">ハードボーダー</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-4">
+          <div class="stat-num">1</div>
+          <div class="stat-label">ベースカラー</div>
+        </div>
+      </div>
+
+      <!-- Live UI Demo -->
+      <div>
+        <div class="reveal" style="margin-bottom:2rem;">
+          <div class="section-label">インタラクティブデモ</div>
+          <h2 class="section-title" style="font-size:1.9rem;">システムを<br>動かして感じる。</h2>
+        </div>
+
+        <div class="showcase-ui reveal reveal-delay-1">
+          <!-- Sliders panel -->
+          <div class="ui-panel">
+            <div class="ui-panel-title">パラメーター</div>
+
+            <div style="margin-bottom:0.5rem;font-size:0.82rem;color:var(--muted);font-weight:600;">シャドウの深さ</div>
+            <div class="slider-track" style="margin-bottom:1.4rem;">
+              <div class="slider-fill" style="width:72%;"></div>
+              <div class="slider-thumb" style="left:72%;"></div>
+            </div>
+
+            <div style="margin-bottom:0.5rem;font-size:0.82rem;color:var(--muted);font-weight:600;">面の丸み</div>
+            <div class="slider-track" style="margin-bottom:1.4rem;">
+              <div class="slider-fill" style="width:55%;"></div>
+              <div class="slider-thumb" style="left:55%;"></div>
+            </div>
+
+            <div style="margin-bottom:0.5rem;font-size:0.82rem;color:var(--muted);font-weight:600;">アクセントの強度</div>
+            <div class="slider-track">
+              <div class="slider-fill" style="width:40%;"></div>
+              <div class="slider-thumb" style="left:40%;"></div>
+            </div>
+          </div>
+
+          <!-- Toggles panel -->
+          <div class="ui-panel">
+            <div class="ui-panel-title">オプション</div>
+            <div class="toggle-row">
+              <span class="toggle-label">ソフトアニメーション</span>
+              <div class="toggle on"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">プレスフィードバック</span>
+              <div class="toggle on"></div>
+            </div>
+            <div class="toggle-row" style="margin-bottom:0;">
+              <span class="toggle-label">ボーダーアシスト</span>
+              <div class="toggle"></div>
+            </div>
+          </div>
+
+          <!-- Buttons panel -->
+          <div class="ui-panel" style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center;">
+            <button class="btn" style="flex:1;min-width:80px;font-size:0.88rem;padding:0.75rem 1rem;">キャンセル</button>
+            <button class="btn btn-accent" style="flex:2;min-width:120px;font-size:0.88rem;padding:0.75rem 1rem;">変更を適用</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     ④ CTA
+════════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="section-label" style="margin-bottom:1rem;">構築をはじめる</div>
+      <h2>ゼロから<br>次のインターフェースを形にする。</h2>
+      <p>Softshell のオープンデザインシステムで、触感豊かでマテリアル誠実な UI を構築するデザイナーたちに加わりましょう。</p>
+      <div class="cta-actions">
+        <input class="input-shell" type="email" placeholder="your@email.com">
+        <button class="btn btn-accent" style="font-size:1rem;padding:0.9rem 2rem;white-space:nowrap;">早期アクセスを取得</button>
+      </div>
+      <p style="font-size:0.78rem;color:var(--extra);margin-top:1.2rem;">クレジットカード不要。いつでもキャンセル可能。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     ⑤ FOOTER
+════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-brand reveal">Soft<span>shell</span></div>
+  <div class="footer-tags reveal reveal-delay-1">
+    <span class="tag-pill">Neumorphism</span>
+    <span class="tag-pill">Soft UI</span>
+    <span class="tag-pill">3D Shadow</span>
+    <span class="tag-pill">触感デザイン</span>
+    <span class="tag-pill">CSS Art</span>
+  </div>
+  <p class="footer-copy reveal reveal-delay-2">&copy; 2026 Softshell. ひとつの面から生まれた。</p>
+</footer>
+
+<script>
+// Intersection Observer for staggered reveals
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Toggle interaction
+document.querySelectorAll('.toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('on');
+  });
+});
+</script>
+</body>
+</html>

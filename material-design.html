@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pebble — Material Design 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Flex:opsz,wght@8..144,400;8..144,600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FEF7FF;
+  --surface: #FFFFFF;
+  --accent: #6750A4;
+  --accent-container: #EADDFF;
+  --on-accent: #FFFFFF;
+  --text: #1D1B20;
+  --muted: #49454F;
+  --extra: #E8DEF8;
+  --outline: #CAC4D0;
+  --surface-variant: #F3EDF7;
+  --error: #B3261E;
+  --elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+  --elevation-2: 0 4px 8px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.10);
+  --elevation-3: 0 8px 20px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.12);
+  --elevation-fab: 0 6px 16px rgba(103,80,164,0.35), 0 2px 6px rgba(103,80,164,0.20);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(254,247,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--outline);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.header-brand {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+
+.brand-icon {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.brand-icon svg { width: 20px; height: 20px; fill: white; }
+
+.brand-name {
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.header-meta {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+}
+
+.style-badge {
+  font-size: 0.72rem; font-weight: 500;
+  background: var(--accent);
+  color: white;
+  border-radius: 100px;
+  padding: 0.25rem 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tag-chip {
+  font-size: 0.7rem; font-weight: 500;
+  background: var(--extra);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 0.2rem 0.65rem;
+}
+
+.header-nav {
+  display: flex; align-items: center; gap: 0.25rem;
+}
+
+.nav-item {
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.5rem 0.85rem;
+  border-radius: 100px;
+  transition: background 0.18s, color 0.18s;
+  position: relative; overflow: hidden;
+}
+
+.nav-item:hover { background: var(--extra); color: var(--accent); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 92vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 5rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-shapes {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.18;
+  filter: blur(60px);
+  animation: drift 12s ease-in-out infinite alternate;
+}
+
+.shape-1 {
+  width: 520px; height: 520px;
+  background: var(--accent);
+  top: -120px; right: -100px;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 380px; height: 380px;
+  background: #7965AF;
+  bottom: -80px; left: -80px;
+  animation-delay: -4s;
+}
+
+.shape-3 {
+  width: 260px; height: 260px;
+  background: #B69DF8;
+  top: 40%; left: 40%;
+  animation-delay: -8s;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, -20px) scale(1.06); }
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 720px;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--accent-container);
+  color: var(--accent);
+  font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: 100px;
+  padding: 0.4rem 1rem;
+  margin-bottom: 1.8rem;
+  border: 1px solid rgba(103,80,164,0.2);
+}
+
+.eyebrow-dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+.hero-title {
+  font-family: 'Roboto Flex', 'Roboto', sans-serif;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.4rem;
+}
+
+.hero-title span {
+  color: var(--accent);
+  position: relative;
+  display: inline-block;
+}
+
+.hero-title span::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--accent), #B69DF8);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underline-draw 0.8s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+@keyframes underline-draw {
+  to { transform: scaleX(1); }
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; flex-wrap: wrap;
+}
+
+.md-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  box-shadow: var(--elevation-1);
+}
+
+.md-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+  border-radius: inherit;
+}
+
+.md-btn:hover {
+  box-shadow: var(--elevation-2);
+  transform: translateY(-1px);
+}
+.md-btn:hover::after { background: rgba(255,255,255,0.12); }
+.md-btn:active { transform: translateY(0); box-shadow: var(--elevation-1); }
+
+.md-btn-outlined {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+
+.md-btn-outlined::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(103,80,164,0);
+  transition: background 0.2s;
+  border-radius: inherit;
+}
+
+.md-btn-outlined:hover::after { background: rgba(103,80,164,0.08); }
+.md-btn-outlined:hover { transform: translateY(-1px); }
+
+/* Ripple */
+.ripple-container { position: relative; overflow: hidden; }
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: scale(0);
+  animation: ripple-anim 0.55s linear;
+  pointer-events: none;
+}
+@keyframes ripple-anim {
+  to { transform: scale(4); opacity: 0; }
+}
+
+.hero-visual {
+  margin-top: 4rem;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 1.2rem; flex-wrap: wrap;
+}
+
+.mini-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: var(--elevation-1);
+  display: flex; flex-direction: column; gap: 0.6rem;
+  transition: box-shadow 0.25s, transform 0.25s;
+  animation: float-card 6s ease-in-out infinite alternate;
+}
+
+.mini-card:hover {
+  box-shadow: var(--elevation-3);
+  transform: translateY(-4px);
+}
+
+.mini-card:nth-child(1) { width: 148px; animation-delay: 0s; }
+.mini-card:nth-child(2) { width: 172px; animation-delay: -2s; }
+.mini-card:nth-child(3) { width: 148px; animation-delay: -4s; }
+
+@keyframes float-card {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
+}
+
+.mini-card-header {
+  width: 100%; height: 80px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--extra) 0%, var(--accent-container) 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.mini-card-header svg { width: 32px; height: 32px; }
+
+.mini-card-line {
+  height: 8px; border-radius: 4px;
+  background: var(--surface-variant);
+}
+
+.mini-card-line.w70 { width: 70%; }
+.mini-card-line.w50 { width: 50%; }
+.mini-card-line.w85 { width: 85%; }
+
+/* ─── SECTION COMMONS ─── */
+section {
+  padding: 6rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: 'Roboto Flex', 'Roboto', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ─── FEATURE CARDS ─── */
+.features-section {
+  padding: 6rem 2rem;
+}
+
+.features-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.features-header {
+  margin-bottom: 3.5rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.md-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--elevation-1);
+  transition: box-shadow 0.2s, background 0.2s, transform 0.2s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.md-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(103,80,164,0);
+  transition: background 0.2s;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.md-card:hover {
+  box-shadow: var(--elevation-2);
+  background: #FAF6FE;
+  transform: translateY(-3px);
+}
+
+.md-card:hover::before { background: rgba(103,80,164,0.03); }
+
+.card-icon-wrap {
+  width: 52px; height: 52px;
+  background: var(--extra);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.2rem;
+  transition: background 0.2s;
+}
+
+.md-card:hover .card-icon-wrap { background: var(--accent-container); }
+
+.card-icon-wrap svg {
+  width: 26px; height: 26px;
+  fill: var(--accent);
+}
+
+.card-title {
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 1.2rem;
+}
+
+.card-tag-row {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+
+.md-chip {
+  background: var(--extra);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem; font-weight: 500;
+  transition: background 0.15s;
+}
+
+.md-chip:hover { background: var(--accent-container); }
+
+/* ─── TONAL SURFACE ROW ─── */
+.tonal-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 4rem;
+}
+
+.tonal-tile {
+  border-radius: 16px;
+  padding: 1.4rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tonal-tile:hover { transform: translateY(-2px); box-shadow: var(--elevation-2); }
+
+.tonal-tile.t1 { background: var(--extra); }
+.tonal-tile.t2 { background: var(--accent-container); }
+.tonal-tile.t3 { background: #D0BCFF; }
+.tonal-tile.t4 { background: var(--accent); color: white; }
+
+.tonal-label {
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.tonal-name {
+  font-size: 1rem; font-weight: 700;
+}
+
+.tonal-hex {
+  font-size: 0.78rem; font-family: monospace;
+  opacity: 0.65;
+}
+
+/* ─── HOW IT WORKS ─── */
+.steps-section {
+  padding: 6rem 2rem;
+  background: var(--surface);
+  border-radius: 28px;
+  margin: 0 2rem;
+  box-shadow: var(--elevation-1);
+}
+
+.steps-inner {
+  max-width: 1000px; margin: 0 auto;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.step-item {
+  display: flex; flex-direction: column; gap: 0.8rem;
+  position: relative;
+}
+
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px; right: -1.25rem;
+  width: calc(100% + 2.5rem - 40px);
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--outline), transparent);
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .step-item:not(:last-child)::after { display: block; }
+}
+
+.step-number {
+  width: 40px; height: 40px;
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(103,80,164,0.3);
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--text);
+}
+
+.step-desc {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── STATS ─── */
+.stats-section {
+  padding: 5rem 2rem;
+}
+
+.stats-inner {
+  max-width: 1100px; margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 1.8rem 1.5rem;
+  box-shadow: var(--elevation-1);
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative; overflow: hidden;
+}
+
+.stat-card:hover {
+  box-shadow: var(--elevation-3);
+  transform: translateY(-4px);
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #B69DF8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+
+.stat-card:hover::after { transform: scaleX(1); }
+
+.stat-value {
+  font-family: 'Roboto Flex', 'Roboto', sans-serif;
+  font-size: 2.4rem; font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.85rem; font-weight: 500;
+  color: var(--muted);
+}
+
+/* ─── CTA ─── */
+.cta-section {
+  padding: 2rem;
+  margin: 2rem;
+}
+
+.cta-card {
+  background: var(--accent);
+  border-radius: 28px;
+  padding: 4rem 3rem;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(103,80,164,0.35);
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+
+.cta-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 240px; height: 240px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+
+.cta-title {
+  font-family: 'Roboto Flex', 'Roboto', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  position: relative; z-index: 1;
+}
+
+.cta-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.75);
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+  position: relative; z-index: 1;
+}
+
+.cta-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  position: relative; z-index: 1;
+}
+
+.md-btn-tonal {
+  background: rgba(255,255,255,0.18);
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  backdrop-filter: blur(6px);
+}
+
+.md-btn-tonal:hover { background: rgba(255,255,255,0.26); }
+
+.md-btn-surface {
+  background: white;
+  color: var(--accent);
+  border: none;
+  border-radius: 100px;
+  padding: 0.85rem 2rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.md-btn-surface:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.2); transform: translateY(-1px); }
+
+/* ─── FAB ─── */
+.fab {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 64px; height: 64px;
+  background: var(--accent-container);
+  border-radius: 20px;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--elevation-fab);
+  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.fab:hover {
+  background: var(--extra);
+  box-shadow: 0 10px 28px rgba(103,80,164,0.45);
+  transform: scale(1.06);
+}
+
+.fab svg { width: 28px; height: 28px; fill: var(--accent); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--outline);
+  padding: 3rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 640px) {
+  .footer-inner { grid-template-columns: 1fr; }
+}
+
+.footer-brand-col .brand-name { font-size: 1.2rem; margin-bottom: 0.5rem; display: block; }
+
+.footer-tagline {
+  font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.footer-heading {
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.footer-link-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+
+.footer-link-list a {
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-link-list a:hover { color: var(--accent); }
+
+.footer-bottom {
+  max-width: 1100px; margin: 2rem auto 0;
+  border-top: 1px solid var(--outline);
+  padding-top: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.75rem;
+}
+
+.footer-copy {
+  font-size: 0.8rem; color: var(--muted);
+}
+
+.footer-chips {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .header-meta { display: none; }
+  .hero { padding: 4rem 1.5rem 3rem; }
+  .hero-visual .mini-card:nth-child(3) { display: none; }
+  .features-section, section, .stats-section { padding: 4rem 1.25rem; }
+  .steps-section { margin: 0 1rem; }
+  .cta-section { margin: 1rem; }
+  .cta-card { padding: 3rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .header-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="brand-name">Pebble</span>
+  </div>
+  <div class="header-meta">
+    <span class="style-badge">Material Design 3</span>
+    <span class="tag-chip">#MaterialDesign</span>
+    <span class="tag-chip">#Google</span>
+    <span class="tag-chip">#Cards</span>
+    <span class="tag-chip">#Elevation</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#features" class="nav-item">Features</a>
+    <a href="#how" class="nav-item">How it works</a>
+    <a href="#cta" class="nav-item ripple-container" onclick="createRipple(event)">Get started</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-dot"></div>
+      Tonal · Elevated · Expressive
+    </div>
+    <h1 class="hero-title">
+      Design that <span>lives</span><br>and breathes
+    </h1>
+    <p class="hero-sub">
+      Pebble is a design-system toolkit built around Material Design 3 — elevation, tonal color, and dynamic surfaces that make every interface feel physical and alive.
+    </p>
+    <div class="hero-actions">
+      <button class="md-btn ripple-container" onclick="createRipple(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+        Start building
+      </button>
+      <a href="#features" class="md-btn-outlined">Explore features</a>
+    </div>
+    <div class="hero-visual">
+      <div class="mini-card">
+        <div class="mini-card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6750A4" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/>
+          </svg>
+        </div>
+        <div class="mini-card-line w85"></div>
+        <div class="mini-card-line w50"></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-header" style="height:96px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6750A4" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div class="mini-card-line w70"></div>
+        <div class="mini-card-line w85"></div>
+        <div class="mini-card-line w50"></div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6750A4" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>
+          </svg>
+        </div>
+        <div class="mini-card-line w85"></div>
+        <div class="mini-card-line w70"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="features-section">
+  <div class="features-inner">
+    <div class="features-header reveal">
+      <p class="section-label">Core features</p>
+      <h2 class="section-title">Everything surfaces should be</h2>
+      <p class="section-sub">Four pillars inspired by M3's design philosophy — each one making your UI more tactile, accessible, and expressive.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="md-card reveal reveal-delay-1">
+        <div class="card-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3z"/></svg>
+        </div>
+        <h3 class="card-title">Elevation System</h3>
+        <p class="card-body">Five tiers of shadow depth — from flat tonal to high-floating surfaces — that create intuitive visual hierarchy without overwhelming your palette.</p>
+        <div class="card-tag-row">
+          <span class="md-chip">Shadow tiers</span>
+          <span class="md-chip">Z-depth</span>
+          <span class="md-chip">Layering</span>
+        </div>
+      </div>
+
+      <div class="md-card reveal reveal-delay-2">
+        <div class="card-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </div>
+        <h3 class="card-title">Dynamic Color</h3>
+        <p class="card-body">Tonal palettes generated from a single seed color. Primary, secondary, tertiary, and error roles adapt across light and dark schemes automatically.</p>
+        <div class="card-tag-row">
+          <span class="md-chip">Tonal surface</span>
+          <span class="md-chip">Dark mode</span>
+          <span class="md-chip">Accessible</span>
+        </div>
+      </div>
+
+      <div class="md-card reveal reveal-delay-3">
+        <div class="card-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </div>
+        <h3 class="card-title">Ripple Interactions</h3>
+        <p class="card-body">Every touch and click propagates a radial wave from the exact contact point — a tactile confirmation that the surface has registered your intent.</p>
+        <div class="card-tag-row">
+          <span class="md-chip">Touch feedback</span>
+          <span class="md-chip">State layers</span>
+          <span class="md-chip">Haptic feel</span>
+        </div>
+      </div>
+
+      <div class="md-card reveal reveal-delay-4">
+        <div class="card-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        </div>
+        <h3 class="card-title">Large Rounded Corners</h3>
+        <p class="card-body">M3's shape system uses generous corner radii — from pill-shaped buttons to broadly rounded cards — creating softness that feels friendly and modern.</p>
+        <div class="card-tag-row">
+          <span class="md-chip">Shape tokens</span>
+          <span class="md-chip">Corner radius</span>
+          <span class="md-chip">Softness</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tonal color swatch row -->
+    <div class="tonal-row reveal">
+      <div class="tonal-tile t1">
+        <span class="tonal-label">Surface Variant</span>
+        <span class="tonal-name">Extra</span>
+        <span class="tonal-hex">#E8DEF8</span>
+      </div>
+      <div class="tonal-tile t2">
+        <span class="tonal-label">Accent Container</span>
+        <span class="tonal-name">Lavender</span>
+        <span class="tonal-hex">#EADDFF</span>
+      </div>
+      <div class="tonal-tile t3">
+        <span class="tonal-label">Tertiary</span>
+        <span class="tonal-name">Lilac</span>
+        <span class="tonal-hex">#D0BCFF</span>
+      </div>
+      <div class="tonal-tile t4">
+        <span class="tonal-label" style="opacity:0.6">Primary</span>
+        <span class="tonal-name">Violet</span>
+        <span class="tonal-hex">#6750A4</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div id="how" class="steps-section">
+  <div class="steps-inner">
+    <div class="reveal">
+      <p class="section-label">How it works</p>
+      <h2 class="section-title">From seed color to living UI</h2>
+      <p class="section-sub">Pebble follows M3's structured approach — start with one color, end with a complete, accessible design system.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-item reveal reveal-delay-1">
+        <div class="step-number">1</div>
+        <h3 class="step-title">Choose a seed</h3>
+        <p class="step-desc">Pick any brand color. Pebble's HCT color-space engine derives a full tonal palette — primary, secondary, tertiary, neutral, and error.</p>
+      </div>
+      <div class="step-item reveal reveal-delay-2">
+        <div class="step-number">2</div>
+        <h3 class="step-title">Set elevation roles</h3>
+        <p class="step-desc">Assign surfaces to elevation tiers. Shadows and tonal overlays shift automatically, giving depth without manual tuning.</p>
+      </div>
+      <div class="step-item reveal reveal-delay-3">
+        <div class="step-number">3</div>
+        <h3 class="step-title">Apply shape tokens</h3>
+        <p class="step-desc">Map your components to M3 shape scales — extra-small pill to extra-large card. Consistent corner radii across the whole product.</p>
+      </div>
+      <div class="step-item reveal reveal-delay-4">
+        <div class="step-number">4</div>
+        <h3 class="step-title">Ship &amp; adapt</h3>
+        <p class="step-desc">Export design tokens as CSS variables, Compose themes, or SwiftUI styles. Light and dark variants included out of the box.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-inner">
+    <div class="reveal" style="text-align:center; margin-bottom:0.5rem">
+      <p class="section-label" style="text-align:center">By the numbers</p>
+      <h2 class="section-title" style="text-align:center">Trusted at scale</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-value">48+</div>
+        <div class="stat-label">Component tokens</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Elevation tiers</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-value">3ms</div>
+        <div class="stat-label">Ripple response time</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-4">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">WCAG 2.1 AA colors</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div id="cta" class="cta-section">
+  <div class="cta-card reveal">
+    <h2 class="cta-title">Start building with Pebble</h2>
+    <p class="cta-sub">Join thousands of product teams using Material Design 3 tokens to ship faster, more beautiful, more accessible interfaces.</p>
+    <div class="cta-actions">
+      <button class="md-btn-surface ripple-container" onclick="createRipple(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Download free
+      </button>
+      <button class="md-btn-tonal ripple-container" onclick="createRipple(event)">
+        View documentation
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand-col">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem">
+        <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <span class="brand-name">Pebble</span>
+      </div>
+      <p class="footer-tagline">A Material Design 3 toolkit for teams who believe good design should feel physical.</p>
+    </div>
+    <div>
+      <p class="footer-heading">Resources</p>
+      <ul class="footer-link-list">
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Token reference</a></li>
+        <li><a href="#">Figma plugin</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Design system</p>
+      <ul class="footer-link-list">
+        <li><a href="#">Color system</a></li>
+        <li><a href="#">Elevation</a></li>
+        <li><a href="#">Shape tokens</a></li>
+        <li><a href="#">Motion</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025 Pebble Design Inc. Built on Material Design 3.</span>
+    <div class="footer-chips">
+      <span class="md-chip">#MaterialDesign</span>
+      <span class="md-chip">#Google</span>
+      <span class="md-chip">#Cards</span>
+      <span class="md-chip">#Elevation</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB -->
+<button class="fab ripple-container" onclick="window.scrollTo({top:0,behavior:'smooth'}); createRipple(event)" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<script>
+// ─── RIPPLE ───
+function createRipple(e) {
+  const btn = e.currentTarget;
+  const existing = btn.querySelector('.ripple');
+  if (existing) existing.remove();
+
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 1.8;
+  const x = e.clientX - rect.left - size / 2;
+  const y = e.clientY - rect.top  - size / 2;
+
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  btn.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove());
+}
+
+// ─── SCROLL REVEAL ───
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ─── CARD RIPPLE on click ───
+document.querySelectorAll('.md-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    const existing = this.querySelector('.ripple');
+    if (existing) existing.remove();
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top  - size / 2;
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;background:rgba(103,80,164,0.12)`;
+    this.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  });
+});
+
+// ─── SMOOTH HEADER shadow on scroll ───
+const header = document.querySelector('.site-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    header.style.boxShadow = '0 2px 12px rgba(0,0,0,0.14)';
+  } else {
+    header.style.boxShadow = '0 1px 4px rgba(0,0,0,0.08)';
+  }
+}, { passive: true });
+</script>
+
+</body>
+</html>

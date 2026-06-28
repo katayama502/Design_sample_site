@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Sight</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #07070a;
+  --surface: rgba(20, 20, 26, 0.65);
+  --border: rgba(255, 255, 255, 0.07);
+  --accent: #6366F1;
+  --text: #F4F4F5;
+  --muted: #8E8E9E;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: radial-gradient(circle at 50% 0%, #17172b 0%, #07070a 65%);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* -- HEADER -- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(7, 7, 10, 0.6);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: background 0.3s, padding 0.3s;
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.3rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tagline {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 0.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.count-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+/* -- FILTER BAR -- */
+.filter-bar {
+  position: sticky;
+  top: 76px;
+  z-index: 90;
+  background: rgba(7, 7, 10, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.95rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 360px;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+#search {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  padding: 0.6rem 0.85rem 0.6rem 2.35rem;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+#search::placeholder { color: var(--muted); }
+#search:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.filter-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-left: auto;
+}
+
+.showing-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+#clear-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+#clear-btn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* -- TAG PILLS (stylish) -- */
+.tags-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 2px;
+}
+.tags-row::-webkit-scrollbar { display: none; }
+
+.tag-pill {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(180, 180, 200, 0.55);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.67rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tag-pill:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.35);
+  color: #c7d2fe;
+}
+
+.tag-pill.active {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.55);
+  color: #e0e7ff;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.12);
+}
+
+/* -- GALLERY -- */
+.gallery-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.8rem;
+}
+
+@media (max-width: 1199px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 899px)  { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 599px)  { .gallery-grid { grid-template-columns: 1fr; } }
+
+/* -- CARD -- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+  will-change: transform, opacity;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.card.hidden {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px -10px var(--card-glow, rgba(99, 102, 241, 0.3));
+}
+
+.card-color-bar {
+  height: 160px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  background: #0f1015;
+}
+
+.card-color-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(12, 12, 15, 0) 45%, rgba(20, 20, 26, 0.95) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-accent-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 3;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.card:hover .card-img {
+  transform: scale(1.08);
+}
+
+.card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  z-index: 3;
+  position: relative;
+}
+
+.card-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.card-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+}
+
+.card-fictional {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+  margin-top: -0.15rem;
+}
+
+.card-concept {
+  font-size: 0.82rem;
+  color: #b4b4c6;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.card-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.view-link {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: opacity 0.2s;
+}
+.view-link:hover { opacity: 0.85; }
+.view-link .arrow {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.view-link:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* -- EMPTY STATE -- */
+.empty-state {
+  display: none;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 6rem 2rem;
+  color: var(--muted);
+}
+.empty-state h3 {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.35rem;
+  color: #555566;
+  margin-bottom: 0.6rem;
+}
+.empty-state p { font-size: 0.88rem; }
+
+/* -- FOOTER -- */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  letter-spacing: 0.04em;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 999px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+
+@media (max-width: 600px) {
+  .header-inner { padding: 1.1rem 1.25rem; }
+  .filter-inner  { padding: 0.85rem 1.25rem; }
+  .gallery-wrap  { padding: 1.5rem 1.25rem; }
+  .filter-top    { flex-wrap: wrap; }
+  .search-wrap   { max-width: 100%; flex: 1 1 100%; }
+  .filter-meta   { margin-left: 0; }
+  .logo          { font-size: 1.45rem; }
+}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo-group">
+      <div class="logo">Design Sight</div>
+      <div class="tagline">20のデザインスタイルを、探索する</div>
+    </div>
+    <div class="count-badge">20のスタイル</div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="filter-top">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="search" placeholder="スタイル名やタグで検索…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="filter-meta">
+        <span class="showing-label" id="showing-label">20件中 20件を表示</span>
+        <button id="clear-btn">クリア</button>
+      </div>
+    </div>
+    <div class="tags-row" id="tags-row"></div>
+  </div>
+</div>
+
+<main class="gallery-wrap">
+  <div class="gallery-grid" id="gallery"></div>
+</main>
+
+<footer>
+  Design Sight &nbsp;&middot;&nbsp; 20 スタイル &nbsp;&middot;&nbsp; 片山 颯斗
+</footer>
+
+<script>
+const ENTRIES = [
+  { id:"minimalism",       name:"ミニマリズム",            enName:"Minimalism",        tags:["ミニマリズム","クリーン","余白"],                         bg:"#FFFFFF", accent:"#8A8A8A", concept:"本当に必要なものだけを残すまで削ぎ落とし、余白とタイポグラフィだけで語る。",                                                fictional:"Blanc Studio",      image:"../img/ミニマリズム.png" },
+  { id:"glassmorphism",    name:"グラスモーフィズム",      enName:"Glassmorphism",     tags:["グラスモーフィズム","ぼかし","すりガラス"],               bg:"#0F172A", accent:"#38BDF8", concept:"光を屈折させる半透明な面を重ね合わせ、重さのない奥行きを生み出す。",                                                    fictional:"Frostpane",         image:"../img/グラスモーフィズム.png" },
+  { id:"neumorphism",      name:"ニューモーフィズム",      enName:"Neumorphism",       tags:["ニューモーフィズム","ソフトUI","立体陰影"],               bg:"#E0E5EC", accent:"#6D5DFC", concept:"単一のマテリアルからUIを押し出し、コントロールが物理的に押せるように感じさせる。",                                          fictional:"Softshell",         image:"../img/ニューモーフィズム.png" },
+  { id:"brutalism",        name:"ブルータリズム",          enName:"Brutalism",         tags:["ブルータリズム","豪快","ラフ","高コントラスト"],          bg:"#FFFFFF", accent:"#FF3B00", concept:"装飾的な柔らかさを一切排除し、生の構造を剥き出しの誠実さで晒す。",                                                        fictional:"CONCRETE.OS",       image:"../img/ブルータリズム.png" },
+  { id:"cyberpunk",        name:"サイバーパンク",          enName:"Cyberpunk",         tags:["サイバーパンク","ネオン","ダーク","近未来的"],            bg:"#0A0A0F", accent:"#00FFFF", concept:"ハイテクで荒廃した世界。腐りゆくデジタルインフラの上に輝くネオンの光。",                                                    fictional:"NeoCircuit 2099",   image:"../img/サイバーパンク.png" },
+  { id:"gradient",         name:"グラデーション・フロー",  enName:"Gradient Flow",     tags:["グラデーション","カラフル","モダン"],                     bg:"#0B0B16", accent:"#FF6B6B", concept:"鮮やかな色のグラデーションそのものをブランドと感情の表現にする。",                                                          fictional:"Prism Flow",        image:"../img/グラデーション・フロー.png" },
+  { id:"retro-vintage",    name:"レトロ・ヴィンテージ",    enName:"Retro Vintage",     tags:["レトロ","ヴィンテージ","ノスタルジック","温かみ"],        bg:"#F4E9D8", accent:"#D9722B", concept:"世紀半ばの印刷物が持つ温かみと不完全さを借り、親しみと人間味を演出する。",                                                  fictional:"Sunset Press Co.",  image:"../img/レトロ・ヴィンテージ.png" },
+  { id:"memphis",          name:"メンフィス",              enName:"Memphis",           tags:["メンフィス","幾何学模様","ポップ","80年代"],              bg:"#FFFFFF", accent:"#FF4FA3", concept:"良識を拒絶し、無秩序で楽しいジオメトリとポップカラーの衝突を謳歌する。",                                                    fictional:"Zigzag Bop",        image:"../img/メンフィス.png" },
+  { id:"swiss-typography", name:"スイス・タイポグラフィ",  enName:"Swiss Typography",  tags:["スイススタイル","タイポグラフィ","グリッド"],             bg:"#FFFFFF", accent:"#E63B2E", concept:"厳格なグリッド、タイポグラフィの階層、そして容赦ない簡潔さによる客観的な明瞭さ。",                                           fictional:"Helvetik Journal",  image:"../img/スイス・タイポグラフィ.png" },
+  { id:"art-deco",         name:"アール・デコ",            enName:"Art Deco",          tags:["アールデコ","ラグジュアリー","ゴールド","幾何学的"],     bg:"#0E0E0E", accent:"#C9A84C", concept:"左右対称の金箔ジオメトリで豊かさと機械時代の美学を称える。",                                                              fictional:"Maison Lumiere",    image:"../img/アール・デコ.png" },
+  { id:"vaporwave",        name:"ヴェイパーウェイヴ",      enName:"Vaporwave",         tags:["ヴェイパーウェイヴ","レトロフューチャー","ピンク","パープル"], bg:"#1A0B2E", accent:"#FF71CE", concept:"80年代のショッピングモールへのグリッチしたノスタルジアと、ネオングリッドへと溶けていくデジタルの夕暮れ。",               fictional:"AESTHETIC.exe",     image:"../img/ヴェイパーウェイヴ.png" },
+  { id:"bento-grid",       name:"弁当グリッド",            enName:"Bento Grid",        tags:["弁当グリッド","ダッシュボード","レイアウト"],             bg:"#F4F4F5", accent:"#6366F1", concept:"情報を自己完結したモジュール型タイルの均整グリッドに区画化する。",                                                          fictional:"GridBox",           image:"../img/弁当グリッド.png" },
+  { id:"claymorphism",     name:"クレイモーフィズム",      enName:"Claymorphism",      tags:["クレイモーフィズム","ソフト","3Dクレイ","パステル"],     bg:"#EAE6FF", accent:"#7C6FF0", concept:"触りたくなるような、ふわふわの粘土で作られたかのようなUIを実現する。",                                                      fictional:"Squish UI",         image:"../img/クレイモーフィズム.png" },
+  { id:"aurora",           name:"オーロラ・グラデーション",enName:"Aurora Mesh",       tags:["オーロラ","メッシュ","有機的","発光"],                    bg:"#0A0E1A", accent:"#5EEAD4", concept:"オーロラの有機的で絶えず変化する輝きを、生きたグラデーションとして捉える。",                                                fictional:"Borealis",          image:"../img/オーロラ・グラデーション.png" },
+  { id:"neon-glow",        name:"ネオン・グロウ",          enName:"Neon Glow",         tags:["ネオン","発光","夜・ナイト","鮮やか"],                    bg:"#05060A", accent:"#39FF14", concept:"スクリーンを、電気の闇の中でうなりを上げる光り輝くネオンサインに変える。",                                                  fictional:"Glowline Bar",      image:"../img/ネオン・グロウ.png" },
+  { id:"wabi-sabi",        name:"侘び寂び",                enName:"Wabi-Sabi",         tags:["和風","侘び寂び","禅","ミニマル"],                        bg:"#E8DDD0", accent:"#8B6F5E", concept:"不完全さ、無常、そしてものとものの間の静かな余白に美を見出す。",                                                            fictional:"Mu Atelier",        image:"../img/侘び寂び.png" },
+  { id:"geometric",        name:"幾何学抽象",              enName:"Geometric",         tags:["幾何学的","抽象的","パターン","ベクター"],                bg:"#FAF8F3", accent:"#E8503A", concept:"純粋な形、パターン、そして大胆な色面構成から意味を作り上げる。",                                                            fictional:"Polyform",          image:"../img/幾何学抽象.png" },
+  { id:"monochrome",       name:"モノクローム",            enName:"Monochrome",        tags:["モノクロ","白黒","高コントラスト"],                       bg:"#FFFFFF", accent:"#B0B0B0", concept:"色を取り除くことで、コントラスト・タイポグラフィ・構成が全力で語りかける。",                                                fictional:"NOIR Editorial",    image:"../img/モノクローム.png" },
+  { id:"scandi-nordic",    name:"北欧・スカンジナビア",    enName:"Scandinavian",      tags:["スカンジナビア","北欧","ヒュッゲ","穏やか"],             bg:"#F5F1EB", accent:"#A8B5A2", concept:"シンプルさと自然素材が穏やかな温もりを生み出す、機能的で落ち着いた空間。",                                                  fictional:"Hyggehaus",         image:"../img/北欧・スカンジナビア.png" },
+  { id:"futuristic-scifi", name:"近未来SF",                enName:"Futuristic Sci-Fi", tags:["SF","HUD","ホログラム","テクノロジー"],                   bg:"#060B18", accent:"#22D3EE", concept:"高度なテクノロジーの未来から届く、精密なホログラフィック・コマンドデッキUI。",                                              fictional:"NOVA-7 Interface",  image:"../img/近未来SF.png" }
+];
+
+const allTags = [...new Set(ENTRIES.flatMap(function(e) { return e.tags; }))].sort();
+let activeTags = new Set();
+let searchQ = '';
+
+const tagsRow = document.getElementById('tags-row');
+allTags.forEach(function(tag) {
+  const pill = document.createElement('button');
+  pill.className = 'tag-pill';
+  pill.textContent = tag;
+  pill.dataset.tag = tag;
+  pill.addEventListener('click', function() {
+    if (activeTags.has(tag)) { activeTags.delete(tag); pill.classList.remove('active'); }
+    else { activeTags.add(tag); pill.classList.add('active'); }
+    applyFilters();
+  });
+  tagsRow.appendChild(pill);
+});
+
+const gallery = document.getElementById('gallery');
+
+function hexToRgba(hex, alpha) {
+  if (hex.startsWith('rgba') || hex.startsWith('rgb')) return hex.replace(/[\d.]+\)$/, alpha + ')');
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16);
+  const g = parseInt(h.substring(2,4),16);
+  const b = parseInt(h.substring(4,6),16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function buildCard(entry, i) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.id = entry.id;
+  card.dataset.tags = entry.tags.join(' ').toLowerCase();
+  card.dataset.name = (entry.name + ' ' + entry.enName).toLowerCase();
+  card.style.setProperty('--card-glow', hexToRgba(entry.accent, 0.35));
+
+  // Image header
+  const bar = document.createElement('div');
+  bar.className = 'card-color-bar';
+
+  const accentLine = document.createElement('div');
+  accentLine.className = 'card-accent-line';
+  accentLine.style.background = 'linear-gradient(90deg, ' + entry.bg + ' 0%, ' + entry.accent + ' 100%)';
+  bar.appendChild(accentLine);
+
+  const img = document.createElement('img');
+  img.className = 'card-img';
+  img.src = entry.image;
+  img.alt = entry.name;
+  img.loading = 'lazy';
+  bar.appendChild(img);
+  card.appendChild(bar);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  // Name + English
+  const nameEl = document.createElement('div');
+  nameEl.className = 'card-name';
+  const nameText = document.createTextNode(entry.name + ' ');
+  const enSpan = document.createElement('span');
+  enSpan.className = 'card-en';
+  enSpan.textContent = '(' + entry.enName + ')';
+  nameEl.appendChild(nameText);
+  nameEl.appendChild(enSpan);
+
+  const fictEl = document.createElement('div');
+  fictEl.className = 'card-fictional';
+  fictEl.textContent = entry.fictional;
+
+  const conceptEl = document.createElement('div');
+  conceptEl.className = 'card-concept';
+  conceptEl.textContent = entry.concept;
+
+  const tagsEl = document.createElement('div');
+  tagsEl.className = 'card-tags';
+  entry.tags.forEach(function(t) {
+    const span = document.createElement('span');
+    span.className = 'card-tag';
+    span.textContent = t;
+    span.style.background = hexToRgba(entry.accent, 0.08);
+    span.style.color = entry.accent;
+    span.style.borderColor = hexToRgba(entry.accent, 0.25);
+    tagsEl.appendChild(span);
+  });
+
+  const footer = document.createElement('div');
+  footer.className = 'card-footer';
+  const link = document.createElement('a');
+  link.className = 'view-link';
+  link.href = './' + entry.id + '.html';
+  link.style.color = entry.accent;
+  const linkText = document.createTextNode('見る ');
+  const arrowSpan = document.createElement('span');
+  arrowSpan.className = 'arrow';
+  arrowSpan.textContent = '→';
+  link.appendChild(linkText);
+  link.appendChild(arrowSpan);
+  footer.appendChild(link);
+
+  body.appendChild(nameEl);
+  body.appendChild(fictEl);
+  body.appendChild(conceptEl);
+  body.appendChild(tagsEl);
+  body.appendChild(footer);
+  card.appendChild(body);
+
+  setTimeout(function() { card.classList.add('visible'); }, 80 + i * 40);
+  gallery.appendChild(card);
+  return card;
+}
+
+const cards = ENTRIES.map(function(entry, i) { return buildCard(entry, i); });
+
+const emptyEl = document.createElement('div');
+emptyEl.className = 'empty-state';
+const emptyH3 = document.createElement('h3');
+emptyH3.textContent = 'スタイルが見つかりません';
+const emptyP = document.createElement('p');
+emptyP.textContent = '別のキーワードで検索するか、フィルターをクリアしてください。';
+emptyEl.appendChild(emptyH3);
+emptyEl.appendChild(emptyP);
+gallery.appendChild(emptyEl);
+
+const showingLabel = document.getElementById('showing-label');
+
+function applyFilters() {
+  const q = searchQ.trim().toLowerCase();
+  let visibleCount = 0;
+
+  cards.forEach(function(card) {
+    const nameMatch = card.dataset.name.includes(q);
+    const tagText = card.dataset.tags;
+    const tagMatch = q === '' || nameMatch || tagText.includes(q);
+
+    let tagPillMatch = true;
+    if (activeTags.size > 0) {
+      tagPillMatch = [...activeTags].every(function(at) {
+        return card.dataset.tags.includes(at.toLowerCase());
+      });
+    }
+
+    const show = tagMatch && tagPillMatch;
+    if (show) {
+      card.classList.remove('hidden');
+      visibleCount++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  showingLabel.textContent = ENTRIES.length + '件中 ' + visibleCount + '件を表示';
+  emptyEl.style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+document.getElementById('search').addEventListener('input', function(e) {
+  searchQ = e.target.value;
+  applyFilters();
+});
+
+document.getElementById('clear-btn').addEventListener('click', function() {
+  searchQ = '';
+  activeTags.clear();
+  document.getElementById('search').value = '';
+  document.querySelectorAll('.tag-pill').forEach(function(p) { p.classList.remove('active'); });
+  applyFilters();
+});
+
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 15) {
+    header.style.background = 'rgba(7, 7, 10, 0.85)';
+    header.style.borderBottomColor = 'rgba(255, 255, 255, 0.12)';
+  } else {
+    header.style.background = 'rgba(7, 7, 10, 0.6)';
+    header.style.borderBottomColor = 'rgba(255, 255, 255, 0.07)';
+  }
+}, { passive: true });
+</script>
+</body>
+</html>

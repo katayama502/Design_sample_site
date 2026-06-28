@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helvetik Journal — Swiss Typography</title>
+<meta name="description" content="スイスタイポグラフィの厳格な探求">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;900&family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  --red: #E63B2E;
+  --ink: #000;
+  --grid: #E5E5E5;
+  --surface: #F2F2F2;
+  --muted: #666666;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* CORNER BADGES */
+.corner-badge {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  z-index: 100;
+  font-family: 'Inter', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #000;
+  background: #fff;
+  border: 1.5px solid #000;
+  padding: .3rem .65rem;
+}
+
+.corner-nav {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.5rem;
+  z-index: 100;
+  font-family: 'Inter', sans-serif;
+  font-size: .72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #000;
+  text-decoration: none;
+  background: #fff;
+  padding: .35rem .7rem;
+  border: 1.5px solid #000;
+  transition: background .18s, color .18s;
+}
+
+.corner-nav:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* GRID UTILITY */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* RULE */
+.rule {
+  grid-column: 1 / 13;
+  height: 2px;
+  background: #000;
+  margin: .5rem 0;
+}
+
+.rule-red {
+  grid-column: 1 / 13;
+  height: 2px;
+  background: var(--red);
+  margin: .5rem 0;
+}
+
+/* ACCENT */
+.accent { color: var(--red); }
+
+/* BUTTON */
+.btn {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: .85rem 1.8rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .18s, transform .12s;
+}
+
+.btn:hover {
+  background: #c0291e;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #000;
+  border: 2px solid #000;
+  padding: .75rem 1.6rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .18s, color .18s;
+}
+
+.btn-outline:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* NUM + LABEL */
+.num {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: .8rem;
+}
+
+.label {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #000;
+}
+
+/* FADE-IN ANIMATION */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-delay-1 { transition-delay: .1s; }
+.fade-in-delay-2 { transition-delay: .2s; }
+.fade-in-delay-3 { transition-delay: .3s; }
+.fade-in-delay-4 { transition-delay: .4s; }
+.fade-in-delay-5 { transition-delay: .5s; }
+
+/* ─── HERO ─────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Background grid lines decoration */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-grid-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent calc((100% / 12) - 1px),
+      #E5E5E5 calc((100% / 12) - 1px),
+      #E5E5E5 calc(100% / 12)
+    );
+  opacity: .45;
+}
+
+/* Large decorative number */
+.hero-deco-num {
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(10rem, 22vw, 18rem);
+  line-height: 1;
+  color: var(--surface);
+  letter-spacing: -.06em;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Red vertical bar accent */
+.hero-red-bar {
+  position: absolute;
+  left: calc(100% / 12 * 8);
+  top: 0;
+  width: 3px;
+  height: 40%;
+  background: var(--red);
+  z-index: 1;
+}
+
+.hero .grid {
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+  position: relative;
+  z-index: 2;
+  align-items: end;
+}
+
+.hero-eyebrow {
+  grid-column: 1 / 13;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: .5rem;
+}
+
+.hero-eyebrow::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 60px;
+  background: var(--muted);
+}
+
+h1.hero-title {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  line-height: .92;
+  letter-spacing: -.04em;
+  grid-column: 1 / 10;
+}
+
+.hero-meta {
+  grid-column: 10 / 13;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  border-top: 2px solid #000;
+  padding-top: .75rem;
+  align-self: end;
+}
+
+.hero-meta strong {
+  display: block;
+  font-size: 1.1rem;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -.01em;
+  text-transform: none;
+  margin-bottom: .3rem;
+}
+
+.hero-lead {
+  grid-column: 1 / 6;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-top: .25rem;
+}
+
+.hero-cta {
+  grid-column: 1 / 13;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-issue {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+
+.hero-issue span {
+  color: #000;
+}
+
+/* ─── FEATURES ──────────────────────────── */
+.features {
+  background: var(--surface);
+  border-top: 2px solid #000;
+}
+
+.features .grid {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.features-header {
+  grid-column: 1 / 13;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.features-header h2 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+}
+
+.features-header .section-num {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.card {
+  background: #fff;
+  border-top: 3px solid #000;
+  padding: 2rem 1.75rem;
+  grid-column: span 4;
+  transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s cubic-bezier(.22,1,.36,1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+}
+
+.card:hover::after {
+  transform: scaleX(1);
+}
+
+.card-num {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: var(--surface);
+  margin-bottom: .75rem;
+}
+
+.card h3 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -.01em;
+  margin-bottom: .6rem;
+}
+
+.card p {
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1rem;
+}
+
+/* ─── SHOWCASE ──────────────────────────── */
+.showcase {
+  background: #000;
+  color: #fff;
+  border-top: 2px solid var(--red);
+}
+
+.showcase .grid {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.showcase-label {
+  grid-column: 1 / 13;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--red);
+  margin-bottom: .25rem;
+}
+
+.showcase-headline {
+  grid-column: 1 / 8;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: .95;
+  letter-spacing: -.035em;
+}
+
+.showcase-intro {
+  grid-column: 9 / 13;
+  font-size: .88rem;
+  line-height: 1.7;
+  color: #aaa;
+  align-self: end;
+  border-left: 2px solid var(--red);
+  padding-left: 1.25rem;
+}
+
+.showcase-rule {
+  grid-column: 1 / 13;
+  height: 1px;
+  background: #333;
+  margin: .5rem 0;
+}
+
+/* Stats row */
+.stat-block {
+  grid-column: span 3;
+  border-top: 2px solid #fff;
+  padding-top: 1.25rem;
+}
+
+.stat-block .stat-num {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.stat-block .stat-num .unit {
+  font-size: .5em;
+  vertical-align: super;
+  color: var(--red);
+}
+
+.stat-block .stat-label {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #666;
+  margin-top: .4rem;
+}
+
+/* Manifesto strip */
+.manifesto {
+  grid-column: 1 / 13;
+  border-top: 1px solid #333;
+  padding-top: 3rem;
+  margin-top: 1rem;
+}
+
+.manifesto-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  list-style: none;
+}
+
+.manifesto-list li {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -.01em;
+  line-height: 1.4;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--red);
+  color: #fff;
+}
+
+/* Typography specimen */
+.specimen {
+  grid-column: 1 / 13;
+  background: #111;
+  padding: 2.5rem;
+  margin-top: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.specimen-track {
+  display: flex;
+  gap: 4rem;
+  animation: marquee 18s linear infinite;
+  white-space: nowrap;
+}
+
+.specimen-track span {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 4rem;
+  line-height: 1;
+  letter-spacing: -.05em;
+  color: #fff;
+  opacity: .08;
+  text-transform: uppercase;
+}
+
+.specimen-track span.hi {
+  opacity: 1;
+  color: var(--red);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── CTA SECTION ───────────────────────── */
+.cta-section {
+  background: #fff;
+  border-top: 2px solid #000;
+}
+
+.cta-section .grid {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.cta-tagline {
+  grid-column: 1 / 13;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--muted);
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.cta-tagline::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--red);
+}
+
+.cta-headline {
+  grid-column: 1 / 10;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: .95;
+  letter-spacing: -.04em;
+}
+
+.cta-aside {
+  grid-column: 10 / 13;
+  align-self: end;
+  font-size: .82rem;
+  line-height: 1.65;
+  color: var(--muted);
+  border-top: 2px solid var(--red);
+  padding-top: .75rem;
+}
+
+.cta-buttons {
+  grid-column: 1 / 13;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Edition strip */
+.edition-strip {
+  grid-column: 1 / 13;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 2px solid #000;
+  margin-top: 2.5rem;
+}
+
+.edition-item {
+  padding: 1.5rem;
+  border-right: 1px solid var(--grid);
+  position: relative;
+}
+
+.edition-item:last-child { border-right: none; }
+
+.edition-item .ed-vol {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: -.03em;
+  line-height: 1;
+}
+
+.edition-item .ed-label {
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--muted);
+  margin-top: .25rem;
+}
+
+.edition-item.active {
+  background: var(--red);
+  color: #fff;
+}
+
+.edition-item.active .ed-label {
+  color: rgba(255,255,255,.7);
+}
+
+/* ─── FOOTER ────────────────────────────── */
+footer {
+  background: #000;
+  color: #fff;
+  border-top: 3px solid var(--red);
+}
+
+footer .grid {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.footer-brand {
+  grid-column: 1 / 5;
+}
+
+.footer-brand-name {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: -.03em;
+  line-height: 1;
+}
+
+.footer-brand-sub {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #666;
+  margin-top: .35rem;
+}
+
+.footer-tags {
+  grid-column: 5 / 10;
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  flex-wrap: wrap;
+  padding-top: .1rem;
+}
+
+.tag-pill {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .3rem .7rem;
+  border: 1px solid #333;
+  color: #666;
+  transition: border-color .15s, color .15s;
+}
+
+.tag-pill:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.footer-copy {
+  grid-column: 10 / 13;
+  text-align: right;
+  font-size: .68rem;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  align-self: end;
+}
+
+.footer-divider {
+  grid-column: 1 / 13;
+  height: 1px;
+  background: #222;
+  margin: .5rem 0;
+}
+
+.footer-bottom {
+  grid-column: 1 / 13;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .65rem;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.footer-bottom a {
+  color: #666;
+  text-decoration: none;
+  transition: color .15s;
+}
+
+.footer-bottom a:hover { color: var(--red); }
+
+/* ─── RESPONSIVE ────────────────────────── */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 3rem 1.25rem;
+  }
+
+  h1.hero-title { grid-column: 1 / 5; font-size: clamp(2.8rem, 12vw, 4rem); }
+  .hero-meta { grid-column: 1 / 5; border-top: 1px solid #ccc; margin-top: 1rem; }
+  .hero-lead { grid-column: 1 / 5; }
+  .hero-deco-num { font-size: 30vw; top: 2rem; }
+  .hero-red-bar { display: none; }
+
+  .features-header { grid-column: 1 / 5; flex-direction: column; gap: .5rem; }
+  .card { grid-column: 1 / 5; }
+  .rule, .rule-red { grid-column: 1 / 5; }
+
+  .showcase-headline { grid-column: 1 / 5; }
+  .showcase-intro { grid-column: 1 / 5; border-left: none; border-top: 2px solid var(--red); padding-left: 0; padding-top: 1rem; }
+  .stat-block { grid-column: span 2; }
+  .manifesto-list { grid-template-columns: 1fr; }
+
+  .cta-headline { grid-column: 1 / 5; }
+  .cta-aside { grid-column: 1 / 5; }
+  .edition-strip { grid-template-columns: repeat(2, 1fr); }
+  .edition-item:nth-child(2) { border-right: none; }
+
+  .footer-brand { grid-column: 1 / 5; }
+  .footer-tags { grid-column: 1 / 5; }
+  .footer-copy { grid-column: 1 / 5; text-align: left; }
+  .footer-divider { grid-column: 1 / 5; }
+  .footer-bottom { grid-column: 1 / 5; flex-direction: column; align-items: flex-start; gap: .5rem; }
+
+  .showcase .grid { padding: 3rem 1.25rem; }
+  .specimen-track span { font-size: 2.5rem; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card { grid-column: span 6; }
+  .card:last-child { grid-column: 3 / 9; }
+}
+</style>
+</head>
+<body>
+
+<!-- Corner Labels -->
+<div class="corner-badge">Swiss Typography</div>
+<a class="corner-nav" href="./index.html">← Design Sight</a>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-deco-num">01</div>
+  <div class="hero-red-bar"></div>
+
+  <div class="grid">
+    <div class="hero-eyebrow fade-in">
+      Helvetik Journal &nbsp;·&nbsp; Vol. IV
+    </div>
+
+    <div class="rule fade-in"></div>
+
+    <h1 class="hero-title fade-in fade-in-delay-1">
+      構造が生む<br><span class="accent">明快さ</span><br>を、<br>追求する。
+    </h1>
+
+    <div class="hero-meta fade-in fade-in-delay-2">
+      <strong>Issue 04 / 2026</strong>
+      タイポグラフィの思索と<br>ヴィジュアル規律を<br>探求する刊行物。<br><br>
+      <span style="color:var(--red); font-weight:700;">ISSN 2045-8812</span>
+    </div>
+
+    <p class="hero-lead fade-in fade-in-delay-3">
+      スイス・タイポグラフィの原則を厳密に探求する。グリッドは法であり、余白は意味を呼吸し、すべての判断がページ上の存在意義を証明しなければならない。
+    </p>
+
+    <div class="hero-cta fade-in fade-in-delay-4">
+      <a href="#features" class="btn">号を読む</a>
+      <a href="#cta" class="btn-outline">無料購読</a>
+      <span class="hero-issue">最新号 &nbsp;<span>2026年 4月〜6月</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ② FEATURES -->
+<section class="features" id="features">
+  <div class="grid">
+    <div class="features-header fade-in">
+      <h2>核心的<br>原則</h2>
+      <span class="section-num">02 / FEATURES</span>
+    </div>
+
+    <div class="rule fade-in"></div>
+
+    <!-- Card 1 -->
+    <div class="card fade-in fade-in-delay-1">
+      <div class="card-num">01</div>
+      <svg class="card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="14" height="14" fill="#E63B2E"/>
+        <rect x="18" y="0" width="14" height="14" fill="#000"/>
+        <rect x="0" y="18" width="14" height="14" fill="#000"/>
+        <rect x="18" y="18" width="14" height="14" fill="#E5E5E5"/>
+      </svg>
+      <h3>グリッドという基盤</h3>
+      <p>12カラムのベースライングリッドは提案ではなく、建築だ。すべての要素が数学的な精度でカラムを占め、読者が意識する前に感じ取る不可視の秩序を生み出す。</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card fade-in fade-in-delay-2">
+      <div class="card-num">02</div>
+      <svg class="card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="4" width="32" height="3" fill="#000"/>
+        <rect x="0" y="13" width="20" height="2" fill="#E63B2E"/>
+        <rect x="0" y="21" width="28" height="1.5" fill="#000" opacity=".3"/>
+        <rect x="0" y="27" width="24" height="1.5" fill="#000" opacity=".3"/>
+      </svg>
+      <h3>タイポグラフィの階層</h3>
+      <p>スケール、ウェイト、スペーシングは審美的な気まぐれではなく、合理的なシステムとして機能する。大胆な見出しが権威を示し、抑制された本文が持続的な読書を促す。</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card fade-in fade-in-delay-3">
+      <div class="card-num">03</div>
+      <svg class="card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="0" width="3" height="32" fill="#E63B2E"/>
+        <rect x="0" y="0" width="10" height="32" fill="#E5E5E5"/>
+        <rect x="21" y="8" width="11" height="2" fill="#000"/>
+        <rect x="21" y="14" width="8" height="2" fill="#000" opacity=".4"/>
+        <rect x="21" y="20" width="11" height="2" fill="#000" opacity=".4"/>
+      </svg>
+      <h3>徹底した節制</h3>
+      <p>赤はセクションにつき一度のみ登場する——装飾ではなく、外科的な介入として。黒と白がコンテンツを担い、色は気分ではなく意味のためにのみ使われる。</p>
+    </div>
+
+    <div class="rule fade-in"></div>
+  </div>
+</section>
+
+<!-- ③ SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="grid">
+    <div class="showcase-label fade-in">03 / Showcase &amp; Manifesto</div>
+
+    <h2 class="showcase-headline fade-in fade-in-delay-1">
+      タイポグラフィは<br>装飾では<br><span style="color:var(--red)">ない。</span><br>それはメッセージだ。
+    </h2>
+
+    <p class="showcase-intro fade-in fade-in-delay-2">
+      1950年代のスイスのタイポグラファーたちは、明快さと美しさが対立するものではなく、異なる名前を持つ同じ力だと理解していた。Helvetik Journal はその確信を現代へと受け継ぐ。
+    </p>
+
+    <div class="showcase-rule fade-in"></div>
+
+    <!-- Stats -->
+    <div class="stat-block fade-in fade-in-delay-1">
+      <div class="stat-num">12<span class="unit">col</span></div>
+      <div class="stat-label">カラムグリッド</div>
+    </div>
+    <div class="stat-block fade-in fade-in-delay-2">
+      <div class="stat-num">8<span class="unit">pt</span></div>
+      <div class="stat-label">基本単位</div>
+    </div>
+    <div class="stat-block fade-in fade-in-delay-3">
+      <div class="stat-num">1<span class="unit">acc</span></div>
+      <div class="stat-label">アクセントカラー</div>
+    </div>
+    <div class="stat-block fade-in fade-in-delay-4">
+      <div class="stat-num">0<span class="unit">px</span></div>
+      <div class="stat-label">無意味な装飾</div>
+    </div>
+
+    <div class="showcase-rule fade-in"></div>
+
+    <!-- Manifesto -->
+    <div class="manifesto fade-in">
+      <ul class="manifesto-list">
+        <li>構造はスタイルに先行する。グリッドはメッセージ以前のメッセージだ。</li>
+        <li>すべてのピクセルは機能によってその存在を正当化しなければならない——さもなくば排除される。</li>
+        <li>余白は空虚ではない。それはアイデアとアイデアの間の呼吸だ。</li>
+      </ul>
+    </div>
+
+    <!-- Type specimen marquee -->
+    <div class="specimen fade-in">
+      <div class="specimen-track">
+        <span>Helvetik</span>
+        <span class="hi">Journal</span>
+        <span>Grid</span>
+        <span>Order</span>
+        <span class="hi">Clarity</span>
+        <span>Structure</span>
+        <span>Type</span>
+        <span>Helvetik</span>
+        <span class="hi">Journal</span>
+        <span>Grid</span>
+        <span>Order</span>
+        <span class="hi">Clarity</span>
+        <span>Structure</span>
+        <span>Type</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ CTA SECTION -->
+<section class="cta-section" id="cta">
+  <div class="grid">
+    <div class="cta-tagline fade-in">04 / 購読</div>
+
+    <h2 class="cta-headline fade-in fade-in-delay-1">
+      <span class="accent">明快さ</span>の<br>規律に<br>参加する。
+    </h2>
+
+    <div class="cta-aside fade-in fade-in-delay-2">
+      年4回発行。ノイズなし、アルゴリズムなし。ヴィジュアルコミュニケーションへの厳密な思索——もちろん、精密なグリッドに従ってレイアウトされている。
+    </div>
+
+    <div class="rule fade-in"></div>
+
+    <div class="cta-buttons fade-in fade-in-delay-1">
+      <a href="#" class="btn">無料で購読する</a>
+      <a href="#" class="btn-outline">バックナンバーを見る</a>
+    </div>
+
+    <!-- Edition strip -->
+    <div class="edition-strip fade-in fade-in-delay-2">
+      <div class="edition-item">
+        <div class="ed-vol">I</div>
+        <div class="ed-label">グリッド号</div>
+      </div>
+      <div class="edition-item">
+        <div class="ed-vol">II</div>
+        <div class="ed-label">Hierarchy &amp; Scale</div>
+      </div>
+      <div class="edition-item">
+        <div class="ed-vol">III</div>
+        <div class="ed-label">White Space</div>
+      </div>
+      <div class="edition-item active">
+        <div class="ed-vol">IV</div>
+        <div class="ed-label">最新号</div>
+      </div>
+    </div>
+
+    <div class="rule fade-in"></div>
+  </div>
+</section>
+
+<!-- ⑤ FOOTER -->
+<footer>
+  <div class="grid">
+    <div class="footer-brand fade-in">
+      <div class="footer-brand-name">
+        Helvetik<br><span style="color:var(--red)">Journal</span>
+      </div>
+      <div class="footer-brand-sub">Est. 2023 · Basel Methodology</div>
+    </div>
+
+    <div class="footer-tags fade-in fade-in-delay-1">
+      <span class="tag-pill">Swiss Style</span>
+      <span class="tag-pill">Typography</span>
+      <span class="tag-pill">Grid</span>
+      <span class="tag-pill">Print Theory</span>
+      <span class="tag-pill">Visual Order</span>
+    </div>
+
+    <div class="footer-copy fade-in fade-in-delay-2">
+      &copy; 2026<br>無断転載<br>禁止
+    </div>
+
+    <div class="footer-divider fade-in"></div>
+
+    <div class="footer-bottom fade-in">
+      <span>Helvetik Journal — 年4回発行 — ISSN 2045-8812</span>
+      <span>
+        <a href="#">プライバシー</a> &nbsp;·&nbsp;
+        <a href="#">利用規約</a> &nbsp;·&nbsp;
+        <a href="#">お問い合わせ</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Intersection Observer for staggered fade-in
+const fadeEls = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+fadeEls.forEach(el => observer.observe(el));
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
